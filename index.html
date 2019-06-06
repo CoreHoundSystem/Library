@@ -37,40 +37,7 @@
 		
 		
 		
-		<button id="ready">Ready?</button>
-		<div id="audioBox" style="display:block;height:100px;width:100px;">
-			<audio id="myAudio" src="https://sites.google.com/site/sgfilecabinet/home/Aaron%20Cabott%20Jones.mp3" autoplay="false" volume="1.0"></audio>
-		</div>
-		<script>
-			songs=["https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/Taunter%20Goodnight%20Sings%20Me%20and%20Bobby%20McGee%20in%20Secondlife.mp3"];
-			function playMusic(x,y) {
-			$('#audioBox').empty();
-			$('#audioBox').append('<audio id="myAudio" src="' + x[y] + '" autoplay="true" type="audio/mp3" volume="1.0"></audio>');
-			//$('#myAudio').attr('src','https://sites.google.com' + x[y]);
-			audio=document.getElementById("myAudio");
-			audio.play();
-			/*$('#myAudio').on('playing',function() {
-				//playing=true;
-			});*/
-			$('#myAudio').on('ended',function() {
-				y++;
-				if(y==x.length) {
-					y=0;
-				}
-				playMusic(x,y)
-			});
-		}
-
-		/*$(function() {
-			playMusic(songs,0);
-		})*/
-
-		$('#ready').click(function() {
-			playMusic(songs,0);
-			$('button').css('background','red');
-			audio.play();
-		});
-		</script>
+		
 		
 		
 		
