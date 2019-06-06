@@ -1,1 +1,59 @@
 <h1>Hello!</h1>
+<button id="ready">Ready?</button>
+<div id="audioBox" style="display:block;height:100px;width:100px;">
+	<audio id="myAudio" src="https://sites.google.com/site/sgfilecabinet/home/Aaron%20Cabott%20Jones.mp3" autoplay="false" volume="1.0"></audio>
+</div>
+
+<script>
+songs=[
+'/site/sgfilecabinet/home/Aaron%20Cabott%20Jones.mp3',
+'/site/sgfilecabinet/home/Bil473.mp3',
+'/site/sgfilecabinet/home/cryptic.mp3',
+'/site/sgfilecabinet/home/Erika%20Ordinary%20Promo.mp3',
+'/site/sgfilecabinet/home/kaleb.mp3',
+'/site/sgfilecabinet/home/lark.mp3',
+'/site/sgfilecabinet/home/loreen.mp3',
+'/site/sgfilecabinet/home/lyndonheart.mp3',
+'/site/sgfilecabinet/home/marqs.mp3',
+'/site/sgfilecabinet/home/maurice.mp3',
+'/site/sgfilecabinet/home/melenda.mp3',
+'/site/sgfilecabinet/home/neo.mp3',
+'/site/sgfilecabinet/home/ou7LGde1SypG.128.mp3',
+'/site/sgfilecabinet/home/parker.mp3',
+'/site/sgfilecabinet/home/rara.mp3',
+'/site/sgfilecabinet/home/stratus.mp3',
+'/site/sgfilecabinet/home/Tangled%20Up%20In%20Blue%20by%20Traveler.mp3',
+'/site/sgfilecabinet/home/wolfie.mp3',
+'/site/sgfilecabinet/home/zak.mp3'
+];
+
+var audio;
+
+function playMusic(x,y) {
+	$('#audioBox').empty();
+	$('#audioBox').append('<audio id="myAudio" src="https://sites.google.com' + x[y] + '" autoplay="true" type="audio/mp3" volume="1.0"></audio>');
+	//$('#myAudio').attr('src','https://sites.google.com' + x[y]);
+	audio=document.getElementById("myAudio");
+	audio.play();
+	/*$('#myAudio').on('playing',function() {
+		//playing=true;
+	});*/
+	$('#myAudio').on('ended',function() {
+		y++;
+		if(y==x.length) {
+			y=0;
+		}
+		playMusic(x,y)
+	});
+}
+
+/*$(function() {
+	playMusic(songs,0);
+})*/
+
+$('#ready').click(function() {
+	playMusic(songs,0);
+	$('button').css('background','red');
+	audio.play();
+});
+</script>
