@@ -14,6 +14,7 @@
 	</head>
 	<body>
 		<div id="tetherHeader"></div>
+		<div id="tetherBody"></div>
 		Song and Artist+Array/
 		<div id="toDo">
 		Until user logs in -
@@ -83,15 +84,18 @@
 		
 		<button id="ready">Ready?</button>
 		<div id="audioBox" style="display:block;height:100px;width:100px;">
-			<audio id="myAudio" src="https://sites.google.com/site/sgfilecabinet/home/Aaron%20Cabott%20Jones.mp3" autoplay="false" volume="1.0"></audio>
+			
 		</div>
-		<script>
+		<script>			
+			function updateBar(x) {
+				$(x).next().children().css('width',((x.currentTime / x.duration) * 100) + '%');
+			}
 			function playMusic(x,y) {
 				$('#audioBox').empty();
-				$('#audioBox').append('<audio id="myAudio" src="' + songURL + x[y].link + '" autoplay="true" type="audio/mp3" volume="1.0"></audio>');
-				audio=document.getElementById("myAudio");
+				$('#audioBox').append('<audio id="activeSong" src="' + songURL + x[y].link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="updateBar(this)"></audio><div style="width:300px;background-color: green;"><div style="height:20px;background-color: red;transition: width linear 0.25s"></div></div>');
+				audio=document.getElementById("activeSong");
 				audio.play();
-				$('#myAudio').on('ended',function() {
+				$('#activeSong').on('ended',function() {
 					y++;
 					if(y==x.length) {
 						y=0;
@@ -105,6 +109,31 @@
 				$('button').css('background','red');
 				audio.play();
 			});
+			
+			//DOES THIS WORK?
+			if ('mediaSession' in navigator) {
+
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: 'Never Gonna Give You Up',
+    artist: 'Rick Astley',
+    album: 'Whenever You Need Somebody',
+    artwork: [
+      { src: 'https://dummyimage.com/96x96',   sizes: '96x96',   type: 'image/png' },
+      { src: 'https://dummyimage.com/128x128', sizes: '128x128', type: 'image/png' },
+      { src: 'https://dummyimage.com/192x192', sizes: '192x192', type: 'image/png' },
+      { src: 'https://dummyimage.com/256x256', sizes: '256x256', type: 'image/png' },
+      { src: 'https://dummyimage.com/384x384', sizes: '384x384', type: 'image/png' },
+      { src: 'https://dummyimage.com/512x512', sizes: '512x512', type: 'image/png' },
+    ]
+  });
+
+  navigator.mediaSession.setActionHandler('play', function() {});
+  navigator.mediaSession.setActionHandler('pause', function() {});
+  navigator.mediaSession.setActionHandler('seekbackward', function() {});
+  navigator.mediaSession.setActionHandler('seekforward', function() {});
+  navigator.mediaSession.setActionHandler('previoustrack', function() {});
+  navigator.mediaSession.setActionHandler('nexttrack', function() {});
+}
 		</script>
 		
 		
