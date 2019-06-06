@@ -13,20 +13,21 @@
 		
 	</head>
 	<body>
-		Song and Artist+/
+		Song and Artist+Array/
 		<script>
 			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
 			$(function() {
-				getSongs(songArtistKey,"1");
+				getSongs(songArtistKey,"1",songList);
 			});
-			function getSongs(x,y) {
+			function getObjects(x,y,z) {
 				$(function() {
 					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 					function (data) {
 						$.each(data.feed.entry, function(i,entry) {
-							console.log(data);
+							window[z].push(entry);
 						});
 					});
+					console.log(z);
 				});
 			};
 			
