@@ -17,14 +17,14 @@
 		<script>
 			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
 			$(function() {
-				getSongs(songArtistKey,1);
+				getSongs(songArtistKey,"1");
 			});
 			function getSongs(x,y) {
-				$(function checkJSON0() {
+				$(function() {
 					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 					function (data) {
 						$.each(data.feed.entry, function(i,entry) {
-							console.log(entry);
+							console.log(data);
 						});
 					});
 				});
