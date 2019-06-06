@@ -13,7 +13,7 @@
 		
 	</head>
 	<body>
-		Song and Artist
+		Song and Artist/
 		<script>
 			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
 			$(function() {
@@ -21,7 +21,7 @@
 			});
 			function getSongs(x,y) {
 				$(function checkJSON0() {
-					$.getJSON("https://spreadsheets.google.com/feeds/list/",x,y,"/public/values?alt=json-in-script&callback=?",
+					$.getJSON("https://spreadsheets.google.com/feeds/list/",x,"/",y,"/public/values?alt=json-in-script&callback=?",
 					function (data) {
 						$.each(data.feed.entry, function(i,entry) {
 							console.log(i,entry);
