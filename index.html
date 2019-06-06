@@ -13,7 +13,31 @@
 		
 	</head>
 	<body>
-		<button id="ready">Ready Now?</button>
+		Song and Artist
+		<script>
+			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
+			$(function() {
+				getSongs(songArtistKey,1);
+			});
+			function getSongs(x,y) {
+				$(function checkJSON0() {
+					$.getJSON("https://spreadsheets.google.com/feeds/list/",x,y,"/public/values?alt=json-in-script&callback=?",
+					function (data) {
+						$.each(data.feed.entry, function(i,entry) {
+							console.log(i,entry);
+						});
+					});
+				});
+			};
+			
+		</script>
+		
+		
+		
+		
+		
+		
+		<button id="ready">Ready?</button>
 		<div id="audioBox" style="display:block;height:100px;width:100px;">
 			<audio id="myAudio" src="https://sites.google.com/site/sgfilecabinet/home/Aaron%20Cabott%20Jones.mp3" autoplay="false" volume="1.0"></audio>
 		</div>
