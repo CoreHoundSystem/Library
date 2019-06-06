@@ -3,7 +3,7 @@
 		<script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
 		<script src='https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>
 		<script src="http://tether.corehoundsystem.com/Headerscript.js"></script>
-		<script src="https://apis.google.com/js/platform.js" async defer></script> 
+		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		
 		<meta name="google-signin-client_id" content="833721381252-smfnva31dl66h8n6ffikc99f50ff4dqo.apps.googleusercontent.com">
 		//OG
@@ -15,8 +15,47 @@
 	<body>
 		<div id="tetherHeader"></div>
 		Song and Artist+Array/
+		<div id="toDo">
+		Until user logs in -
+		*	Show home - design home
+		
+		On user log in
+		*	if user new
+			*	request that user get registration key from inworld (SL) to go adfree FREE
+			*	avatars less than X age will not be elligible for adfree listening until they reach X age.
+		*	if user exists
+			*	get user info 
+				*	Name
+				*	Google Image from google & SL portrait from SL/resident - user can save setting for which image to use - default is Google unless SL UUID is verified
+				*	Email
+				*	Google ID
+				*	account type
+				*	SL UUID?
+					*	SL userName
+					*	SL Display Name
+					*	SL Bio (if artist)
+					*	Payment method???
+			*	get user channels
+				*	id
+				*	name
+				*	artist-base
+				*	song likes
+				*	expanded genre filter
+				*	last listened date
+				*	channel type
+		*	download song list
+		*	check channel filters against new songs based on song upload date and channel last listened date
+		</li></ul>
+		</div>	
 		<script>
-			songURL="https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/";
+			$(function() {
+				fixed=$('#toDo').text().replace(/\*/g,'</li><li>');
+				$('#toDo').text("");
+				$('#toDo').append(fixed);
+			});
+		</script>
+		<script>
+			songURL="https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/songs";
 			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
 			$(function() {
 				getObjects(songArtistKey,"1","songs");
@@ -50,12 +89,8 @@
 			function playMusic(x,y) {
 				$('#audioBox').empty();
 				$('#audioBox').append('<audio id="myAudio" src="' + songURL + x[y].link + '" autoplay="true" type="audio/mp3" volume="1.0"></audio>');
-				//$('#myAudio').attr('src','https://sites.google.com' + x[y]);
 				audio=document.getElementById("myAudio");
 				audio.play();
-				/*$('#myAudio').on('playing',function() {
-					//playing=true;
-				});*/
 				$('#myAudio').on('ended',function() {
 					y++;
 					if(y==x.length) {
@@ -64,10 +99,6 @@
 					playMusic(x,y)
 				});
 			}
-
-			/*$(function() {
-				playMusic(songs,0);
-			})*/
 
 			$('#ready').click(function() {
 				playMusic(songs,0);
