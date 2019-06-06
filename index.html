@@ -1,7 +1,7 @@
 <html>
 	<head>
-		<script src='//code.jquery.com/jquery-1.11.3.min.js'></script>
-		<script src='//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>
+		<script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
+		<script src='https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>
 		
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		
@@ -15,19 +15,22 @@
 	<body>
 		Song and Artist+Array/
 		<script>
+			songURL="https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/";
 			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
 			$(function() {
-				getSongs(songArtistKey,"1",songList);
+				getObjects(songArtistKey,"1","songs");
 			});
 			function getObjects(x,y,z) {
+				window[z]=[];
 				$(function() {
 					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 					function (data) {
 						$.each(data.feed.entry, function(i,entry) {
-							window[z].push(entry);
+							window[z].push(JSON.parse(entry.gsx$song.$t.replace(/'/g, '"')));
 						});
+						console.log(window[z]);
 					});
-					console.log(z);
+					
 				});
 			};
 			
@@ -38,7 +41,39 @@
 		
 		
 		
-		
+		<button id="ready">Ready?</button>
+		<div id="audioBox" style="display:block;height:100px;width:100px;">
+			<audio id="myAudio" src="https://sites.google.com/site/sgfilecabinet/home/Aaron%20Cabott%20Jones.mp3" autoplay="false" volume="1.0"></audio>
+		</div>
+		<script>
+			function playMusic(x,y) {
+				$('#audioBox').empty();
+				$('#audioBox').append('<audio id="myAudio" src="' + songURL + x[y].link + '" autoplay="true" type="audio/mp3" volume="1.0"></audio>');
+				//$('#myAudio').attr('src','https://sites.google.com' + x[y]);
+				audio=document.getElementById("myAudio");
+				audio.play();
+				/*$('#myAudio').on('playing',function() {
+					//playing=true;
+				});*/
+				$('#myAudio').on('ended',function() {
+					y++;
+					if(y==x.length) {
+						y=0;
+					}
+					playMusic(x,y)
+				});
+			}
+
+			/*$(function() {
+				playMusic(songs,0);
+			})*/
+
+			$('#ready').click(function() {
+				playMusic(songs,0);
+				$('button').css('background','red');
+				audio.play();
+			});
+		</script>
 		
 		
 		
