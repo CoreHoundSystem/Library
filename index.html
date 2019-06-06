@@ -24,7 +24,7 @@
 					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 					function (data) {
 						$.each(data.feed.entry, function(i,entry) {
-							console.log(i,entry);
+							console.log(entry);
 						});
 					});
 				});
