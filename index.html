@@ -91,11 +91,13 @@
 
 		function playSong() {
 			songNumber=Math.round(Math.random()*cSongs.length);
+			console.log(songNumber);
+			console.log(cSongs);
 			if(rPlayed.indexOf(cSongs[songNumber])!=-1) {
 				playSong();
 			} else {
 				commercialTicker++;
-				window["currentSong"]=cSongs[songNumber];
+				currentSong=cSongs[songNumber];
 				mediaImage="https://secondlife.com/app/image/589505a4-f05b-a00a-6ac1-750863fb45d2/1";
 				//$('body').append(mediaImage + currentSong.title + currentSong.artist);
 				//console.log(mediaImage + currentSong.title + currentSong.artist);
