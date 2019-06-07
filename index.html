@@ -116,8 +116,8 @@ function playSong() {
 						{src:songMedia,sizes:'512x512',type:'image/png'},
 					]
 				});
-				//navigator.mediaSession.setActionHandler('play',togglePause());
-				//navigator.mediaSession.setActionHandler('pause',togglePause());
+				navigator.mediaSession.setActionHandler('play',function() {togglePause()});
+				navigator.mediaSession.setActionHandler('pause',function() {togglePause()});
 				//navigator.mediaSession.setActionHandler('seekbackward', function() {});
 				//navigator.mediaSession.setActionHandler('seekforward', function() {});
 				navigator.mediaSession.setActionHandler('nexttrack', function() {playSong()});
