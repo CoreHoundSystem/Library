@@ -97,6 +97,8 @@
 				commercialTicker++;
 				window["currentSong"]=cSongs[songNumber];
 				mediaImage="https://secondlife.com/app/image/589505a4-f05b-a00a-6ac1-750863fb45d2/1";
+				$('body').append(mediaImage + currentSong.title + currentSong.name);
+				console.log(mediaImage + currentSong.title + currentSong.name);
 				//if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
 					if ('mediaSession' in navigator) {
 						navigator.mediaSession.metadata = new MediaMetadata({
