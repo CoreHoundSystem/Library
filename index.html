@@ -95,7 +95,7 @@ function buildActiveSong(x) {
 
 function playSong() {
 	songNumber=Math.round(Math.random()*cSongs.length);
-	if(rPlayed.indexOf(cSongs[songNumber])!=-1||(songNumber<0||songNumer>=cSongs.length)) {
+	if(rPlayed.indexOf(cSongs[songNumber])!=-1||(songNumber<0||songNumber>=cSongs.length)) {
 		playSong();
 	} else {
 		commercialTicker++;
