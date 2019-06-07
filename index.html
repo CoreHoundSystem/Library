@@ -39,12 +39,12 @@
 			}
 		}
 
-		function togglePause(x) {
-			console.log(x);
-			if(x.paused) {
-				x.play();
+		function togglePause() {
+			console.log($('#activeSong'));
+			if($('#activeSong').paused) {
+				$('#activeSong').play();
 			} else {
-				x.pause();
+				$('#activeSong').pause();
 			}
 		}
 
@@ -116,8 +116,8 @@
 								{src:mediaImage,sizes:'512x512',type:'image/jpg'},
 							]
 						});
-						navigator.mediaSession.setActionHandler('play',togglePause(document.getElementById("activeSong")));
-						navigator.mediaSession.setActionHandler('pause',togglePause(document.getElementById("activeSong")));
+						navigator.mediaSession.setActionHandler('play',togglePause());
+						navigator.mediaSession.setActionHandler('pause',togglePause());
 						//navigator.mediaSession.setActionHandler('seekbackward', function() {});
 						//navigator.mediaSession.setActionHandler('seekforward', function() {});
 						navigator.mediaSession.setActionHandler('nexttrack', playSong());
