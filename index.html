@@ -57,7 +57,8 @@
 			console.log(x);
 			$('#activeChannel').empty();
 			$('#activeChannel').append('<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>');
-			
+			audio=document.getElementById("activeSong");
+			audio.play();
 			$('#activeChannel').append('<div class="backOrMin"></div>')
 			//back/minimize menu  -- toggles
 			//channel name -- hides on min
@@ -82,8 +83,7 @@
 			
 			
 			
-			audio=document.getElementById("activeSong");
-			audio.play();
+			
 			$('#activeSong').on('ended',function() {
 				playSong();
 			});
