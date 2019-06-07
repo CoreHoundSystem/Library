@@ -6,7 +6,10 @@
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		
 		<meta name="google-signin-client_id" content="833721381252-smfnva31dl66h8n6ffikc99f50ff4dqo.apps.googleusercontent.com">
-		
+		//OG
+		//Twitter
+		//Google Signin
+		//Google Analytics
 		
 	</head>
 	<body>
@@ -198,14 +201,53 @@
 		
 		
 		
+		Song and Artist+Array/
+		<div id="toDo">
+		<ul><li>
+		Until user logs in -
+		*	Show home - design home
 		
-		
+		On user log in
+		*	if user new
+			*	request that user get registration key from inworld (SL) to go adfree FREE
+			*	avatars less than X age will not be elligible for adfree listening until they reach X age.
+		*	if user exists
+			*	get user info 
+				*	Name
+				*	Google Image from google & SL portrait from SL/resident - user can save setting for which image to use - default is Google unless SL UUID is verified
+				*	Email
+				*	Google ID
+				*	account type
+				*	SL UUID?
+					*	SL userName
+					*	SL Display Name
+					*	SL Bio (if artist)
+					*	Payment method???
+			*	get user channels
+				*	id
+				*	name
+				*	artist-base
+				*	song likes
+				*	expanded genre filter
+				*	last listened date
+				*	channel type
+		*	download song list
+		*	check channel filters against new songs based on song upload date and channel last listened date
+		</li></ul>
+		</div>	
+		<script>
+			$(function() {
+				fixed=$('#toDo').text().replace(/\*/g,'</li><li>');
+				$('#toDo').text("");
+				$('#toDo').append(fixed);
+			});
+		</script>
 		<script>
 			chanKey="1i9SfwLkDj40yOqOmRMAhe4FXI5fjjjyufx8Nz_IPKbg";
 			songURL="https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/songs/";
 			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
 			$(function() {
-				//getSongs(songArtistKey,"1","songs");
+				getSongs(songArtistKey,"1","songs");
 				
 			});
 			function getSongs(x,y,z) {
@@ -217,7 +259,7 @@
 							window[z].push(JSON.parse(entry.gsx$item.$t.replace(/'/g, '"')));
 						});
 						console.log(window[z]);
-						//getChans(chanKey,"1","channels");
+						getChans(chanKey,"1","channels");
 					});
 					
 				});
@@ -273,6 +315,52 @@
 				//audio.play();
 			});
 			
+			//DOES THIS WORK? IT SURE SEEMS TO!!
+			/*if ('mediaSession' in navigator) {
+
+  navigator.mediaSession.metadata = new MediaMetadata({
+    title: 'Never Gonna Give You Up',
+    artist: 'Rick Astley',
+    album: 'Whenever You Need Somebody',
+    artwork: [
+      { src: 'https://dummyimage.com/96x96',   sizes: '96x96',   type: 'image/png' },
+      { src: 'https://dummyimage.com/128x128', sizes: '128x128', type: 'image/png' },
+      { src: 'https://dummyimage.com/192x192', sizes: '192x192', type: 'image/png' },
+      { src: 'https://dummyimage.com/256x256', sizes: '256x256', type: 'image/png' },
+      { src: 'https://dummyimage.com/384x384', sizes: '384x384', type: 'image/png' },
+      { src: 'https://dummyimage.com/512x512', sizes: '512x512', type: 'image/png' },
+    ]
+  });
+
+  navigator.mediaSession.setActionHandler('play', function() {});
+  navigator.mediaSession.setActionHandler('pause', function() {});
+  navigator.mediaSession.setActionHandler('seekbackward', function() {});
+  navigator.mediaSession.setActionHandler('seekforward', function() {});
+  navigator.mediaSession.setActionHandler('previoustrack', function() {});
+  navigator.mediaSession.setActionHandler('nexttrack', function() {});
+}*/
+		</script>
+		
+		
+		
+		<div class="g-signin2" data-onsuccess="onSignIn"></div>
+		<script>
+			function onSignIn(googleUser) {
+				var profile = googleUser.getBasicProfile();
+				console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+				console.log('Name: ' + profile.getName());
+				console.log('Image URL: ' + profile.getImageUrl());
+				console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+			}
+		</script>
+		<a href="#" onclick="signOut();">Sign out</a>
+		<script>
+			function signOut() {
+				var auth2 = gapi.auth2.getAuthInstance();
+				auth2.signOut().then(function () {
+					console.log('User signed out.');
+				});
+			}
 		</script>
 		<div id="tetherFooter"></div>
 	</body>
