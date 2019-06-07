@@ -187,6 +187,13 @@
 							window[z].push(JSON.parse(entry.gsx$item.$t.replace(/'/g, '"')));
 						});
 						console.log(window[z]);
+						$('body').append('<button id="ready">Ready?</button>');
+						$('#ready').click(function() {
+							startChannel(channels[0]);
+							//playMusic(songs,0);
+							$('button').css('background','red');
+							//audio.play();
+						});
 					});
 					
 				});
@@ -199,7 +206,7 @@
 		
 		
 		
-		<button id="ready">Ready?</button>
+		
 		<div id="audioBox" style="display:block;height:100px;width:100px;">
 			
 		</div>
@@ -222,12 +229,7 @@
 				});
 			}
 
-			$('#ready').click(function() {
-				startChannel(channels[0]);
-				//playMusic(songs,0);
-				$('button').css('background','red');
-				//audio.play();
-			});
+			
 			
 			//DOES THIS WORK? IT SURE SEEMS TO!!
 			/*if ('mediaSession' in navigator) {
