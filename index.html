@@ -99,6 +99,8 @@
 				mediaImage="https://secondlife.com/app/image/589505a4-f05b-a00a-6ac1-750863fb45d2/1";
 				$('body').append(mediaImage + cSongs[songNumber].title + cSongs[songNumber].name + currentSong);
 				console.log(mediaImage + cSongs[songNumber].title + cSongs[songNumber].name + currentSong);
+				$('body').append(currentSong);
+				console.log(currentSong);
 				//if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
 					if ('mediaSession' in navigator) {
 						navigator.mediaSession.metadata = new MediaMetadata({
