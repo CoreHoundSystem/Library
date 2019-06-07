@@ -53,6 +53,7 @@
 		}
 
 		function buildActiveSong(x) {
+			$('body').append(x);
 			console.log(x);
 			$('#activeChannel').empty();
 			$('#activeChannel').append('<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>');
@@ -144,11 +145,15 @@
 			$('body').append(genres);
 			console.log(genres);
 			for(var i=0;i<songs.length;i++) {
+				$('body').append(songs[i]);
 				console.log(songs[i]);
+				$('body').append(songs[i].songID);
 				console.log(dislikes.indexOf(songs[i].songID));
+				$('body').append(songs[i].genres);
 				console.log(songs[i].genre);
 				if((songs[i].artist==artist||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1) {
 					cSongs.push(songs[i]);
+					$('body').append("Sorted " + songs[i]);
 					console.log("Sorted " + songs[i]);
 				}
 			}
@@ -173,6 +178,7 @@
 						$.each(data.feed.entry, function(i,entry) {
 							window[z].push(JSON.parse(entry.gsx$item.$t.replace(/'/g, '"')));
 						});
+						$('body').append(window[z]);
 						console.log(window[z]);
 						getChans(chanKey,"1","channels");
 					});
@@ -187,6 +193,7 @@
 						$.each(data.feed.entry, function(i,entry) {
 							window[z].push(JSON.parse(entry.gsx$item.$t.replace(/'/g, '"')));
 						});
+						$('body').append(window[z]);
 						console.log(window[z]);
 						$('body').append('<button id="ready">Ready?</button>');
 						$('#ready').click(function() {
@@ -237,6 +244,10 @@
 		<script>
 			function onSignIn(googleUser) {
 				var profile = googleUser.getBasicProfile();
+				$('body').append('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+				$('body').append('Name: ' + profile.getName());
+				$('body').append('Image URL: ' + profile.getImageUrl());
+				$('body').append('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 				console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
 				console.log('Name: ' + profile.getName());
 				console.log('Image URL: ' + profile.getImageUrl());
@@ -248,6 +259,7 @@
 			function signOut() {
 				var auth2 = gapi.auth2.getAuthInstance();
 				auth2.signOut().then(function () {
+					$('body').append('User signed out.');
 					console.log('User signed out.');
 				});
 			}
