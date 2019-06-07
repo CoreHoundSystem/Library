@@ -168,7 +168,7 @@ function startChannel(c) {
 			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
 			$(function() {
 				getSongs(songArtistKey,"1","songs");
-				
+				getChans(chanKey,"1","channels");
 			});
 			function getSongs(x,y,z) {
 				window[z]=[];
@@ -180,7 +180,7 @@ function startChannel(c) {
 						});
 						$('body').append(window[z]);
 						console.log(window[z]);
-						getChans(chanKey,"1","channels");
+						
 					});
 					
 				});
