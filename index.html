@@ -222,16 +222,7 @@
 					*	SL Display Name
 					*	SL Bio (if artist)
 					*	Payment method???
-			*	get user channels
-				*	id
-				*	name
-				*	artist-base
-				*	song likes
-				*	expanded genre filter
-				*	last listened date
-				*	channel type
-		*	download song list
-		*	check channel filters against new songs based on song upload date and channel last listened date
+			
 		</li></ul>
 		</div>	
 		<script>
@@ -258,7 +249,7 @@
 							window[z].push(JSON.parse(entry.gsx$item.$t.replace(/'/g, '"')));
 						});
 						console.log(window[z]);
-						getChans(chanKey,"1","channels");
+						//getChans(chanKey,"1","channels");
 					});
 					
 				});
