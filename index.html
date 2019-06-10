@@ -4,8 +4,16 @@
 		<script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
 		<script src='https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>
 		<script src="https://tether.corehoundsystem.com/Headerscript.js"></script>
+		<script src="https://tether.corehoundsystem.com/Channelscript.js"></script>
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141646766-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+			gtag('set', {'user_id': 'USER_ID'});
+			gtag('config', 'UA-141646766-1');
+		</script>
 		<meta name="google-signin-client_id" content="833721381252-smfnva31dl66h8n6ffikc99f50ff4dqo.apps.googleusercontent.com">
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:site" content="@handle">
@@ -19,277 +27,124 @@
 		<meta name="og:site_name" content="Tether">
 		<meta name="og:url" content="https://tether.corehoundsystem.com">
 		<meta name="description" content="Listen to your favorite SL musicians anywhere, anytime.">
-		<meta name="keywords" content="second life, music, live, cover, original">
+		<meta name="keywords" content="second life,music,live,cover,original">
 		<meta name="language" content="English">
 		<meta name="copyright" content="Tether, LLC">
-		<meta name="web_author" content="OneDollarGenius">
+		<meta name="web_author" content="Core Hound System, LLC">
 		<meta http-equiv="window-target" content="_top">
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
-			gtag('set', {'user_id': 'USER_ID'});
-			gtag('config', 'UA-141646766-1');
-		</script>
 	</head>
 	<body>
+		<script id="libraryScripts">
+			testMode=1;
+			syncURL="https://docs.google.com/forms/d/e/1FAIpQLSe-bJWth2cKQ7-jo0vOHD_mSaIQIQfJN4aFcskKBfMaeH7zhw/formResponse?usp=pp_url&entry.762123824=";
+			userSyncs="1GDyPff8QkQynVWfOWZIFNli4Lz8NtScWPc1U5uIwOOM";
+			chanKey="1i9SfwLkDj40yOqOmRMAhe4FXI5fjjjyufx8Nz_IPKbg";
+			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
+			
+			function cL(x) {
+				if(testMode>=1) {
+					console.log(x);
+				}
+				if(testMode==2) {
+					$('body').append(x);
+				}
+			}
+			
+			function nextFunction(z) {
+				cL("Got to the next function!");
+				if(z) {
+					cL("There is match!");
+				} else {
+					cL("No match, we need to prompt for a sync.");
+					//prompt for sync
+				}
+			}
+			
+			function buildChannelStart() {
+				$('body').append('<button id="ready">Ready?</button>');
+				$('#ready').click(function() {
+					startChannel(channels[0]);
+					$('button').css('background','red');					
+				});
+			}
+			
+			function getObjects(x,y,z,f) {
+				window[z]=[];
+				$(function() {
+					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
+					function (data) {
+						$.each(data.feed.entry, function(i,entry) {
+							window[z].push(JSON.parse(entry.gsx$item.$t.replace(/'/g, '"')));
+						});
+						if(f) {
+							window[f](window[z]);
+						}
+					});
+				});
+			};
+			
+			function getString(x,y,z,c,f) {
+				window[z]="";
+				$(function() {
+					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
+					function (data) {
+						$.each(data.feed.entry, function(i,entry) {
+							if(entry.gsx$data.$t.indexOf(c)!=-1) {
+								window[z]=entry.gsx$data.$t;
+							}
+						});
+						if(f) {
+							window[f](window[z]);
+						}
+					});
+					
+				});
+			};
+			
+			function loadUser(x) {
+				getString(userSyncs,"1","syncObject",x+"|","nextFunction")
+				getObjects(songArtistKey,"1","songs","nextFunction");
+				getObjects(chanKey,"1","channels","buildChannelStart");
+				
+				//check if gID is sync'd
+					//invite user to sync their SL avatar(s) - syncing allows avatars to use Tether in-world [and ad-free (if ads are ever implemented)?]
+						//upon syncing account, check if they are an artist [or should the sync be used to determine that?] - allow upgrade to artist account at any time
+							//if artist, load existing song data - requests by Tether and Tether users, approved songs with number of likes, submitted songs awaiting approval
+				//getSongs
+				//getUserChannels
+			}
+		</script>
+		
+		
 		
 		<div id="tetherHeader"></div>
-		<div id="tetherBody"></div>
-		<div id="activeChannel"></div>
-		<div id="activeChannel"></div>
-
-<div id="activeChannel"></div>
-
-<script>
-function like(x) {
-	if($(x).hasClass('liked')) {
-		newLikes=[];
-		oldLikes=thisChannel.liked.split("|");
-		for(var i=0;i<oldLikes.length;i++) {
-			if(oldLikes[i]!=currentSong.id) {
-				newLikes.push(oldLikes[i]);
-			}
-		}
-		thisChannel.liked=newLikes.join("|");
-	} else {
-		thisChannel.liked=thisChannel.liked + "|" + currentSong.id;
-	}
-	$(x).toggleClass('liked');
-	updateData(channelForm,thisChannel);		//??	formURL,object
-}
-
-function dislike(x) {
-	if($(x).hasClass('disliked')) {
-		
-	} else {
-		thisChannel.liked=thisChannel.liked + "|" + currentSong.id;
-		updateData(channelForm,thisChannel);	//??
-		playSong();
-	}
-}
-
-//fix this function?
-function togglePause() {
-	audio=document.getElementById("activeSong");
-	if(audio.paused) {
-		audio.play();
-	} else {
-		audio.pause();
-	}
-}
-
-function trackTime(x) {
-	$('#trackTime').css('background-image','linear-gradient(to right, var(--tColor) ' + ((x.currentTime / x.duration) * 100) + '%, var(--bColor) 0%)');
-}
-
-function buildActiveSong(x) {
-	console.log(x);
-	$('#activeChannel').empty();
-	$('#activeChannel').append('<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>');
-	
-	$('#activeChannel').append('<div class="backOrMin"></div>')
-	//back/minimize menu  -- toggles
-	//channel name -- hides on min
-	//image -- hides on min
-	//song title -- prominent on min
-	//artist --  less prominent on min
-	//albumevent -- hide on min
-	
-	
-	$('#activeChannel').append('<div id="trackControls"><div class="upperRow"></div><div class="lowerRow"></div></div>');
-	$('.upperRow').append('<div><span><span><div></div><span></span></div>');
-		//hide on min
-	$('.lowerRow').append('');
-		//pause/play
-		//nexttrack
-		//like/dislikes
-			//hide on min
-		
-	$('.backOrMin').click(function() {
-		$(this).parent().toggleClass('minimize');
-	});
-	
-	
-	
-	audio=document.getElementById("activeSong");
-	audio.play();
-	$('#activeSong').on('ended',function() {
-		playSong();
-	});
-}
-
-function playSong() {
-	songNumber=Math.round(Math.random()*cSongs.length);
-	if(rPlayed.indexOf(cSongs[songNumber])!=-1||(songNumber<0||songNumber>=cSongs.length)) {
-		playSong();
-	} else {
-		commercialTicker++;
-		window["currentSong"]=cSongs[songNumber];
-		songMedia="";
-		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-			if ('mediaSession' in navigator) {
-				navigator.mediaSession.metadata = new MediaMetadata({
-					title: currentSong.title,
-					artist: currentSong.artist,
-					album: currentSong.albumEvent,
-					artwork: [
-						{src:songMedia,sizes:'96x96',type:'image/png'},
-						{src:songMedia,sizes:'128x128',type:'image/png'},
-						{src:songMedia,sizes:'192x192',type:'image/png'},
-						{src:songMedia,sizes:'256x256',type:'image/png'},
-						{src:songMedia,sizes:'384x384',type:'image/png'},
-						{src:songMedia,sizes:'512x512',type:'image/png'},
-					]
-				});
-				navigator.mediaSession.setActionHandler('play',function() {togglePause()});
-				navigator.mediaSession.setActionHandler('pause',function() {togglePause()});
-				//navigator.mediaSession.setActionHandler('seekbackward', function() {});
-				//navigator.mediaSession.setActionHandler('seekforward', function() {});
-				navigator.mediaSession.setActionHandler('nexttrack', function() {playSong()});
-			}
-		}
-		buildActiveSong(currentSong);
-	}
-}
-
-function startChannel(c) {
-	artist=c.artist;
-	likes=[];
-	likes=c.likes.split("|");
-	dislikes=c.dislikes.split("|");
-	genres=[];
-	window["cSongs"]=[];
-	window["rPlayed"]=[];
-	window["commercialTicker"]=0;
-	for(var i=0;i<likes.length;i++) {
-		sIndex=0;
-		for(var j=0;j<songs.length;j++) {
-			if(songs[j].songID==likes[i]) {
-				sIndex==j;
-			}
-		}
-		if(genres.indexOf(songs[sIndex].genre)==-1) {
-			genres.push(songs[sIndex].genre);
-		}
-	}
-	console.log(genres);
-	for(var i=0;i<songs.length;i++) {
-		console.log(songs[i]);
-		console.log(dislikes.indexOf(songs[i].songID));
-		console.log(songs[i].genre);
-		if((songs[i].artist==artist||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1) {
-			cSongs.push(songs[i]);
-			console.log("Sorted " + songs[i]);
-		}
-	}
-	playSong();
-}
-
-</script>
-
-		<script>
-			chanKey="1i9SfwLkDj40yOqOmRMAhe4FXI5fjjjyufx8Nz_IPKbg";
-			songURL="https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/songs/";
-			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
-			$(function() {
-				getSongs(songArtistKey,"1","songs");
-				getChans(chanKey,"1","channels");
-			});
-			function getSongs(x,y,z) {
-				window[z]=[];
-				$(function() {
-					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
-					function (data) {
-						$.each(data.feed.entry, function(i,entry) {
-							window[z].push(JSON.parse(entry.gsx$item.$t.replace(/'/g, '"')));
-						});
-						$('body').append(window[z]);
-						console.log(window[z]);
-						
-					});
-					
-				});
-			};
-			function getChans(x,y,z) {
-				window[z]=[];
-				$(function() {
-					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
-					function (data) {
-						$.each(data.feed.entry, function(i,entry) {
-							window[z].push(JSON.parse(entry.gsx$item.$t.replace(/'/g, '"')));
-						});
-						$('body').append(window[z]);
-						console.log(window[z]);
-						$('body').append('<button id="ready">Ready?</button>');
-						$('#ready').click(function() {
-							startChannel(channels[0]);
-							//playMusic(songs,0);
-							$('button').css('background','red');
-							//audio.play();
-						});
-					});
-					
-				});
-			};
+		<div id="tetherBody">
+			<div id="activeChannel"></div>
 			
-		</script>
-		
-		
-		
-		
-		
-		
-		
-		<div id="audioBox" style="display:block;height:100px;width:100px;">
-			
+			<div class="g-signin2" data-onsuccess="onSignIn"></div>
+			<a href="#" onclick="signOut();">Sign out</a>
+			<script>
+				$(function() {
+					loadUser("110422615478236421761");
+				});
+				
+				function onSignIn(googleUser) {
+					var profile = googleUser.getBasicProfile();
+					cL('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+					cL('Name: ' + profile.getName());
+					cL('Image URL: ' + profile.getImageUrl());
+					cL('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+					loadUser(profile.getID());
+				}
+				
+				function signOut() {
+					var auth2 = gapi.auth2.getAuthInstance();
+					auth2.signOut().then(function () {
+						cL('User signed out.');
+					});
+				}
+			</script>
 		</div>
-		<script>
-			
-			function updateBar(x) {
-				$(x).next().children().css('width',((x.currentTime / x.duration) * 100) + '%');
-			}
-			function playMusic(x,y) {
-				$('#audioBox').empty();
-				$('#audioBox').append('<audio id="activeSong" src="' + songURL + x[y].link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="updateBar(this)"></audio><div style="width:300px;background-color: green;"><div style="height:20px;background-color: red;transition: width linear 0.25s"></div></div>');
-				audio=document.getElementById("activeSong");
-				audio.play();
-				$('#activeSong').on('ended',function() {
-					y++;
-					if(y==x.length) {
-						y=0;
-					}
-					playMusic(x,y)
-				});
-			}
-		</script>
-		
-		
-		
-		<div class="g-signin2" data-onsuccess="onSignIn"></div>
-		<script>
-			function onSignIn(googleUser) {
-				var profile = googleUser.getBasicProfile();
-				$('body').append('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-				$('body').append('Name: ' + profile.getName());
-				$('body').append('Image URL: ' + profile.getImageUrl());
-				$('body').append('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-				console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-				console.log('Name: ' + profile.getName());
-				console.log('Image URL: ' + profile.getImageUrl());
-				console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-			}
-		</script>
-		<a href="#" onclick="signOut();">Sign out</a>
-		<script>
-			function signOut() {
-				var auth2 = gapi.auth2.getAuthInstance();
-				auth2.signOut().then(function () {
-					$('body').append('User signed out.');
-					console.log('User signed out.');
-				});
-			}
-		</script>
 		<div id="tetherFooter"></div>
 	</body>
 </html>
