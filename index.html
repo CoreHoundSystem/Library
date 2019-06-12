@@ -146,6 +146,7 @@
 					cL('Name: ' + profile.getName());
 					cL('Image URL: ' + profile.getImageUrl());
 					cL('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+					cL(profile);
 					loadUser(profile.getId());
 				}
 				
