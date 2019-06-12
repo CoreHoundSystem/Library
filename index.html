@@ -1,10 +1,15 @@
 <html>
 	<head>
 		<title>Tether, Take SL Music With You!</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
 		<script src='https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>
 		<script src="https://tether.corehoundsystem.com/Headerscript.js"></script>
 		<script src="https://tether.corehoundsystem.com/Channelscript.js"></script>
+		
+		<script src="https://tether.corehoundsystem.com/Library.js"></script>
+		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Tether.css">
+		
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141646766-1"></script>
 		<script>
@@ -32,8 +37,30 @@
 		<meta name="copyright" content="Tether, LLC">
 		<meta name="web_author" content="Core Hound System, LLC">
 		<meta http-equiv="window-target" content="_top">
+		
+		<link href="https://fonts.googleapis.com/css?family=Economica&display=swap" rel="stylesheet">
+		
 	</head>
 	<body>
+		<div id="temp">
+			<div id="activeChannelXXX">
+				<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>
+				<div class="backOrMin"><div><div></div><div></div></div></div><div class="activeChannelName">Active Channel Name</div>
+				<div class="activeArtistDetails">
+					<div class="activeArtistImage"></div>
+				</div>
+				<div class="activeSongDetails">
+					<span>Song Title</span>
+					<span>Song Artist</span>
+					<span>Album or Event</span>
+				</div><div class="activeSongActions"></div>
+				<div id="trackControls">
+					<div class="upperRow"><div><span></span><div></div><span></span></div></div>
+					<div class="lowerRow"><div id="dislike" class="trackControls dislike"><div><div></div></div></div><div id="like" class="trackControls like"><div><div></div></div><div><div></div></div><div></div></div><div id="pause" class="trackControls pause"><div><div></div></div><div><div></div></div></div><div id="nextTrack" class="trackControls nextTrack"><div><div></div></div><div><div></div></div><div><div></div></div></div></div>
+				</div>
+				
+			</div>
+		</div>
 		<script id="libraryScripts">
 			testMode=1;
 			songURL="https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/songs/";
@@ -62,7 +89,7 @@
 			}
 			
 			function buildChannelStart() {
-				$('body').append('<button id="ready">Ready?</button>');
+				$('#tetherBody').append('<button id="ready">Ready?</button>');
 				$('#ready').click(function() {
 					startChannel(channels[0]);
 					$('button').css('background','red');					
@@ -125,9 +152,9 @@
 			<div class="g-signin2" data-onsuccess="onSignIn"></div>
 			<a href="#" onclick="signOut();">Sign out</a>
 			<script>
-				/*$(function() {
+				$(function() {
 					loadUser("110422615478236421761");
-				});*/
+				});
 				
 				function onSignIn(googleUser) {
 					var profile = googleUser.getBasicProfile();
