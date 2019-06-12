@@ -12,7 +12,7 @@ function like(x) {
 		thisChannel.liked=thisChannel.liked + "|" + currentSong.id;
 	}
 	$(x).toggleClass('liked');
-	updateData(channelForm,thisChannel);		//??	formURL,object
+	//updateData(channelForm,thisChannel);		//??	formURL,object
 }
 
 function dislike(x) {
@@ -20,7 +20,7 @@ function dislike(x) {
 		
 	} else {
 		thisChannel.liked=thisChannel.liked + "|" + currentSong.id;
-		updateData(channelForm,thisChannel);	//??
+		//updateData(channelForm,thisChannel);	//??
 		playSong();
 	}
 }
@@ -29,10 +29,22 @@ function dislike(x) {
 function togglePause() {
 	audio=document.getElementById("activeSong");
 	if(audio.paused) {
+		$('#pause').addClass('pause');
+		$('#pause').removeClass('play');
 		audio.play();
 	} else {
+		$('#pause').addClass('play');
+		$('#pause').removeClass('pause');
 		audio.pause();
 	}
+}
+
+function addRecentPlay(x) {
+	rPlayed.push(x);
+	if(rPlayed.length>=rPMax) {
+		rPlayed=rPlayed.slice(rPlayed.length-rPMax,rPlayed.length);
+	}
+	console.log(rPlayed);
 }
 
 function trackTime(x) {
@@ -43,7 +55,7 @@ function buildActiveSong(x) {
 	console.log(x);
 	$('#activeChannel').empty();
 	$('#activeChannel').append('<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>');
-	$('#activeChannel').append('<div class="backOrMin"><div><div></div><div></div></div></div><div class="activeChannelName">' + channel.name + '</div>');	//active channel name
+	$('#activeChannel').append('<div class="backOrMin"><div><div></div><div></div></div></div><div class="activeChannelName">' + thisChannel.name + '</div>');	//active channel name
 	$('#activeChannel').append('<div class="activeArtistDetails"><div class="activeArtistImage"></div></div>');		//add artist image
 	$('#activeChannel').append('<div class="activeSongDetails"><span>' + x.title + '</span><span>' + x.artist + '</span><span>' + x.albumEvent + '</span></div><div class="activeSongActions"></div>');
 	$('#activeChannel').append('<div id="trackControls"><div class="upperRow"></div><div class="lowerRow"></div></div>');
@@ -54,12 +66,12 @@ function buildActiveSong(x) {
 	$('.backOrMin').click(function() {
 		$(this).parent().toggleClass('minimize');
 	});
-	/*$('#dislike').click(function() {
+	$('#dislike').click(function() {
 		dislike(this);
 	});
 	$('#like').click(function() {
 		like(this);
-	});*/
+	});
 	$('#pause').click(function() {
 		console.log("Clicky");
 		togglePause();
@@ -82,6 +94,7 @@ function playSong() {
 	} else {
 		commercialTicker++;
 		window["currentSong"]=cSongs[songNumber];
+		addRecentPlay(currentSong);
 		songMedia="";
 		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
 			if ('mediaSession' in navigator) {
@@ -110,7 +123,7 @@ function playSong() {
 }
 
 function startChannel(c) {
-	window["channel"]=c;
+	window["thisChannel"]=c;
 	artist=c.artist;
 	likes=[];
 	likes=c.likes.split("|");
@@ -139,6 +152,9 @@ function startChannel(c) {
 			cSongs.push(songs[i]);
 			console.log("Sorted " + songs[i]);
 		}
+	}
+	if(rPMax>=cSongs.length) {
+		rPMax=cSongs.length-2;
 	}
 	playSong();
 }
