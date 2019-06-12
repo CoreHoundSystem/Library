@@ -5,10 +5,11 @@
 		<script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
 		<script src='https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>
 		<script src="https://tether.corehoundsystem.com/Headerscript.js"></script>
-		<script src="https://tether.corehoundsystem.com/Channelscript.js"></script>
 		
-		<script src="https://tether.corehoundsystem.com/Library.js"></script>
-		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Tether.css">
+		
+		<script src="https://tether.corehoundsystem.com/Channelscript.js"></script>
+<script src="https://tether.corehoundsystem.com/Library.js"></script>
+<link rel="stylesheet" href="https://tether.corehoundsytem.com/Tether.css">
 		
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141646766-1"></script>
@@ -42,26 +43,9 @@
 		
 	</head>
 	<body>
-		<div id="temp">
-			<div id="activeChannelXXX">
-				<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>
-				<div class="backOrMin"><div><div></div><div></div></div></div><div class="activeChannelName">Active Channel Name</div>
-				<div class="activeArtistDetails">
-					<div class="activeArtistImage"></div>
-				</div>
-				<div class="activeSongDetails">
-					<span>Song Title</span>
-					<span>Song Artist</span>
-					<span>Album or Event</span>
-				</div><div class="activeSongActions"></div>
-				<div id="trackControls">
-					<div class="upperRow"><div><span></span><div></div><span></span></div></div>
-					<div class="lowerRow"><div id="dislike" class="trackControls dislike"><div><div></div></div></div><div id="like" class="trackControls like"><div><div></div></div><div><div></div></div><div></div></div><div id="pause" class="trackControls pause"><div><div></div></div><div><div></div></div></div><div id="nextTrack" class="trackControls nextTrack"><div><div></div></div><div><div></div></div><div><div></div></div></div></div>
-				</div>
-				
-			</div>
-		</div>
+		
 		<script id="libraryScripts">
+			rPMax=12;
 			testMode=1;
 			songURL="https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/songs/";
 			syncURL="https://docs.google.com/forms/d/e/1FAIpQLSe-bJWth2cKQ7-jo0vOHD_mSaIQIQfJN4aFcskKBfMaeH7zhw/formResponse?usp=pp_url&entry.762123824=";
