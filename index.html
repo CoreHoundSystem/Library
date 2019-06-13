@@ -90,6 +90,7 @@
 					//cL('Email: ' + prof.getEmail());
 					//loadUser(prof);
 					//loadUser(prof.getId(),prof.getGivenName(),prof.getFamilyName(),prof.getEmail());
+					sendEventToAnalytics("login","google",prof.getId());
 					loadUser(JSON.parse(`{"gID":"` + prof.getId() + `","firstName":"` + prof.getGivenName() + `","lastName":"` + prof.getFamilyName() + `","gMail":"` + prof.getEmail() + `"}`));
 					cL(JSON.parse(`{"gID":"` + prof.getId() + `","firstName":"` + prof.getGivenName() + `","lastName":"` + prof.getFamilyName() + `","gMail":"` + prof.getEmail() + `"}`));
 				}
@@ -97,6 +98,8 @@
 				function signOut() {
 					var auth2 = gapi.auth2.getAuthInstance();
 					auth2.signOut().then(function () {
+						sendEventToAnalytics("logout","google",profile.gID);
+						profile="";
 						cL('User signed out.');
 					});
 				}
