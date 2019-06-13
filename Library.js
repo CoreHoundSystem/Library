@@ -1,11 +1,5 @@
-
-
-
-
-//chanKey="1i9SfwLkDj40yOqOmRMAhe4FXI5fjjjyufx8Nz_IPKbg";
-//songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
-
-
+popSong="";
+popGenres="";
 
 $(function() {
 	console.log("Library.js Loaded");
@@ -67,4 +61,18 @@ function getArtist(x) {
 			return artists[i];
 		}
 	}
+}
+
+function sendEventToAnalytics(x,y,z,f,d) {		//Sends event to Google Analytics - requires analytics
+	gtag('event',y, {
+		'event_category': x,
+		'event_label': z
+	});
+	if(f&&d) {
+		//send d to f
+	}
+}
+
+function updateChannel(x) {
+	console.log(x);
 }
