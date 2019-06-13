@@ -89,8 +89,8 @@
 					//cL('Image URL: ' + prof.getImageUrl());
 					//cL('Email: ' + prof.getEmail());
 					//loadUser(prof);
-					loadUser(prof.getId(),prof.getGivenName(),prof.getFamilyName(),prof.getEmail());
-					//loadUser(JSON.parse(`{"gID":"` + prof.getId() + `","firstName":"` + prof.getGivenName() + `","lastName":"` + prof.getFamilyName() + `","gMail":"` + prof.getEmail() + `"}`));
+					//loadUser(prof.getId(),prof.getGivenName(),prof.getFamilyName(),prof.getEmail());
+					loadUser(JSON.parse(`{"gID":"` + prof.getId() + `","firstName":"` + prof.getGivenName() + `","lastName":"` + prof.getFamilyName() + `","gMail":"` + prof.getEmail() + `"}`));
 					cL(JSON.parse(`{"gID":"` + prof.getId() + `","firstName":"` + prof.getGivenName() + `","lastName":"` + prof.getFamilyName() + `","gMail":"` + prof.getEmail() + `"}`));
 				}
 				
