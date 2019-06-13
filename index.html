@@ -5,16 +5,12 @@
 		<script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
 		<script src='https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js'></script>
 		<script src="https://tether.corehoundsystem.com/Headerscript.js"></script>
-		
-		
-		
 		<script src="https://tether.corehoundsystem.com/Users.js"></script>
 		<script src="https://tether.corehoundsystem.com/Library.js"></script>
 		<script src="https://tether.corehoundsystem.com/Channelscript.js"></script>
-		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Tether.css">
+		<link rel="stylesheet" href="file:///C:/Users/howl/Downloads/Tether.css">
 		
-		
-		<script src="https://apis.google.com/js/platform.js" async defer></script>
+		<script src="https://apis.google.com/js/platform.js" defer></script>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141646766-1"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];
@@ -82,18 +78,20 @@
 			<script>
 				$(function() {
 					if(window.location.href.indexOf("Downloads")!==-1) {
-						loadUser("110422615478236421761","Joshua","Hess","info@corehoundsystem.com");
+						loadUser(JSON.parse(`{"gID":"110422615478236421761","firstName":"Joshua","lastName":"Hess","gMail":"info@corehoundsystem.com"}`));
 					}
 				});
 				
 				function onSignIn(googleUser) {
 					var profile = googleUser.getBasicProfile();
-					cL('ID: ' + profile.getId());
-					cL('Name: ' + profile.getName());
-					cL('Image URL: ' + profile.getImageUrl());
-					cL('Email: ' + profile.getEmail());
+					//cL('ID: ' + profile.getId());
+					//cL('Name: ' + profile.getName());
+					//cL('Image URL: ' + profile.getImageUrl());
+					//cL('Email: ' + profile.getEmail());
 					//loadUser(profile);
 					loadUser(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getEmail());
+					//loadUser(JSON.parse(`{"gID":"` + profile.getId() + `","firstName":"` + profile.getGivenName() + `","lastName":"` + profile.getFamilyName() + `","gMail":"` + profile.getEmail() + `"}`));
+					cL(JSON.parse(`{"gID":"` + profile.getId() + `","firstName":"` + profile.getGivenName() + `","lastName":"` + profile.getFamilyName() + `","gMail":"` + profile.getEmail() + `"}`));
 				}
 				
 				function signOut() {
