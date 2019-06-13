@@ -1,5 +1,7 @@
 function like(x) {
+	
 	if($(x).hasClass('liked')) {
+		sendEventToAnalytics("channelFilter","like",currentSong);
 		newLikes=[];
 		oldLikes=thisChannel.liked.split("|");
 		for(var i=0;i<oldLikes.length;i++) {
@@ -12,6 +14,7 @@ function like(x) {
 		thisChannel.liked=thisChannel.liked + "|" + currentSong.id;
 	}
 	$(x).toggleClass('liked');
+	updateChannel(thisChannel);
 	//updateData(channelForm,thisChannel);		//??	formURL,object
 }
 
@@ -19,10 +22,12 @@ function dislike(x) {
 	if($(x).hasClass('disliked')) {
 		
 	} else {
+		sendEventToAnalytics("channelFilter","dislike",currentSong);
 		thisChannel.liked=thisChannel.liked + "|" + currentSong.id;
 		//updateData(channelForm,thisChannel);	//??
 		playSong();
 	}
+	updateChannel(thisChannel);
 }
 
 //fix this function?
@@ -121,6 +126,7 @@ function playSong() {
 			}
 		}
 		buildActiveSong(currentSong);
+		sendEventToAnalytics("playSong",profile.gID,currentSong,popSong,currentSong);
 	}
 }
 
@@ -153,5 +159,7 @@ function startChannel(c) {
 	if(rPMax>=cSongs.length) {
 		rPMax=cSongs.length-2;
 	}
+	sendEventToAnalytics("channelStarted","rPMax",rPMax);
+	sendEventToAnalytics("channelStart","genres",genres,popGenres,genres);
 	playSong();
 }
