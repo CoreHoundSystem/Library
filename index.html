@@ -83,15 +83,15 @@
 				});
 				
 				function onSignIn(googleUser) {
-					var profile = googleUser.getBasicProfile();
-					//cL('ID: ' + profile.getId());
-					//cL('Name: ' + profile.getName());
-					//cL('Image URL: ' + profile.getImageUrl());
-					//cL('Email: ' + profile.getEmail());
-					//loadUser(profile);
-					loadUser(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getEmail());
-					//loadUser(JSON.parse(`{"gID":"` + profile.getId() + `","firstName":"` + profile.getGivenName() + `","lastName":"` + profile.getFamilyName() + `","gMail":"` + profile.getEmail() + `"}`));
-					cL(JSON.parse(`{"gID":"` + profile.getId() + `","firstName":"` + profile.getGivenName() + `","lastName":"` + profile.getFamilyName() + `","gMail":"` + profile.getEmail() + `"}`));
+					var prof = googleUser.getBasicProfile();
+					//cL('ID: ' + prof.getId());
+					//cL('Name: ' + prof.getName());
+					//cL('Image URL: ' + prof.getImageUrl());
+					//cL('Email: ' + prof.getEmail());
+					//loadUser(prof);
+					loadUser(prof.getId(),prof.getGivenName(),prof.getFamilyName(),prof.getEmail());
+					//loadUser(JSON.parse(`{"gID":"` + prof.getId() + `","firstName":"` + prof.getGivenName() + `","lastName":"` + prof.getFamilyName() + `","gMail":"` + prof.getEmail() + `"}`));
+					cL(JSON.parse(`{"gID":"` + prof.getId() + `","firstName":"` + prof.getGivenName() + `","lastName":"` + prof.getFamilyName() + `","gMail":"` + prof.getEmail() + `"}`));
 				}
 				
 				function signOut() {
