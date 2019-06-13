@@ -44,7 +44,6 @@ function addRecentPlay(x) {
 	if(rPlayed.length>=rPMax) {
 		rPlayed=rPlayed.slice(rPlayed.length-rPMax,rPlayed.length);
 	}
-	cL(rPlayed);
 }
 
 function trackTime(x) {
@@ -54,7 +53,6 @@ function trackTime(x) {
 }
 
 function buildActiveSong(x) {
-	cL(x);
 	$('#activeChannel').empty();
 	$('#activeChannel').append('<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>');
 	$('#activeChannel').append('<div class="backOrMin arrow"><div><div></div><div></div></div></div><div class="activeChannelName">' + thisChannel.name + '</div>');	//active channel name
@@ -69,7 +67,6 @@ function buildActiveSong(x) {
 		$(this).parent().toggleClass('minimize');
 	});
 	$('.activeSongDetails').click(function() {
-		cL($(this).parent());
 		if($(this).parent().hasClass('minimize')) {
 			$(this).parent().removeClass('minimize');
 		}
@@ -81,7 +78,6 @@ function buildActiveSong(x) {
 		like(this);
 	});
 	$('#pause').click(function() {
-		cL("Clicky");
 		togglePause();
 	});
 	$('#nextTrack').click(function() {
@@ -149,14 +145,9 @@ function startChannel(c) {
 			genres.push(songs[sIndex].genre);
 		}
 	}
-	cL(genres);
 	for(var i=0;i<songs.length;i++) {
-		cL(songs[i]);
-		cL(dislikes.indexOf(songs[i].songID));
-		cL(songs[i].genre);
-		if((songs[i].artist==artist||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1) {
+		if((songs[i].artist==artist||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1&&songs[i].state=="available") {
 			cSongs.push(songs[i]);
-			cL("Sorted " + songs[i]);
 		}
 	}
 	if(rPMax>=cSongs.length) {
