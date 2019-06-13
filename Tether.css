@@ -1,6 +1,7 @@
 :root {
 	--pColor: #008B8B;
 	--bColor: #008080;
+	--gColor: #04a5a5;
 	--hColor: #ffbe42;
 	--tColor: #fefefe;
 	--lColor: ;
@@ -11,16 +12,6 @@
 }
 
 .ui-loader.ui-corner-all.ui-body-a.ui-loader-default h1 {
-	display: none;
-}
-
-.tempDisplay, #tetherHeader, #tetherBody, #tetherFooter {
-	//display: none;
-}
-
-#temp {
-	width: 100vw;
-	height: 100vh;
 	display: none;
 }
 
@@ -47,24 +38,55 @@ body {
 #activeChannel {
 	position: fixed;
 	width: 100vw;
-	background-color: var(--pColor);
+	background-color: var(--bColor);
 	bottom: 0px;
+	z-index: 1000;
+	box-shadow: inset 0px 0px 30px var(--bColor);
 }
 
 #activeChannel.minimize {
-	
+	transition: .1s;
+}
+
+.backOrMin, .activeChannelName, .activeSongDetails, .upperRow, .lowerRow{
+	max-height: 70px;
+	transition: .5s;
+}
+
+.minimize .backOrMin, .minimize .activeChannelName, .minimize .lowerRow, .minimize .activeSongActions {
+	//display: none;
+	max-height: 0px !important;
+	overflow: hidden;
+}
+
+.minimize .activeArtistDetails {
+	position: absolute;
+    top: var(--pPad);
+    right: var(--pPad);
+    width: var(--fSize);
+    height: var(--fSize);
+	overflow: hidden;
+}
+
+.minimize .activeArtistDetails .activeArtistImage {
+    width: var(--fSize);
+    height: var(--fSize);
+}
+
+.minimize .activeSongDetails {
+	padding-top: var(--pPad);
+	width: calc(100% - var(--pPad) * 4 - var(--fSize));
+	height: var(--fSize);
+}
+
+.minimize .activeSongDetails span {
+	font-size: 14px !important;
 }
 
 .backOrMin {
 	width: var(--hSize);
 	height: var(--hSize);
-	background-color: var(--pColor);
 	display: inline-block;
-
-}
-
-.minimize .backOrMin {
-	transform: rotate(90deg);
 }
 
 .backOrMin div {
@@ -134,6 +156,8 @@ body {
 	width: calc(100vw - calc(var(--pPad) * 2));
 	height: calc(100vw - calc(var(--pPad) * 2));
 	margin: auto;
+	background-size: cover;
+	background-position: center center;
 }
 
 .activeSongDetails {
@@ -181,6 +205,9 @@ body {
 	width: var(--hSize);
 	height: var(--hSize);
 	line-height: var(--hSize);
+	color: var(--tColor);
+	vertical-align: top;
+	text-align: center;
 }
 
 .upperRow>div>div {
