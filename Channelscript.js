@@ -44,27 +44,35 @@ function addRecentPlay(x) {
 	if(rPlayed.length>=rPMax) {
 		rPlayed=rPlayed.slice(rPlayed.length-rPMax,rPlayed.length);
 	}
-	console.log(rPlayed);
+	cL(rPlayed);
 }
 
 function trackTime(x) {
 	$('#trackTime').css('background-image','linear-gradient(to right, var(--tColor) ' + ((x.currentTime / x.duration) * 100) + '%, var(--bColor) 0%)');
+	$('#trackTime').prev('span').text(secondsToTime(x.currentTime));
+	$('#trackTime').next('span').text(secondsToTime(x.duration));
 }
 
 function buildActiveSong(x) {
-	console.log(x);
+	cL(x);
 	$('#activeChannel').empty();
 	$('#activeChannel').append('<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>');
-	$('#activeChannel').append('<div class="backOrMin"><div><div></div><div></div></div></div><div class="activeChannelName">' + thisChannel.name + '</div>');	//active channel name
-	$('#activeChannel').append('<div class="activeArtistDetails"><div class="activeArtistImage"></div></div>');		//add artist image
-	$('#activeChannel').append('<div class="activeSongDetails"><span>' + x.title + '</span><span>' + x.artist + '</span><span>' + x.albumEvent + '</span></div><div class="activeSongActions"></div>');
+	$('#activeChannel').append('<div class="backOrMin arrow"><div><div></div><div></div></div></div><div class="activeChannelName">' + thisChannel.name + '</div>');	//active channel name
+	$('#activeChannel').append('<div class="activeArtistDetails"><div class="activeArtistImage" style="background-image: url(' + getArtist(x.artist).image + ');"></div></div>');		//add artist image
+	$('#activeChannel').append('<div class="activeSongDetails"><span>' + x.title + '</span><span>' + getArtist(x.artist).name + '</span><span>' + x.albumEvent + '</span></div><div class="activeSongActions"></div>');
 	$('#activeChannel').append('<div id="trackControls"><div class="upperRow"></div><div class="lowerRow"></div></div>');
-	$('.upperRow').append('<div><span></span><div></div><span></span></div>');
+	$('.upperRow').append('<div><span></span><div id="trackTime"></div><span></span></div>');
 	$('.lowerRow').append('<div id="dislike" class="trackControls dislike"><div><div></div></div></div><div id="like" class="trackControls like"><div><div></div></div><div><div></div></div><div></div></div><div id="pause" class="trackControls pause"><div><div></div></div><div><div></div></div></div><div id="nextTrack" class="trackControls nextTrack"><div><div></div></div><div><div></div></div><div><div></div></div></div>');
 	
 	
 	$('.backOrMin').click(function() {
 		$(this).parent().toggleClass('minimize');
+	});
+	$('.activeSongDetails').click(function() {
+		cL($(this).parent());
+		if($(this).parent().hasClass('minimize')) {
+			$(this).parent().removeClass('minimize');
+		}
 	});
 	$('#dislike').click(function() {
 		dislike(this);
@@ -73,7 +81,7 @@ function buildActiveSong(x) {
 		like(this);
 	});
 	$('#pause').click(function() {
-		console.log("Clicky");
+		cL("Clicky");
 		togglePause();
 	});
 	$('#nextTrack').click(function() {
@@ -95,12 +103,12 @@ function playSong() {
 		commercialTicker++;
 		window["currentSong"]=cSongs[songNumber];
 		addRecentPlay(currentSong);
-		songMedia="";
+		songMedia=getArtist(currentSong.artist).image;
 		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
 			if ('mediaSession' in navigator) {
 				navigator.mediaSession.metadata = new MediaMetadata({
 					title: currentSong.title,
-					artist: currentSong.artist,
+					artist: getArtist(currentSong.artist).name,
 					album: currentSong.albumEvent,
 					artwork: [
 						{src:songMedia,sizes:'96x96',type:'image/png'},
@@ -113,8 +121,6 @@ function playSong() {
 				});
 				navigator.mediaSession.setActionHandler('play',function() {togglePause()});
 				navigator.mediaSession.setActionHandler('pause',function() {togglePause()});
-				//navigator.mediaSession.setActionHandler('seekbackward', function() {});
-				//navigator.mediaSession.setActionHandler('seekforward', function() {});
 				navigator.mediaSession.setActionHandler('nexttrack',function() {playSong()});
 			}
 		}
@@ -143,14 +149,14 @@ function startChannel(c) {
 			genres.push(songs[sIndex].genre);
 		}
 	}
-	console.log(genres);
+	cL(genres);
 	for(var i=0;i<songs.length;i++) {
-		console.log(songs[i]);
-		console.log(dislikes.indexOf(songs[i].songID));
-		console.log(songs[i].genre);
+		cL(songs[i]);
+		cL(dislikes.indexOf(songs[i].songID));
+		cL(songs[i].genre);
 		if((songs[i].artist==artist||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1) {
 			cSongs.push(songs[i]);
-			console.log("Sorted " + songs[i]);
+			cL("Sorted " + songs[i]);
 		}
 	}
 	if(rPMax>=cSongs.length) {
