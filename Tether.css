@@ -38,7 +38,7 @@ body {
 #activeChannel {
 	position: fixed;
 	width: 100vw;
-	background-color: var(--bColor);
+	background-color: var(--pColor);
 	bottom: 0px;
 	z-index: 1000;
 	box-shadow: inset 0px 0px 30px var(--bColor);
