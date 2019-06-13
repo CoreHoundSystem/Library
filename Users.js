@@ -7,120 +7,142 @@ syncdProfile="1wXxggUlx2td4EatduNW47cgxVX91xN5k7EYcFtjzoak";
 channelKey="1i9SfwLkDj40yOqOmRMAhe4FXI5fjjjyufx8Nz_IPKbg";	//temp
 songKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
 
-
+function dataPulls(x) {
+	dP[x]=1;
+	dPSum=0;
+	for(var i=0;i<Object.keys(dP).length;i++) {
+		dPSum+=dP[Object.keys(dP)[i]];
+	}
+	if(dPSum==Object.keys(dP).length) {
+		console.log(x);
+		pSongs=[];
+		if(profile.uuid.length==36) {
+			for(var i=0;i<songs.length;i++) {
+				if(songs[i].artist==profile.uuid) {
+					pSongs.push(songs[i].songID);
+				}
+			}
+			profile.songs=pSongs;
+		}
+		cL(profile);
+	}
+}
 
 function getSongs(s,x,y) {
-	cL("Getting Songs");
-	checkArray=[];
+	checkSongs=[];
 	window[s]=[];
 	$(function() {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
 				thisEntry=JSON.parse(entry.gsx$item.$t.replace(/'/g,"\""));
-				console.log(thisEntry);
-				if(checkArray.indexOf(thisEntry.songID)==-1) {
-					checkArray.push(thisEntry.songID);
+				if(checkSongs.indexOf(thisEntry.songID)==-1) {
+					checkSongs.push(thisEntry.songID);
 					window[s].push(thisEntry);
 				} else {
-					window[s][checkArray.indexOf(thisEntry.songID)]=thisEntry;
+					window[s][checkSongs.indexOf(thisEntry.songID)]=thisEntry;
 				}
 			});
+			dataPulls("getSongs");
 		});
 	});
 }
 
 function getChannels(g,c,x,y) {
-	cL("Getting channels");
-	checkArray=[];
+	checkChannels=[];
 	window[c]=[];
 	$(function() {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
-				if(entry.gsx$item.$t.indexOf("'owner':'" + g)!=-1) {
+				if(entry.gsx$item.$t.indexOf("'owner':'" + g)!=-1&&entry.gsx$item.$t.indexOf("chanID")!=-1) {
 					thisEntry=JSON.parse(entry.gsx$item.$t.replace(/'/g,"\""));
-					console.log(thisEntry);
-					if(checkArray.indexOf(thisEntry.chanID)==-1) {
-						checkArray.push(thisEntry.chanID);
-						window[c].push(thisEntry);
-					} else {
-						window[c][checkArray.indexOf(thisEntry.chanID)]=thisEntry;
+					if(thisEntry.chanID.length>4) {
+						if(checkChannels.indexOf(thisEntry.chanID)==-1) {
+							checkChannels.push(thisEntry.chanID);
+							window[c].push(thisEntry);
+						} else {
+							window[c][checkChannels.indexOf(thisEntry.chanID)]=thisEntry;
+						}
 					}
 				}
 			});
+			profile.channels=window[c];
+			dataPulls("getChannels");
 		});
 	});
 }
 
-function getProfile(s,p,a,x,y) {
+function getProfile(a,x,y) {
 	window[a]=[];
 	$(function() {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
-				if(entry.gsx$data.$t==s) {
-					window[p]=JSON.parse(`{"uuid":"` + entry.gsx$data.$t + `","name":"` + entry.gsx$name.$t + `","image":"` + entry.gsx$image.$t + `"}`);
-					cL(window[p]);
-				}
 				thisEntry=JSON.parse(`{"uuid":"` + entry.gsx$data.$t + `","name":"` + entry.gsx$name.$t + `","image":"` + entry.gsx$image.$t + `"}`);
 				window[a].push(thisEntry);
 			});
-			cL(window[a]);
+			dataPulls("getProfile");
 		});
 	});
 }
 
-function checkSync(g,q,x,y) {
+function checkSync(g,x,y) {
 	var syncChecker=0;
-	var sync=[];
+	window["sync"]="NA";
 	$(function() {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
 				if(entry.gsx$data.$t.indexOf(g)===0) {
-					sync=entry.gsx$data.$t.split("|");
+					window["sync"]=entry.gsx$data.$t.split("|");
+					profile.uuid=window["sync"][1];
 				}
 			});
 			if(syncChecker==0) {
-				cL(syncChecker);
 				//prompt user to sync
 			}
-			window[q](sync[1],"artistProfile","artists",syncdProfile,"1");
-			getChannels(g,"myChannels",channelKey,"1");
+			if(syncChecker>1) {
+				//error?
+			}
+			dataPulls("checkSync");
 		});
 	});
 }
 
-function checkRegistry(g,m,f,l,q,x,y) {
+function checkRegistry(g,m,f,l,x,y) {
 	var regChecker=0;
 	$(function() {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
-			
-			cL("This is " + g);
 			$.each(data.feed.entry, function(i,entry) {
-				cL(entry.gsx$data.$t);
 				if(entry.gsx$data.$t.toString()==g.toString()) {
-					console.log(g + " matches " + entry.gsx$data.$t);
 					regChecker++;
-					cL(regChecker);
-					cL(q);
-					window[q](g,"getProfile",userSyncs,"1");
 				}
 			});
 			if(regChecker==0) {
-				cL(regChecker);
 				$('body').append('<iframe style="display:none" src="' + registerURL + g + '">');
+				//setTimeout(function() {
+					//checkRegistry(g,m,f,l,q,x,y);
+				//},2000);
+			} else {
+				//what to do if checker is > 0
 			}
+			dataPulls("checkRegistry");
 		});
 	});
 }
 
-function loadUser(g,f,l,m) {
-	cL([g,m,f,l].join("|"));
-	checkRegistry(g,m,f,l,"checkSync",userRegistry,"1");
-	getSongs("songs",songKey,"1");
-	
+function loadUser(p) {
+	console.log(p);
+	dP=JSON.parse(`{"checkRegistry":0,"checkSync":0,"getProfile":0,"getChannels":0,"getSongs":0}`)
+	window["profile"]=p;
+	cL([profile.gID,profile.gMail,profile.firstName,profile.lastName].join("|"));
+	checkRegistry(p.gID,p.gMail,p.firstName,p.lastName,userRegistry,"1");
+	checkSync(p.gID,userSyncs,"1");
+	getProfile("artists",syncdProfile,"1");
+	getChannels(p.gID,"myChannels",channelKey,"1");
+	getSongs("songs",songKey,"1");	
+	//fix this...
 	buildChannelStart(0);
 }
