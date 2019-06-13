@@ -7,9 +7,13 @@
 		<script src="https://tether.corehoundsystem.com/Headerscript.js"></script>
 		
 		
+		
+		<script src="https://tether.corehoundsystem.com/Music.js"></script>
+		<script src="https://tether.corehoundsystem.com/User.js"></script>
+		<script src="https://tether.corehoundsystem.com/Library.js"></script>
 		<script src="https://tether.corehoundsystem.com/Channelscript.js"></script>
-<script src="https://tether.corehoundsystem.com/Library.js"></script>
-<link rel="stylesheet" href="https://tether.corehoundsystem.com/Tether.css">
+		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Tether.css">
+		
 		
 		<script src="https://apis.google.com/js/platform.js" async defer></script>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141646766-1"></script>
@@ -38,20 +42,17 @@
 		<meta name="copyright" content="Tether, LLC">
 		<meta name="web_author" content="Core Hound System, LLC">
 		<meta http-equiv="window-target" content="_top">
-		
+		<meta name="theme-color" content="#008080">
+		<link rel="icon" sizes="192x192" href="XXX">
 		<link href="https://fonts.googleapis.com/css?family=Economica&display=swap" rel="stylesheet">
 		
 	</head>
 	<body>
 		
-		<script id="libraryScripts">
+		<script>
 			rPMax=12;
 			testMode=1;
 			songURL="https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/songs/";
-			syncURL="https://docs.google.com/forms/d/e/1FAIpQLSe-bJWth2cKQ7-jo0vOHD_mSaIQIQfJN4aFcskKBfMaeH7zhw/formResponse?usp=pp_url&entry.762123824=";
-			userSyncs="1GDyPff8QkQynVWfOWZIFNli4Lz8NtScWPc1U5uIwOOM";
-			chanKey="1i9SfwLkDj40yOqOmRMAhe4FXI5fjjjyufx8Nz_IPKbg";
-			songArtistKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
 			
 			function cL(x) {
 				if(testMode>=1) {
@@ -62,68 +63,12 @@
 				}
 			}
 			
-			function nextFunction(z) {
-				cL("Got to the next function!");
-				if(z) {
-					cL("There is match!");
-				} else {
-					cL("No match, we need to prompt for a sync.");
-					//prompt for sync
-				}
-			}
-			
-			function buildChannelStart() {
+			function buildChannelStart(x) {
 				$('#tetherBody').append('<button id="ready">Ready?</button>');
 				$('#ready').click(function() {
-					startChannel(channels[0]);
+					startChannel(myChannels[x]);
 					$('button').css('background','red');					
 				});
-			}
-			
-			function getObjects(x,y,z,f) {
-				window[z]=[];
-				$(function() {
-					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
-					function (data) {
-						$.each(data.feed.entry, function(i,entry) {
-							window[z].push(JSON.parse(entry.gsx$item.$t.replace(/'/g, '"')));
-						});
-						if(f) {
-							window[f](window[z]);
-						}
-					});
-				});
-			};
-			
-			function getString(x,y,z,c,f) {
-				window[z]="";
-				$(function() {
-					$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
-					function (data) {
-						$.each(data.feed.entry, function(i,entry) {
-							if(entry.gsx$data.$t.indexOf(c)!=-1) {
-								window[z]=entry.gsx$data.$t;
-							}
-						});
-						if(f) {
-							window[f](window[z]);
-						}
-					});
-					
-				});
-			};
-			
-			function loadUser(x) {
-				getString(userSyncs,"1","syncObject",x+"|","nextFunction")
-				getObjects(songArtistKey,"1","songs","nextFunction");
-				getObjects(chanKey,"1","channels","buildChannelStart");
-				
-				//check if gID is sync'd
-					//invite user to sync their SL avatar(s) - syncing allows avatars to use Tether in-world [and ad-free (if ads are ever implemented)?]
-						//upon syncing account, check if they are an artist [or should the sync be used to determine that?] - allow upgrade to artist account at any time
-							//if artist, load existing song data - requests by Tether and Tether users, approved songs with number of likes, submitted songs awaiting approval
-				//getSongs
-				//getUserChannels
 			}
 		</script>
 		
@@ -137,17 +82,19 @@
 			<a href="#" onclick="signOut();">Sign out</a>
 			<script>
 				$(function() {
-					loadUser("110422615478236421761");
+					if(window.location.href.indexOf("Downloads")!==-1) {
+						loadUser("110422615478236421761","Joshua","Hess","info@corehoundsystem.com");
+					}
 				});
 				
 				function onSignIn(googleUser) {
 					var profile = googleUser.getBasicProfile();
-					cL('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+					cL('ID: ' + profile.getId());
 					cL('Name: ' + profile.getName());
 					cL('Image URL: ' + profile.getImageUrl());
-					cL('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-					cL(profile);
-					loadUser(profile.getId());
+					cL('Email: ' + profile.getEmail());
+					//loadUser(profile);
+					//loadUser(profile.getId(),profile.getGivenName(),profile.getFamilyName(),profile.getEmail());
 				}
 				
 				function signOut() {
