@@ -73,20 +73,20 @@ function getProfile(s,p,a,x,y) {
 
 function checkSync(g,q,x,y) {
 	var syncChecker=0;
+	var sync=[];
 	$(function() {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
 				if(entry.gsx$data.$t.indexOf(g)===0) {
 					sync=entry.gsx$data.$t.split("|");
-					cL(q);
-					window[q](sync[1],"artistProfile","artists",syncdProfile,"1");
 				}
 			});
 			if(syncChecker==0) {
 				cL(syncChecker);
 				//prompt user to sync
 			}
+			window[q](sync[1],"artistProfile","artists",syncdProfile,"1");
 			getChannels(g,"myChannels",channelKey,"1");
 		});
 	});
