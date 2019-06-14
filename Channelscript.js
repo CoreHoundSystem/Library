@@ -1,33 +1,42 @@
 function like(x) {
-	
 	if($(x).hasClass('liked')) {
-		sendEventToAnalytics("channelFilter","like",currentSong);
 		newLikes=[];
-		oldLikes=thisChannel.liked.split("|");
+		oldLikes=thisChannel.likes.split("|");
 		for(var i=0;i<oldLikes.length;i++) {
-			if(oldLikes[i]!=currentSong.id) {
+			if(oldLikes[i]!=currentSong.songID) {
 				newLikes.push(oldLikes[i]);
 			}
 		}
-		thisChannel.liked=newLikes.join("|");
+		thisChannel.likes=newLikes.join("|");
 	} else {
-		thisChannel.liked=thisChannel.liked + "|" + currentSong.id;
+		if(rLiked.indexOf(currentSong.songID)==-1) {
+			rLiked.push(currentSong.songID);
+			sendEventToAnalytics("channelFilter","like",currentSong.songID,songOpinion,currentSong.songID+"+");
+		}
+		thisChannel.likes=thisChannel.likes + "|" + currentSong.songID;
 	}
 	$(x).toggleClass('liked');
 	updateChannel(thisChannel);
-	//updateData(channelForm,thisChannel);		//??	formURL,object
+	cL(rLiked);
 }
 
 function dislike(x) {
 	if($(x).hasClass('disliked')) {
 		
 	} else {
-		sendEventToAnalytics("channelFilter","dislike",currentSong);
-		thisChannel.liked=thisChannel.liked + "|" + currentSong.id;
+		if($(x).next().hasClass('liked')) {
+			like($(x).next());
+		}
+		if(rDisliked.indexOf(currentSong.songID)==-1) {
+			rDisliked.push(currentSong.songID);
+			sendEventToAnalytics("channelFilter","dislike",currentSong.songID,songOpinion,currentSong.songID+"-");
+		}
+		thisChannel.dislikes=thisChannel.dislikes + "|" + currentSong.songID;
 		//updateData(channelForm,thisChannel);	//??
 		playSong();
 	}
 	updateChannel(thisChannel);
+	cL(rDisliked);
 }
 
 //fix this function?
@@ -65,7 +74,7 @@ function buildActiveSong(x) {
 	$('#activeChannel').append('<div class="activeSongDetails"><span>' + x.title + '</span><span>' + getArtist(x.artist).name + '</span><span>' + x.albumEvent + '</span></div><div class="activeSongActions"></div>');
 	$('#activeChannel').append('<div id="trackControls"><div class="upperRow"></div><div class="lowerRow"></div></div>');
 	$('.upperRow').append('<div><span></span><div id="trackTime"></div><span></span></div>');
-	$('.lowerRow').append('<div id="dislike" class="trackControls dislike"><div><div></div></div></div><div id="like" class="trackControls like"><div><div></div></div><div><div></div></div><div></div></div><div id="pause" class="trackControls pause"><div><div></div></div><div><div></div></div></div><div id="nextTrack" class="trackControls nextTrack"><div><div></div></div><div><div></div></div><div><div></div></div></div>');
+	$('.lowerRow').append('<div id="dislike" class="trackControls dislike"><div><div></div></div></div><div id="like" class="trackControls like' + isLiked(x) + '"><div><div></div></div><div><div></div></div><div></div></div><div id="pause" class="trackControls pause"><div><div></div></div><div><div></div></div></div><div id="nextTrack" class="trackControls nextTrack"><div><div></div></div><div><div></div></div><div><div></div></div></div>');
 	
 	
 	$('.backOrMin').click(function() {
@@ -98,12 +107,14 @@ function buildActiveSong(x) {
 
 function playSong() {
 	songNumber=Math.round(Math.random()*cSongs.length);
-	if(rPlayed.indexOf(cSongs[songNumber])!=-1||(songNumber<0||songNumber>=cSongs.length)) {
+	cL(rDisliked);
+	cL(rPlayed);
+	if(songNumber==cSongs.length||rPlayed.indexOf(cSongs[songNumber].songID)!=-1||(songNumber<0||songNumber>=cSongs.length)||rDisliked.indexOf(cSongs[songNumber].songID)!=-1) {
 		playSong();
 	} else {
 		commercialTicker++;
 		window["currentSong"]=cSongs[songNumber];
-		addRecentPlay(currentSong);
+		addRecentPlay(currentSong.songID);
 		songMedia=getArtist(currentSong.artist).image;
 		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
 			if ('mediaSession' in navigator) {
@@ -139,6 +150,8 @@ function startChannel(c) {
 	genres=[];
 	window["cSongs"]=[];
 	window["rPlayed"]=[];
+	window["rDisliked"]=dislikes;
+	window["rLiked"]=likes;
 	window["commercialTicker"]=0;
 	for(var i=0;i<likes.length;i++) {
 		sIndex=0;
@@ -159,7 +172,7 @@ function startChannel(c) {
 	if(rPMax>=cSongs.length) {
 		rPMax=cSongs.length-2;
 	}
-	sendEventToAnalytics("channelStarted","rPMax",rPMax);
+	sendEventToAnalytics("channelStart","rPMax",rPMax);
 	sendEventToAnalytics("channelStart","genres",genres,popGenres,genres);
 	playSong();
 }
