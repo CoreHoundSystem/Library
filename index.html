@@ -40,10 +40,8 @@
 		<meta name="theme-color" content="#008080">
 		<link rel="icon" sizes="192x192" href="XXX">
 		<link href="https://fonts.googleapis.com/css?family=Economica&display=swap" rel="stylesheet">
-		
 	</head>
 	<body>
-		
 		<script>
 			rPMax=12;
 			testMode=1;
@@ -76,9 +74,9 @@
 			<div class="g-signin2" data-onsuccess="onSignIn"></div>
 			<a href="#" onclick="signOut();">Sign out</a>
 			<script>
-				$(function() {
+				$(function() {			///temp
 					if(window.location.href.indexOf("Downloads")!==-1) {
-						loadUser(JSON.parse(`{"gID":"110422615478236421761","firstName":"Joshua","lastName":"Hess","gMail":"info@corehoundsystem.com"}`));
+						loadUser(JSON.parse('{"gID":"110422615478236421761","firstName":"Joshua","lastName":"Hess","gMail":"info@corehoundsystem.com"}'));
 					}
 				});
 				
@@ -91,8 +89,8 @@
 					//loadUser(prof);
 					//loadUser(prof.getId(),prof.getGivenName(),prof.getFamilyName(),prof.getEmail());
 					sendEventToAnalytics("login","google",prof.getId());
-					loadUser(JSON.parse(`{"gID":"` + prof.getId() + `","firstName":"` + prof.getGivenName() + `","lastName":"` + prof.getFamilyName() + `","gMail":"` + prof.getEmail() + `"}`));
-					cL(JSON.parse(`{"gID":"` + prof.getId() + `","firstName":"` + prof.getGivenName() + `","lastName":"` + prof.getFamilyName() + `","gMail":"` + prof.getEmail() + `"}`));
+					loadUser(JSON.parse('{"gID":"' + prof.getId() + '","firstName":"' + prof.getGivenName() + '","lastName":"' + prof.getFamilyName() + '","gMail":"' + prof.getEmail() + '"}'));
+					cL(JSON.parse('{"gID":"' + prof.getId() + '","firstName":"' + prof.getGivenName() + '","lastName":"' + prof.getFamilyName() + '","gMail":"' + prof.getEmail() + '"}'));
 				}
 				
 				function signOut() {
@@ -108,3 +106,4 @@
 		<div id="tetherFooter"></div>
 	</body>
 </html>
+
