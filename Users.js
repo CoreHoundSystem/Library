@@ -79,7 +79,11 @@ function getProfile(a,x,y) {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
-				thisEntry=JSON.parse(`{"uuid":"` + entry.gsx$data.$t + `","name":"` + entry.gsx$name.$t + `","image":"` + entry.gsx$image.$t + `"}`);
+				thisImage=entry.gsx$image.$t;
+				//thisImage=thisImage.replace("https://secondlife.com/app/image/","");
+				//thisImage=thisImage.replace("/1","");
+				//thisImage="https://texture-service.agni.lindenlab.com/" + thisImage + "/256x192.jpg/";
+				thisEntry=JSON.parse('{"uuid":"' + entry.gsx$data.$t + '","name":"' + entry.gsx$name.$t + '","image":"' + thisImage + '"}');
 				window[a].push(thisEntry);
 			});
 			dataPulls("getProfile");
@@ -121,7 +125,8 @@ function checkRegistry(g,m,f,l,x,y) {
 				}
 			});
 			if(regChecker==0) {
-				$('body').append('<iframe style="display:none" src="' + registerURL + g + '">');
+				sendEventToAnalytics("user","register",g,registerURL,g);
+				
 				//setTimeout(function() {
 					//checkRegistry(g,m,f,l,q,x,y);
 				//},2000);
@@ -135,7 +140,7 @@ function checkRegistry(g,m,f,l,x,y) {
 
 function loadUser(p) {
 	console.log(p);
-	dP=JSON.parse(`{"checkRegistry":0,"checkSync":0,"getProfile":0,"getChannels":0,"getSongs":0}`)
+	dP=JSON.parse('{"checkRegistry":0,"checkSync":0,"getProfile":0,"getChannels":0,"getSongs":0}')
 	window["profile"]=p;
 	cL([profile.gID,profile.gMail,profile.firstName,profile.lastName].join("|"));
 	checkRegistry(p.gID,p.gMail,p.firstName,p.lastName,userRegistry,"1");
