@@ -1,24 +1,29 @@
 popSong="";
 popGenres="";
+songOpinion="";
+
+
 
 $(function() {
 	console.log("Library.js Loaded");
 	if(window.navigator.userAgent.indexOf("MSIE ") > 0 || window.navigator.userAgent.indexOf("Trident") > 0) {
-		cL("IE");
+		alert("Due to growing security concerns with Internet Explorer, this site will nolonger load on this browser.");
+		console.log("IE");
 		rStyle = $('#rootStyles').text();
 		rStyle = rStyle.substring(rStyle.indexOf('{')+1,rStyle.indexOf('}'));
 		rArray = rStyle.split(';');
 		rObject = {};
-		for(var i=0;i<rArray.length;i++) {
+		for(var i=0;i<rArray.length-1;i++) {
 			if(rArray[i].length > 3) {
 				thisPair = [];
 				thisPair = rArray[i].split(':');
-				rObject[thisPair[0].trim()] = thisPair[1].trim();
+				thisPair[0] = thisPair[0].replace(/[\s\n]/g,"");
+				thisPair[1].replace(/[\s\n]/g,"").substring(1,-2);
+				rObject[thisPair[0]] = thisPair[1];
 			}
 		}
-		cL(rObject);
 		$('style').each(function() {
-			if($(this).attr('id').length > 0 && $(this).text().indexOf('var(--') != -1) {
+			if($(this).text().indexOf('var(--') != -1) {
 				theseStyles = $(this);
 				$.each(rObject, function(key,value) {
 					k = 'var(' + key + ')';
@@ -28,7 +33,7 @@ $(function() {
 			}
 		})
 	} else {
-		cL(window.navigator.userAgent);
+		console.log(window.navigator.userAgent);
 	}
 })
 
@@ -64,15 +69,34 @@ function getArtist(x) {
 }
 
 function sendEventToAnalytics(x,y,z,f,d) {		//Sends event to Google Analytics - requires analytics
+	console.log(x,y,z);
+	if(d) {
+		console.log(f,d);
+		sumbitData(f,d);
+	}
 	gtag('event',y, {
 		'event_category': x,
 		'event_label': z
 	});
-	if(f&&d) {
-		//send d to f
-	}
+}
+
+function sumbitData(f,d) {
+	$('body').append('<iframe style="display:none" src="' + f + d + '">');
 }
 
 function updateChannel(x) {
 	console.log(x);
+	for(var i=0;i<myChannels.length;i++) {
+		if(myChannels[i].chanID==x.chanID) {
+			console.log(myChannels[i]);
+		}
+	}
+}
+
+function isLiked(x) {
+	if(thisChannel.likes.indexOf(x.songID)!=-1) {
+		return " liked";
+	} else {
+		return "";
+	}
 }
