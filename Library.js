@@ -1,7 +1,6 @@
-popSong="";
-popGenres="";
-songOpinion="";
-
+popSong="https://docs.google.com/forms/d/e/1FAIpQLScBJbUX_ddqJexIpcHXAAB1dNfytH46KCp-jazfGl8kktaIlA/formResponse?usp=pp_url&entry.762123824=";
+popGenres="https://docs.google.com/forms/d/e/1FAIpQLSf5qoAw2zz7LAs6nXOfKaZB2fMqMzi6k8Kmx4s57opwP0JW1Q/formResponse?usp=pp_url&entry.762123824=";
+songOpinion="https://docs.google.com/forms/d/e/1FAIpQLSeS_aRew-vd3OgJ-SQPHkPhh-M_oliItmEgbRvYISvaVjxs6w/formResponse?usp=pp_url&entry.762123824=";
 
 
 $(function() {
@@ -72,7 +71,7 @@ function sendEventToAnalytics(x,y,z,f,d) {		//Sends event to Google Analytics - 
 	console.log(x,y,z);
 	if(d) {
 		console.log(f,d);
-		sumbitData(f,d);
+		submitData(f,d);
 	}
 	gtag('event',y, {
 		'event_category': x,
@@ -80,7 +79,7 @@ function sendEventToAnalytics(x,y,z,f,d) {		//Sends event to Google Analytics - 
 	});
 }
 
-function sumbitData(f,d) {
+function submitData(f,d) {
 	$('body').append('<iframe style="display:none" src="' + f + d + '">');
 }
 
@@ -91,6 +90,7 @@ function updateChannel(x) {
 			console.log(myChannels[i]);
 		}
 	}
+	submitData(channels,encodeURIComponent(JSON.stringify(x)));
 }
 
 function isLiked(x) {
@@ -98,5 +98,58 @@ function isLiked(x) {
 		return " liked";
 	} else {
 		return "";
+	}
+}
+
+function buildArtistSearch() {
+	$('#artistSearch').focus(function() {
+		$('#artistList').addClass('show');
+	})
+	$('#artistSearch').blur(function() {
+		setTimeout(function() {
+			$('#artistList').removeClass('show');
+		}, 200);
+	})
+	$('#artistSearch').on('input',function() {
+		artistName=$(this).val();
+		$('#artistList div.artistOption').each(function() {
+			$(this).removeClass('hide');
+			if($(this).text().toLowerCase().indexOf(artistName.toLowerCase())==-1) {
+				$(this).addClass('hide');
+			}
+		});
+		if(($('.artistOption').length-$('.artistOption.hide').length)==1) {
+			$('#createChannel').addClass('available');
+		} else {
+			$('#createChannel').removeClass('available');
+		}
+	});
+	for(var i=0;i<artists.length;i++) {
+		$('#artistList').append('<div class="artistOption" name="' + artists[i].uuid + '">' + artists[i].name + '</div>');
+	}
+	$('.artistOption').click(function() {
+		$('#artistSearch').val($(this).text());
+		$('#createChannel').addClass('available');
+		startCreateChannel($(this).attr('name'));
+	})
+	$('#createChannel').click(function() {
+		if($('#createChannel').hasClass('available')) {
+			$('.artistOption').each(function() {
+				if(!$(this).hasClass('hide')) {
+					startCreateChannel($(this).attr('name'));
+				}
+			});
+		}
+	})
+	$('#joinTether').click(function() {
+		$('.g-signin2').click();
+	})
+}
+
+function startCreateChannel(x) {
+	if($('.g-signin2')=="Signed in"&&profile.gID) {
+		console.log("Huh?");
+	} else {
+		$('.g-signin2').click();
 	}
 }
