@@ -109,6 +109,8 @@ function playSong() {
 	songNumber=Math.round(Math.random()*cSongs.length);
 	cL(rDisliked);
 	cL(rPlayed);
+	console.log(songNumber)
+	console.log(cSongs[songNumber]);
 	if(songNumber==cSongs.length||rPlayed.indexOf(cSongs[songNumber].songID)!=-1||(songNumber<0||songNumber>=cSongs.length)||rDisliked.indexOf(cSongs[songNumber].songID)!=-1) {
 		playSong();
 	} else {
@@ -137,7 +139,7 @@ function playSong() {
 			}
 		}
 		buildActiveSong(currentSong);
-		sendEventToAnalytics("playSong",profile.gID,currentSong,popSong,currentSong);
+		sendEventToAnalytics("playSong",profile.gID,currentSong,popSong,currentSong.songID);
 	}
 }
 
@@ -165,7 +167,9 @@ function startChannel(c) {
 		}
 	}
 	for(var i=0;i<songs.length;i++) {
-		if((songs[i].artist==artist||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1&&songs[i].state=="available") {
+		console.log(songs[i].artist);
+		console.log(artist);
+		if((songs[i].artist==artist||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1&&(songs[i].state=="available"||songs[i].state=="requested")) {
 			cSongs.push(songs[i]);
 		}
 	}
@@ -173,6 +177,8 @@ function startChannel(c) {
 		rPMax=cSongs.length-2;
 	}
 	sendEventToAnalytics("channelStart","rPMax",rPMax);
-	sendEventToAnalytics("channelStart","genres",genres,popGenres,genres);
-	playSong();
+	sendEventToAnalytics("channelStart","genres",genres,popGenres,genres.join("|"));
+	if(cSongs.length>0) {
+		playSong();
+	}
 }
