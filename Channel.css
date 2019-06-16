@@ -1,0 +1,405 @@
+#activeChannel {
+	position: fixed;
+	width: 100vw;
+	background-color: var(--pColor);
+	bottom: 0px;
+	z-index: 1000;
+	box-shadow: inset 40vw 30vh 50vw var(--gColor), inset -30vw -30vh 50vw var(--bColor);
+}
+
+#activeChannel.minimize {
+	transition: .1s;
+}
+
+.backOrMin, .activeChannelName, .activeSongDetails, .upperRow, .lowerRow{
+	max-height: 70px;
+	transition: .5s;
+}
+
+.minimize .backOrMin, .minimize .activeChannelName, .minimize .lowerRow, .minimize .activeSongActions {
+	//display: none;
+	max-height: 0px !important;
+	overflow: hidden;
+}
+
+.minimize .activeArtistDetails {
+	position: absolute;
+    top: var(--pPad);
+    right: var(--pPad);
+    width: var(--fSize);
+    height: var(--fSize);
+	overflow: hidden;
+}
+
+.minimize .activeArtistDetails .activeArtistImage {
+    width: var(--fSize);
+    height: var(--fSize);
+}
+
+.minimize .activeSongDetails {
+	padding-top: var(--pPad);
+	width: calc(100% - var(--pPad) * 4 - var(--fSize));
+	height: var(--fSize);
+}
+
+.minimize .activeSongDetails span {
+	font-size: 14px !important;
+}
+
+.backOrMin {
+	width: var(--hSize);
+	height: var(--hSize);
+	display: inline-block;
+	cursor: pointer;
+}
+
+.backOrMin div {
+	border: 2px solid var(--tColor);
+	width: calc(var(--hSize) - calc(var(--pPad) * 2));
+	margin: calc() auto;
+	position: relative;
+	//border-radius: 2px;
+	background-color: var(--tColor);
+	//box-shadow: 0px 0px 5px var(--bColor);
+}
+
+.backOrMin>div {
+	margin: calc(calc(var(--hSize) / 2) - 2px) auto
+}
+
+
+.backOrMin>div>div {
+	position: absolute;
+}
+
+.backOrMin.arrow>div>div {
+	transform-origin: left;
+	width: calc(calc(var(--hSize) - calc(var(--pPad) * 2)) / 2);
+}
+
+.backOrMin>div>div:nth-child(1) {
+	top: -11px;
+	left: -2px;
+}
+
+.backOrMin.arrow>div>div:nth-child(1){
+	transform: rotate(-45deg);
+	//border-top-left-radius: 50%;
+	top: -1px !important;
+}
+
+.backOrMin>div>div:nth-child(2) {
+	top: 7px;
+	left: -2px;
+}
+
+.backOrMin.arrow>div>div:nth-child(2){
+	transform: rotate(45deg);
+	//border-bottom-left-radius: 50%;
+	top: -3px !important;
+}
+
+.activeChannelName {
+	height: var(--hSize);
+	width: calc(100vw - var(--hSize) * 2);
+	display: inline-block;
+	vertical-align: top;
+	line-height: var(--hSize);
+	font-size: 30px;
+	color: var(--tColor);
+	text-shadow: 0px 0px 5px var(--bColor);
+	text-align: center;
+}
+
+.activeArtistDetails {
+	height: calc(100vh - 69px - var(--hSize) * 2 - var(--fSize) - var(--pPad) * 2);
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.activeArtistImage {
+	width: calc(100vw - calc(var(--pPad) * 2));
+	height: calc(100vw - calc(var(--pPad) * 2));
+	max-height: calc(100vh - 69px - var(--hSize) * 2 - var(--fSize) - var(--pPad) * 2);
+	margin: auto;
+	background-size: cover;
+	background-position: center center;
+}
+
+.activeSongDetails {
+	width: calc(100% - var(--pPad) * 4 - var(--hSize));
+	margin: 0px 0px 0px var(--pPad);
+	padding: 0px var(--pPad);
+	display: inline-block;
+}
+
+.activeSongDetails span {
+	width: 100%;
+	display: block;
+	font-size: 20px;
+	color: var(--tColor);
+}
+
+.activeSongDetails span:nth-child(1) {
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.activeSongDetails span:nth-child(3) {
+	font-style: italic;
+}
+
+.activeSongActions {
+	width: var(--hSize);
+	height: var(--hSize);
+	display: inline-block;
+	vertical-align: top;
+}
+
+#activeSong {
+	color: var(--tColor);
+}
+
+.upperRow>div {
+	width: calc(100% - var(--pPad) * 2);
+	margin: auto;
+}
+
+.upperRow>div>span {
+	font-size: 14px;
+	display: inline-block;
+	width: var(--hSize);
+	height: var(--hSize);
+	line-height: var(--hSize);
+	color: var(--tColor);
+	vertical-align: top;
+	text-align: center;
+}
+
+.upperRow>div>div {
+	width: calc(100% - var(--hSize) * 2);
+	height: 2px;
+	background-color: var(--bColor);
+	margin: calc(var(--hSize) / 2 - 1px) 0px;
+	display: inline-block;
+}
+
+.lowerRow {
+	width: fit-content;
+	margin: auto;
+}
+
+.trackControls {
+	height: var(--fSize);
+	width: var(--fSize);
+	display: inline-block;
+	margin: var(--pPad) calc(var(--pPad) * 1.4);
+	position: relative;
+	cursor: pointer;
+}
+
+.trackControls div {
+	border: 4px solid var(--tColor);
+	background-color: var(--tColor);
+	position: absolute;
+}
+
+.trackControls.dislike>div {
+	width: calc(var(--fSize) - var(--pPad) * 2);
+	top: 21px;
+	left: 6px;
+}
+
+.trackControls.liked>div {
+	border: 4px solid var(--hColor);
+}
+
+.trackControls.dislike>div>div {
+	top: -2px;
+	width: calc(var(--fSize) - var(--pPad) * 2 + 4px);
+	left: -2px;
+	background-color: var(--pColor);
+	height: 4px;
+	border: 0px solid transparent;
+}
+
+.trackControls.like>div:nth-child(1) {
+	width: calc(var(--fSize) - var(--pPad) * 2);
+	top: 21px;
+	left: 6px;
+}
+
+.trackControls.like>div:nth-child(1)>div {
+	top: -2px;
+	width: calc(var(--fSize) - var(--pPad) * 2 + 4px);
+	left: -2px;
+	background-color: var(--pColor);
+	height: 4px;
+	border: 0px solid transparent;
+}
+
+.trackControls.like>div:nth-child(2) {
+    height: calc(var(--fSize) - var(--pPad) * 2);
+    left: 21px;
+    top: 6px;
+}
+
+.trackControls.like>div:nth-child(2)>div {
+    top: -2px;
+	height: calc(var(--fSize) - var(--pPad) * 2 + 4px);
+	left: -2px;
+	background-color: var(--pColor);
+	width: 4px;
+	border: 0px solid transparent;
+}
+
+.trackControls.like>div:nth-child(3) {
+	height: 4px;
+	width: 8px;
+	background-color: var(--pColor);
+	left: 21px;
+	top: 23px;
+	border: 0px solid transparent;
+}
+
+.trackControls.like.liked>div:nth-child(1)>div {
+	background-color: var(--hColor);
+}
+
+.trackControls.like.liked>div:nth-child(2)>div {
+	background-color: var(--hColor);
+}
+
+.trackControls.like.liked>div:nth-child(3) {
+	background-color: var(--hColor);
+}
+
+.trackControls.pause>div:nth-child(1) {
+	height: calc(var(--fSize) - var(--pPad) * 2);
+	top: 6px;
+	left: calc(var(--fSize) / 3 - 4px);
+}
+
+.trackControls.pause>div:nth-child(1)>div {
+	top: -2px;
+	height: calc(var(--fSize) - var(--pPad) * 2 + 4px);
+	left: -2px;
+	background-color: var(--pColor);
+	width: 4px;
+	border: 0px solid transparent;
+}
+
+.trackControls.pause>div:nth-child(2) {
+	height: calc(var(--fSize) - var(--pPad) * 2);
+	top: 6px;
+	right: calc(var(--fSize) / 3 - 4px);
+}
+
+.trackControls.pause>div:nth-child(2)>div {
+	top: -2px;
+	height: calc(var(--fSize) - var(--pPad) * 2 + 4px);
+	left: -2px;
+	background-color: var(--pColor);
+	width: 4px;
+	border: 0px solid transparent;
+}
+
+.trackControls.play>div:nth-child(1) {
+	background-color: transparent;
+	border-right: 0px solid transparent;
+	border-top: 19px solid transparent;
+	border-bottom: 19px solid transparent;
+	border-left: 30px solid var(--tColor);
+	top: 6px;
+	left: 10px;
+}
+
+.trackControls.play>div:nth-child(1)>div {
+	background-color: transparent;
+	border-right: 0px solid transparent;
+	border-top: 13px solid transparent;
+	border-bottom: 13px solid transparent;
+	border-left: 20px solid var(--pColor);
+	top: -13px;
+	left: -27px;
+
+}
+
+.trackControls.play>div:nth-child(2) {
+	display: none;
+}
+
+.trackControls.nextTrack>div:nth-child(1) {
+	background-color: transparent;
+	border-right: 0px solid transparent;
+	border-top: 19px solid transparent;
+	border-bottom: 19px solid transparent;
+	border-left: 19px solid white;
+	top: 6px;
+	left: 3px;
+}
+
+.trackControls.nextTrack>div:nth-child(1)>div {
+	background-color: transparent;
+	border-right: 0px solid transparent;
+	border-top: 13px solid transparent;
+	border-bottom: 13px solid transparent;
+	border-left: 13px solid var(--pColor);
+	top: -13px;
+	left: -17px;
+}
+
+.trackControls.nextTrack>div:nth-child(2) {
+	background-color: transparent;
+	border-right: 0px solid transparent;
+	border-top: 19px solid transparent;
+	border-bottom: 19px solid transparent;
+	border-left: 19px solid white;
+	top: 6px;
+	left: 21px;
+}
+
+.trackControls.nextTrack>div:nth-child(2)>div {
+	background-color: transparent;
+	border-right: 0px solid transparent;
+	border-top: 13px solid transparent;
+	border-bottom: 13px solid transparent;
+	border-left: 13px solid var(--pColor);
+	top: -13px;
+	left: -17px;
+}
+
+.trackControls.nextTrack>div:nth-child(3) {
+	top: 6px;
+	height: calc(var(--fSize) - var(--pPad) * 2);
+	right: 3px;
+}
+
+.trackControls.nextTrack>div:nth-child(3)>div {
+	top: -2px;
+	height: calc(var(--fSize) - var(--pPad) * 2 + 4px);
+	left: -2px;
+	background-color: var(--pColor);
+	width: 4px;
+	border: 0px solid transparent;
+}
+
+#dislike {
+	
+}
+
+#like {
+	
+}
+
+#pause.pause {
+	
+}
+
+#pause.play {
+	
+}
+
+#nextTrack {
+	
+}
