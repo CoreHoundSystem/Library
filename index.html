@@ -9,6 +9,10 @@
 		<script src="https://tether.corehoundsystem.com/Library.js"></script>
 		<script src="https://tether.corehoundsystem.com/Channelscript.js"></script>
 		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Tether.css">
+		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Channel.css">
+		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Landing.css">
+		
+		
 		
 		<script src="https://apis.google.com/js/platform.js" defer></script>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141646766-1"></script>
@@ -39,7 +43,7 @@
 		<meta http-equiv="window-target" content="_top">
 		<meta name="theme-color" content="#008080">
 		<link rel="icon" sizes="192x192" href="XXX">
-		<link href="https://fonts.googleapis.com/css?family=Economica&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Economica|Unica+One&display=swap" rel="stylesheet">
 	</head>
 	<body>
 		<script>
@@ -69,10 +73,24 @@
 		
 		<div id="tetherHeader"></div>
 		<div id="tetherBody">
-			<div id="activeChannel"></div>
 			
-			<div class="g-signin2" data-onsuccess="onSignIn"></div>
-			<a href="#" onclick="signOut();">Sign out</a>
+			<div id="tetherLanding"></div>
+			<div id="landingModal">
+				<div class="title"><span class="highlight">t</span>e<span class="highlight">t</span>her</div>
+				<div class="subTitle">Second Life Music</div>
+				<div class="artistBox">
+					<input type="text" id="artistSearch" placeholder="Find A Musician">
+					<div id="artistList"></div>
+				</div>
+				<button id="createChannel">Create A Channel</button>
+				<button id="joinTether">Join Tether</button>
+			</div>
+			
+			<div id="activeChannel"></div>
+			<div id="loginModal">
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+			</div>
+			<a href="#" onclick="signOut();" style="display:none">Sign out</a>
 			<script>
 				$(function() {			///temp
 					if(window.location.href.indexOf("Downloads")!==-1) {
@@ -106,4 +124,3 @@
 		<div id="tetherFooter"></div>
 	</body>
 </html>
-
