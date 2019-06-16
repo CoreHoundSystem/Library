@@ -1,0 +1,130 @@
+#loginModal {
+	display: none;
+}
+
+#tetherLanding {
+	width: 100vw;
+	height: calc(100vh - 0px);
+	font-size: 50px;
+	display: inline-block;
+	background-image: url();
+	background-size: cover;
+	background-position: center center;
+	-webkit-filter: blur(5px);
+	filter: blur(5px);
+	background-image: url(http://3.bp.blogspot.com/-YI26hOcqqqA/VZBDCl9TsiI/AAAAAAAAHbc/1MV72TiBDoE/s1600/zakgig_062715_004.jpg);
+}
+
+#landingModal {
+	max-width: 300px;
+	width: 60vw;
+	margin: auto;
+	margin-top: 20vh;
+	font-size: 50px;
+	position: absolute;
+	top: 0px;
+	left: calc(50vw - 150px);
+}
+
+span.highlight {
+	color: var(--gColor);
+	text-shadow: 0px 0px 1px black, 0px 0px 5px rgba(255,255,255,0.2);
+}
+
+.title {
+	font-family: var(--tFont);
+	width: 60vw;
+	max-width: 300px;
+	margin: auto;
+	text-align: center;
+	font-size: 150%;
+	text-shadow: 0px 0px 1px var(--gColor), 0px 0px 5px rgba(255,255,255,0.2);
+}
+
+.subTitle {
+	font-family: var(--nFont);
+	width: 60vw;
+	max-width: 300px;
+	margin: auto;
+	text-align: center;
+	font-size: 45%;
+	letter-spacing: .2em;
+	margin-top: -15px;
+	text-shadow: 0px 0px 1px rgba(255,255,255,0.2)
+}
+
+.artistBox {
+	position: relative;
+}
+
+#artistSearch {
+	width: 100%;
+	border: none;
+	padding: 8px 5px;
+	font-size: 30%;
+	outline: none;
+	margin: 3px auto;
+	height: 37px;
+}
+
+#artistList {
+	position: absolute;
+	top: 40px;
+	width: 100%;
+	overflow: hidden;
+	max-height: 0px;
+	background-color: var(--fColor);
+	z-index: 10;
+}
+
+#artistList.show {
+	max-height: 160px !important;
+}
+
+.focus #artistList {
+	
+}
+
+.artistOption {
+	line-height: 40px;
+	padding: 0px 5px;
+	font-size: 40%;
+	height: 40px;
+	overflow: hidden;
+}
+
+.artistOption.hide {
+	display: none;
+}
+
+button {
+	width: 100%;
+	border: none;
+	padding: 8px 0px;
+	font-size: 40%;
+	font-family: var(--nFont);
+	color: var(--tColor);
+	text-shadow: 0px 0px 5px black, 0px 0px 10px var(--gColor);
+	letter-spacing: .05em;
+	outline: none;
+	margin: 3px 0px;
+}
+
+#createChannel {
+	background-image: linear-gradient(to bottom,var(--hColor),var(--dColor));
+	filter: grayscale(100%);
+}
+
+#createChannel.available {
+	filter: none;
+}
+
+#joinTether {
+	background-image: linear-gradient(to bottom,var(--gColor),var(--pColor));
+}
+
+@media only screen and (max-width: 500px) {
+	#landingModal {
+		left: 20vw;
+	}
+}
