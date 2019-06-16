@@ -147,7 +147,6 @@ function checkRegistry(g,m,f,l,x,y) {
 
 function loadUser(p) {
 	console.log(p);
-	dP=JSON.parse('{"checkRegistry":0,"checkSync":0,"getProfile":0,"getChannels":0,"getSongs":0}')
 	window["profile"]=p;
 	cL([profile.gID,profile.gMail,profile.firstName,profile.lastName].join("|"));
 	checkRegistry(p.gID,p.gMail,p.firstName,p.lastName,userRegistry,"1");
@@ -159,5 +158,6 @@ function loadUser(p) {
 }
 
 $(function() {
+	dP=JSON.parse('{"checkRegistry":0,"checkSync":0,"getProfile":0,"getChannels":0,"getSongs":0}');
 	getSongs("songs",songKey,"1");
 })
