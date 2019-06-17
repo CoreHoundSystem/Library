@@ -142,7 +142,7 @@ function buildArtistSearch() {
 		}
 	})
 	$('#joinTether').click(function() {
-		$('.g-signin2').click();
+		$('.abcRioButton').click();
 	})
 }
 
@@ -150,6 +150,6 @@ function startCreateChannel(x) {
 	if($('.g-signin2')=="Signed in"&&profile.gID) {
 		console.log("Huh?");
 	} else {
-		$('.g-signin2').click();
+		$('.abcRioButton').click();
 	}
 }
