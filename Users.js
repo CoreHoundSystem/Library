@@ -151,7 +151,6 @@ function loadUser(p) {
 	cL([profile.gID,profile.gMail,profile.firstName,profile.lastName].join("|"));
 	checkRegistry(p.gID,p.gMail,p.firstName,p.lastName,userRegistry,"1");
 	checkSync(p.gID,userSyncs,"1");
-	getProfile("artists",syncdProfile,"1");
 	getChannels(p.gID,"myChannels",channelKey,"1");	
 	//fix this...
 	buildChannelStart(0);
@@ -160,4 +159,5 @@ function loadUser(p) {
 $(function() {
 	dP=JSON.parse('{"checkRegistry":0,"checkSync":0,"getProfile":0,"getChannels":0,"getSongs":0}');
 	getSongs("songs",songKey,"1");
+	getProfile("artists",syncdProfile,"1");
 })
