@@ -145,7 +145,7 @@ function playSong() {
 
 function startChannel(c) {
 	window["thisChannel"]=c;
-	artist=c.artist;
+	cArtists=c.artist.split("|");
 	likes=[];
 	likes=c.likes.split("|");
 	dislikes=c.dislikes.split("|");
@@ -155,21 +155,18 @@ function startChannel(c) {
 	window["rDisliked"]=dislikes;
 	window["rLiked"]=likes;
 	window["commercialTicker"]=0;
-	for(var i=0;i<likes.length;i++) {
-		sIndex=0;
-		for(var j=0;j<songs.length;j++) {
-			if(songs[j].songID==likes[i]) {
-				sIndex==j;
+	for(var i=0;i<songs.length;i++) {
+		thisSong=0;
+		if(cArtists.indexOf(songs[i].artist)!=-1||likes.indexOf(songs[i].songID)!=-1) {
+			if(genres.indexOf(songs[i].genre)==-1) {
+				genres.push(songs[i].genre);
 			}
-		}
-		if(genres.indexOf(songs[sIndex].genre)==-1) {
-			genres.push(songs[sIndex].genre);
 		}
 	}
 	for(var i=0;i<songs.length;i++) {
 		console.log(songs[i].artist);
-		console.log(artist);
-		if((songs[i].artist==artist||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1&&(songs[i].state=="available"||songs[i].state=="requested")) {
+		console.log(cArtists);
+		if((cArtists.indexOf(songs[i].artist)!=-1||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1&&(songs[i].state=="available"||songs[i].state=="requested")) {
 			cSongs.push(songs[i]);
 		}
 	}
@@ -178,6 +175,8 @@ function startChannel(c) {
 	}
 	sendEventToAnalytics("channelStart","rPMax",rPMax);
 	sendEventToAnalytics("channelStart","genres",genres,popGenres,genres.join("|"));
+	console.log(genres);
+	console.log(cSongs.length);
 	if(cSongs.length>0) {
 		playSong();
 	}
