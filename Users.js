@@ -22,6 +22,7 @@ function dataPulls(x) {
 	if(dPSum==Object.keys(dP).length) {
 		console.log(x);
 		pSongs=[];
+		listChannels();
 		if(profile.uuid.length==36) {
 			for(var i=0;i<songs.length;i++) {
 				if(songs[i].artist==profile.uuid) {
@@ -61,7 +62,7 @@ function getChannels(g,c,x,y) {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
-				if(entry.gsx$data.$t.indexOf("'owner':'" + g)!=-1&&entry.gsx$data.$t.indexOf("chanID")!=-1) {
+				if((entry.gsx$data.$t.indexOf("'owner':'" + g)!=-1||entry.gsx$data.$t.indexOf('"owner":"' + g)!=-1)&&entry.gsx$data.$t.indexOf("chanID")!=-1) {
 					thisEntry=JSON.parse(entry.gsx$data.$t.replace(/'/g,"\""));
 					if(thisEntry.chanID.length>4) {
 						if(checkChannels.indexOf(thisEntry.chanID)==-1) {
@@ -151,13 +152,14 @@ function loadUser(p) {
 	cL([profile.gID,profile.gMail,profile.firstName,profile.lastName].join("|"));
 	checkRegistry(p.gID,p.gMail,p.firstName,p.lastName,userRegistry,"1");
 	checkSync(p.gID,userSyncs,"1");
+	
 	getChannels(p.gID,"myChannels",channelKey,"1");	
 	//fix this...
-	buildChannelStart(0);
+	
 }
 
 $(function() {
 	dP=JSON.parse('{"checkRegistry":0,"checkSync":0,"getProfile":0,"getChannels":0,"getSongs":0}');
-	getSongs("songs",songKey,"1");
 	getProfile("artists",syncdProfile,"1");
+	getSongs("songs",songKey,"1");
 })
