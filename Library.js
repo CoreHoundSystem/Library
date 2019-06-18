@@ -183,7 +183,7 @@ function buildArtistSearch() {
 }
 
 function startCreateChannel(x) {
-	console.log(typeof isSignedIn);
+	console.log(typeof isSignedIn());
 	if(typeof isSignedIn === "function") {
 		if(!profile.gID.isSignedIn()||profile=='undefined') {
 			$('.abcRioButton').click();
