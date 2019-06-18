@@ -2,7 +2,6 @@ popSong="https://docs.google.com/forms/d/e/1FAIpQLScBJbUX_ddqJexIpcHXAAB1dNfytH4
 popGenres="https://docs.google.com/forms/d/e/1FAIpQLSf5qoAw2zz7LAs6nXOfKaZB2fMqMzi6k8Kmx4s57opwP0JW1Q/formResponse?usp=pp_url&entry.762123824=";
 songOpinion="https://docs.google.com/forms/d/e/1FAIpQLSeS_aRew-vd3OgJ-SQPHkPhh-M_oliItmEgbRvYISvaVjxs6w/formResponse?usp=pp_url&entry.762123824=";
 
-
 $(function() {
 	console.log("Library.js Loaded");
 	if(window.navigator.userAgent.indexOf("MSIE ") > 0 || window.navigator.userAgent.indexOf("Trident") > 0) {
@@ -102,39 +101,70 @@ function isLiked(x) {
 }
 
 function buildArtistSearch() {
-	$('#artistSearch').focus(function() {
-		$('#artistList').addClass('show');
+	$('#landingModal').find('.artistSearch').focus(function() {
+		$(this).parent().next('.artistList').addClass('show');
 	})
-	$('#artistSearch').blur(function() {
+	$('.artistSearch').focus(function() {
+		
+	})
+	$('.artistSearch').blur(function() {
 		setTimeout(function() {
-			$('#artistList').removeClass('show');
+			$('.artistSearch').parent().next().removeClass('show');
 		}, 200);
 	})
-	$('#artistSearch').on('input',function() {
+	$('.artistSearch').on('input',function() {
+		if($(this).val().length>=1) {
+			$(this).parent().next('.artistList').addClass('show');
+		}
 		artistName=$(this).val();
-		$('#artistList div.artistOption').each(function() {
-			$(this).removeClass('hide');
-			if($(this).text().toLowerCase().indexOf(artistName.toLowerCase())==-1) {
+		artistArray=[];
+		$('.artistSearch').each(function() {
+			if($(this).val().length>=1&&!$(this).parents('#landingModal').length) {
+				artistArray.push($(this).val());
+			}
+		})
+		console.log(artistArray);
+		$('.artistList div.artistOption').each(function() {
+			if($(this).text().toLowerCase().indexOf(artistName.toLowerCase())==-1||artistArray.indexOf($(this).text())!=-1) {
 				$(this).addClass('hide');
+			} else {
+				if(artistArray.indexOf($(this).text())==-1) {
+					$(this).removeClass('hide');
+				}
 			}
 		});
-		if(($('.artistOption').length-$('.artistOption.hide').length)==1) {
+		if(($(this).parent().next().find('.artistOption').length-$(this).find('.artistOption.hide').length)==1) {
 			$('#createChannel').addClass('available');
 		} else {
 			$('#createChannel').removeClass('available');
 		}
 	});
 	for(var i=0;i<artists.length;i++) {
-		$('#artistList').append('<div class="artistOption" name="' + artists[i].uuid + '">' + artists[i].name + '</div>');
+		$('.artistList').append('<div class="artistOption" name="' + artists[i].uuid + '">' + artists[i].name + '</div>');
 	}
+	$('.artistSearch').change(function() {
+		if(!$(this).parents('#landingModal').length&&$('.artistOption').text().indexOf($(this).val())!=-1) {
+			$(this).addClass('chosen');
+			if($(this).parent().parent().next().hasClass('hide')) {
+				$(this).parent().parent().next().removeClass('hide');
+			}
+		}
+	})
 	$('.artistOption').click(function() {
-		$('#artistSearch').val($(this).text());
-		$('#createChannel').addClass('available');
-		startCreateChannel($(this).attr('name'));
+		$(this).parent().prev().children('.artistSearch').val($(this).text());
+		if($(this).parents('#landingModal').length) {
+			$('#createChannel').addClass('available');
+			startCreateChannel($(this).attr('name'));
+		} else {
+			$(this).parent().prev().children('.artistSearch').addClass('chosen');
+			if($(this).parent().parent().next().hasClass('hide')) {
+				$(this).parent().parent().next().removeClass('hide');
+			}
+		}
 	})
 	$('#createChannel').click(function() {
 		if($('#createChannel').hasClass('available')) {
-			$('.artistOption').each(function() {
+			$(this).parent().find('.artistOption').each(function() {
 				if(!$(this).hasClass('hide')) {
 					startCreateChannel($(this).attr('name'));
 				}
@@ -144,12 +174,75 @@ function buildArtistSearch() {
 	$('#joinTether').click(function() {
 		$('.abcRioButton').click();
 	})
+	$('#buildChannel').click(function() {
+		newChannel=JSON.parse('{"chanID":"' + getUnixTimeStamp("C",profile.gID,Math.floor(new Date()/1000).toString(16)) + '","owner":"' + profile.gID+ '","artist":"' + theseArtists() + '","name":"' + $('#channelName').val() + '"}');
+		profile.channels.push(newChannel);
+		listChannels()
+		submitData(channels,encodeURIComponent(JSON.stringify(newChannel)));
+	})
 }
 
 function startCreateChannel(x) {
-	if($('.g-signin2')=="Signed in"&&profile.gID) {
-		console.log("Huh?");
-	} else {
+	/*if(!profile.gID.isSignedIn()) {
 		$('.abcRioButton').click();
+	}*/
+	$('body').animate({
+        scrollTop: $("#creationBox").offset().top
+	},200);
+	$('#creationBox').find('.artistSearch').first().val($('#landingModal .artistSearch').val());
+	$('#creationBox').find('.artistSearch').first().addClass('chosen');
+	$('#creationBox').find('.artistBox').first().next().removeClass('hide');
+	$('#channelName').on('input',function() {
+		firstFifteen=$(this).val().substring(0,15);
+		checker=true;
+		for(var i=0;i<firstFifteen.length;i++) {
+			if(!firstFifteen.substring(i,i+1).replace(/[a-zA-Z0-9 ]/g,"")=="") {
+				checker=false
+			}
+		}
+		//typeof firstFifteen[i] == 'number'||
+		if(checker&&$(this).val().length>0) {
+			$('#buildChannel').addClass('available');
+			$('#buildChannel').text("Build " + $(this).val());
+			
+		} else {
+			$('#buildChannel').removeClass('available');
+		}
+	})
+	
+	
+	//getUnixTimeStamp("C",profile.gID,Math.floor(new Date()/1000).toString(16));
+}
+
+function theseArtists() {
+	artistList=[];
+	$('#creationBox').find('.artistSearch').each(function() {
+		console.log($(this).val());
+		for(var i=0;i<artists.length;i++) {
+			
+			if(artists[i].name==$(this).val()) {
+				console.log(artists[i].uuid);
+				artistList.push(artists[i].uuid);
+			}
+		}
+		console.log(artistList.join("|"));
+		
+	})
+	return artistList.join("|");
+}
+
+function getUnixTimeStamp(c,i,t) {
+	return c+i+"-"+t;
+}
+
+function listChannels() {
+	for(var i=0;i<profile.channels.length;i++) {
+		if(!$('#' + profile.channels[i].chanID).length) {
+			console.log(profile.channels[i]);
+			$('#myChannels').prepend('<div id="' + profile.channels[i].chanID + '" class="channelBox" name="' + i + '"><div style="background-image:url(' + getArtist(profile.channels[i].artist.substring(0,36)).image + ')"></div><div style="background-image:url(' + getArtist(profile.channels[i].artist.substring(0,36)).image + ')"></div><span>' + profile.channels[i].name + '</span></div>');
+		}
 	}
+	$('.channelBox').click(function() {
+		startChannel(myChannels[parseInt($(this).attr('name'))]);					
+	});
 }
