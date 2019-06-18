@@ -3,8 +3,9 @@
 }
 
 #tetherLanding {
-	width: 100vw;
-	height: calc(100vh - 0px);
+	width: calc(100vw + 20px);
+	height: calc(100vh + 20px);
+	margin: -10px auto auto -10px;
 	font-size: 50px;
 	display: inline-block;
 	background-image: url();
@@ -57,7 +58,7 @@ span.highlight {
 	position: relative;
 }
 
-#artistSearch {
+.artistSearch, .name {
 	width: 100%;
 	border: none;
 	padding: 8px 5px;
@@ -67,7 +68,7 @@ span.highlight {
 	height: 37px;
 }
 
-#artistList {
+.artistList {
 	position: absolute;
 	top: 40px;
 	width: 100%;
@@ -77,11 +78,11 @@ span.highlight {
 	z-index: 10;
 }
 
-#artistList.show {
+.artistList.show {
 	max-height: 160px !important;
 }
 
-.focus #artistList {
+.focus .artistList {
 	
 }
 
@@ -108,15 +109,18 @@ button {
 	letter-spacing: .05em;
 	outline: none;
 	margin: 3px 0px;
+	cursor: pointer;
 }
 
 #createChannel {
 	background-image: linear-gradient(to bottom,var(--hColor),var(--dColor));
 	filter: grayscale(100%);
+	cursor: none;
 }
 
 #createChannel.available {
 	filter: none;
+	cursor: pointer;
 }
 
 #joinTether {
