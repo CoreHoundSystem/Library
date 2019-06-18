@@ -1,0 +1,107 @@
+.band {
+	padding: var(--pPad);
+	font-size: 50px;
+}
+
+#tetherPromote {
+	position: relative;
+	margin-top: -10px;
+	padding: 0px;
+	background-size: cover;
+	background-position: center center;
+}
+.content {
+	text-align: center;
+	font-size: 50px;
+	background: rgba(0,0,0,0.8);
+	color: var(--tColor);
+	height: 100vh;
+	vertical-align: middle;
+	display: table-cell;
+	line-height: 90px;
+	padding: var(--pPad);
+}
+
+#tetherChannels {
+	background-color: var(--bColor);
+}
+
+#creationBox {
+	
+}
+
+#creationBox + hr {
+	margin: 2px auto;
+	width: calc(100% - var(--pPad));
+	border: 3px solid rgba(0,0,0,0.2);
+	border-radius: 3px;
+}
+
+#creationBox .artistBox:nth-child(2), #creationBox .artistBox:nth-child(3) {
+	
+}
+
+.artistBox {
+	position: relative;
+}
+.chosen {
+	background-color: var(--bColor);
+	text-align: center;
+	color: var(--tColor);
+	font-family: var(--nFont);
+	font-size: 40%;
+}
+
+#creationBox .artistBox.hide {
+	display: none;
+}
+
+.channelBox {
+	position: relative;
+	overflow: hidden;
+	cursor: pointer;
+	margin: 5px auto;
+}
+
+.channelBox div:nth-child(1) {
+	height: var(--fSize);
+	width: var(--fSize);
+	background-size: cover;
+	display: inline-block;
+}
+
+.channelBox div:nth-child(2) {
+	display: inline-block;
+	width: calc(100% - var(--fSize));
+	height: var(--fSize);
+	opacity: 0.2;
+}
+
+.channelBox span {
+	position: absolute;
+	top: 5px;
+	font-size: 70%;
+	vertical-align: top;
+	left: calc(var(--fSize) + var(--pPad));
+	color: var(--tColor);
+}
+
+.nameChannel {
+	
+}
+
+.name:invalid {
+	color: red;
+	border: 1px solid red;
+}
+
+#buildChannel {
+	display: none;
+	background-image: linear-gradient(to bottom,var(--hColor),var(--dColor));
+}
+
+#buildChannel.available {
+	display: block;
+	filter: none;
+	cursor: pointer;
+}
