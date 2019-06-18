@@ -183,7 +183,7 @@ function buildArtistSearch() {
 }
 
 function startCreateChannel(x) {
-	if(profile) {
+	if(typeof profile) {
 		console.log("Not a function");
 	} else {
 		$('.abcRioButton').click();
