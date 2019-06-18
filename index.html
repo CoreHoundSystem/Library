@@ -11,6 +11,7 @@
 		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Tether.css">
 		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Channel.css">
 		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Landing.css">
+		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Bands.css">
 		
 		
 		
@@ -28,10 +29,10 @@
 		<meta name="twitter:site" content="@handle">
 		<meta name="twitter:creator" content="@handle">
 		<meta name="twitter:title" content="Tether, Take SL Music With You!">
-		<meta name="twitter:image" content="https://image">
+		<meta name="twitter:image" content="https://tether.corehoundsystem.com/icons/android-chrome-192x192.png">
 		<meta name="og:title" content="Tether, Take SL Music With You!">
 		<meta name="og:description" content="Listen to your favorite SL musicians anywhere, anytime.">
-		<meta name="og:image" content="https://image">
+		<meta name="og:image" content="https://tether.corehoundsystem.com/icons/android-chrome-192x192.png">
 		<meta name="og:locale" content="en_US">
 		<meta name="og:site_name" content="Tether">
 		<meta name="og:url" content="https://tether.corehoundsystem.com">
@@ -62,32 +63,73 @@
 					$('body').append(x);
 				}
 			}
-			
-			function buildChannelStart(x) {
-				$('#tetherBody').append('<button id="ready">Ready?</button>');
-				$('#ready').click(function() {
-					startChannel(myChannels[x]);
-					$('button').css('background','red');					
-				});
-			}
 		</script>
 		
 		
 		
 		<div id="tetherHeader"></div>
 		<div id="tetherBody">
-			
 			<div id="tetherLanding"></div>
 			<div id="landingModal">
 				<div class="title"><span class="highlight">t</span>e<span class="highlight">t</span>her</div>
 				<div class="subTitle">Second Life Music</div>
 				<div class="artistBox">
-					<input type="text" id="artistSearch" placeholder="Find A Musician">
-					<div id="artistList"></div>
+					<input type="text" class="artistSearch" placeholder="Find A Musician">
+					<div class="artistList"></div>
 				</div>
 				<button id="createChannel">Create A Channel</button>
 				<button id="joinTether">Join Tether</button>
 			</div>
+			<div id="tetherPromote" class="info band">
+				<div class="content">Search dozens of <span class="highlight">Second Life Musicians</span> and hundreds of songs!</div>
+			</div>
+			
+			<div id="tetherChannels" class="band">
+				<div id="creationBox">
+					<div class="artistBox">
+						<input type="text" class="artistSearch" placeholder="Find A Musician">
+						<div class="artistList"></div>
+					</div>
+					<div class="artistBox hide">
+						<input type="text" class="artistSearch" placeholder="Add A Second Musician (Optional)">
+						<div class="artistList"></div>
+					</div>
+					<div class="artistBox hide">
+						<input type="text" class="artistSearch" placeholder="Add A Third Musician (Optional)">
+						<div class="artistList"></div>
+					</div>
+					<div class="nameChannel">
+						<input type="text" id="channelName" class="name" pattern="[a-zA-Z0-9 ]+" placeholder="Name This Channel">
+					</div>
+					<button id="buildChannel"></button>
+				</div>
+				<hr>
+				<div id="myChannels">
+					
+				</div>
+			</div>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			
 			<div id="activeChannel"></div>
 			<div id="loginModal">
