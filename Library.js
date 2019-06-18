@@ -189,8 +189,12 @@ function startCreateChannel(x) {
 		$('.abcRioButton').click();
 		console.log("FALSE");
 	}
+	media=0;
+	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+		media=$(window).height();
+	}
 	$('html body').animate({
-        scrollTop: $('#creationBox').offset().top+40
+      	  scrollTop: $('#creationBox').offset().top+media
 	},1000);
 	$('#creationBox').find('.artistSearch').first().val($('#landingModal .artistSearch').val());
 	$('#creationBox').find('.artistSearch').first().addClass('chosen');
