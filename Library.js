@@ -183,8 +183,12 @@ function buildArtistSearch() {
 }
 
 function startCreateChannel(x) {
-	if(!profile.gID.isSignedIn()) {
-		$('.abcRioButton').click();
+	if(typeof isSignedIn != 'undefined') {
+		if(!profile.gID.isSignedIn()||profile=='undefined') {
+			$('.abcRioButton').click();
+		}
+	} else {
+		console.log("Not a function");
 	}
 	$('body').animate({
         scrollTop: $("#creationBox").offset().top
