@@ -4,7 +4,7 @@
 	background-color: var(--pColor);
 	bottom: 0px;
 	z-index: 1000;
-	box-shadow: inset 40vw 30vh 50vw var(--gColor), inset -30vw -30vh 50vw var(--bColor);
+	box-shadow: inset 40vw 30vh 50vw var(--gColor), inset -30vw -30vh 50vw var(--bColor), 0px 0px 5px var(--gColor);
 }
 
 #activeChannel.minimize {
