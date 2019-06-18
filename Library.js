@@ -190,9 +190,9 @@ function startCreateChannel(x) {
 	} else {
 		console.log("Not a function");
 	}
-	$('body').animate({
-        scrollTop: $("#creationBox").offset().top
-	},200);
+	$('html,body').animate({
+        	scrollTop: $('#creationBox').offset().top
+	},1000);
 	$('#creationBox').find('.artistSearch').first().val($('#landingModal .artistSearch').val());
 	$('#creationBox').find('.artistSearch').first().addClass('chosen');
 	$('#creationBox').find('.artistBox').first().next().removeClass('hide');
