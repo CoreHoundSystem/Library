@@ -183,9 +183,9 @@ function buildArtistSearch() {
 }
 
 function startCreateChannel(x) {
-	/*if(!profile.gID.isSignedIn()) {
+	if(!profile.gID.isSignedIn()) {
 		$('.abcRioButton').click();
-	}*/
+	}
 	$('body').animate({
         scrollTop: $("#creationBox").offset().top
 	},200);
