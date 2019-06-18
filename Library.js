@@ -183,16 +183,13 @@ function buildArtistSearch() {
 }
 
 function startCreateChannel(x) {
-	console.log(typeof isSignedIn());
-	if(typeof isSignedIn === "function") {
-		if(!profile.gID.isSignedIn()||profile=='undefined') {
-			$('.abcRioButton').click();
-		}
+	if(profile=='undefined') {
+		$('.abcRioButton').click();
 	} else {
 		console.log("Not a function");
 	}
 	$('html body').animate({
-	        scrollTop: $('#creationBox').offset().top
+        scrollTop: $('#creationBox').offset().top+40
 	},1000);
 	$('#creationBox').find('.artistSearch').first().val($('#landingModal .artistSearch').val());
 	$('#creationBox').find('.artistSearch').first().addClass('chosen');
