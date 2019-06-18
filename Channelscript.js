@@ -1,183 +1,255 @@
-function like(x) {
-	if($(x).hasClass('liked')) {
-		newLikes=[];
-		oldLikes=thisChannel.likes.split("|");
-		for(var i=0;i<oldLikes.length;i++) {
-			if(oldLikes[i]!=currentSong.songID) {
-				newLikes.push(oldLikes[i]);
+popSong="https://docs.google.com/forms/d/e/1FAIpQLScBJbUX_ddqJexIpcHXAAB1dNfytH46KCp-jazfGl8kktaIlA/formResponse?usp=pp_url&entry.762123824=";
+popGenres="https://docs.google.com/forms/d/e/1FAIpQLSf5qoAw2zz7LAs6nXOfKaZB2fMqMzi6k8Kmx4s57opwP0JW1Q/formResponse?usp=pp_url&entry.762123824=";
+songOpinion="https://docs.google.com/forms/d/e/1FAIpQLSeS_aRew-vd3OgJ-SQPHkPhh-M_oliItmEgbRvYISvaVjxs6w/formResponse?usp=pp_url&entry.762123824=";
+
+$(function() {
+	console.log("Library.js Loaded");
+	if(window.navigator.userAgent.indexOf("MSIE ") > 0 || window.navigator.userAgent.indexOf("Trident") > 0) {
+		alert("Due to growing security concerns with Internet Explorer, this site will nolonger load on this browser.");
+		console.log("IE");
+		rStyle = $('#rootStyles').text();
+		rStyle = rStyle.substring(rStyle.indexOf('{')+1,rStyle.indexOf('}'));
+		rArray = rStyle.split(';');
+		rObject = {};
+		for(var i=0;i<rArray.length-1;i++) {
+			if(rArray[i].length > 3) {
+				thisPair = [];
+				thisPair = rArray[i].split(':');
+				thisPair[0] = thisPair[0].replace(/[\s\n]/g,"");
+				thisPair[1].replace(/[\s\n]/g,"").substring(1,-2);
+				rObject[thisPair[0]] = thisPair[1];
 			}
 		}
-		thisChannel.likes=newLikes.join("|");
-	} else {
-		if(rLiked.indexOf(currentSong.songID)==-1) {
-			rLiked.push(currentSong.songID);
-			sendEventToAnalytics("channelFilter","like",currentSong.songID,songOpinion,currentSong.songID+"+");
-		}
-		thisChannel.likes=thisChannel.likes + "|" + currentSong.songID;
-	}
-	$(x).toggleClass('liked');
-	updateChannel(thisChannel);
-	cL(rLiked);
-}
-
-function dislike(x) {
-	if($(x).hasClass('disliked')) {
-		
-	} else {
-		if($(x).next().hasClass('liked')) {
-			like($(x).next());
-		}
-		if(rDisliked.indexOf(currentSong.songID)==-1) {
-			rDisliked.push(currentSong.songID);
-			sendEventToAnalytics("channelFilter","dislike",currentSong.songID,songOpinion,currentSong.songID+"-");
-		}
-		thisChannel.dislikes=thisChannel.dislikes + "|" + currentSong.songID;
-		//updateData(channelForm,thisChannel);	//??
-		playSong();
-	}
-	updateChannel(thisChannel);
-	cL(rDisliked);
-}
-
-//fix this function?
-function togglePause() {
-	audio=document.getElementById("activeSong");
-	if(audio.paused) {
-		$('#pause').addClass('pause');
-		$('#pause').removeClass('play');
-		audio.play();
-	} else {
-		$('#pause').addClass('play');
-		$('#pause').removeClass('pause');
-		audio.pause();
-	}
-}
-
-function addRecentPlay(x) {
-	rPlayed.push(x);
-	if(rPlayed.length>=rPMax) {
-		rPlayed=rPlayed.slice(rPlayed.length-rPMax,rPlayed.length);
-	}
-}
-
-function trackTime(x) {
-	$('#trackTime').css('background-image','linear-gradient(to right, var(--tColor) ' + ((x.currentTime / x.duration) * 100) + '%, var(--bColor) 0%)');
-	$('#trackTime').prev('span').text(secondsToTime(x.currentTime));
-	$('#trackTime').next('span').text(secondsToTime(x.duration));
-}
-
-function buildActiveSong(x) {
-	$('#activeChannel').empty();
-	$('#activeChannel').append('<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>');
-	$('#activeChannel').append('<div class="backOrMin arrow"><div><div></div><div></div></div></div><div class="activeChannelName">' + thisChannel.name + '</div>');	//active channel name
-	$('#activeChannel').append('<div class="activeArtistDetails"><div class="activeArtistImage" style="background-image: url(' + getArtist(x.artist).image + ');"></div></div>');		//add artist image
-	$('#activeChannel').append('<div class="activeSongDetails"><span>' + x.title + '</span><span>' + getArtist(x.artist).name + '</span><span>' + x.albumEvent + '</span></div><div class="activeSongActions"></div>');
-	$('#activeChannel').append('<div id="trackControls"><div class="upperRow"></div><div class="lowerRow"></div></div>');
-	$('.upperRow').append('<div><span></span><div id="trackTime"></div><span></span></div>');
-	$('.lowerRow').append('<div id="dislike" class="trackControls dislike"><div><div></div></div></div><div id="like" class="trackControls like' + isLiked(x) + '"><div><div></div></div><div><div></div></div><div></div></div><div id="pause" class="trackControls pause"><div><div></div></div><div><div></div></div></div><div id="nextTrack" class="trackControls nextTrack"><div><div></div></div><div><div></div></div><div><div></div></div></div>');
-	
-	
-	$('.backOrMin').click(function() {
-		$(this).parent().toggleClass('minimize');
-	});
-	$('.activeSongDetails').click(function() {
-		if($(this).parent().hasClass('minimize')) {
-			$(this).parent().removeClass('minimize');
-		}
-	});
-	$('#dislike').click(function() {
-		dislike(this);
-	});
-	$('#like').click(function() {
-		like(this);
-	});
-	$('#pause').click(function() {
-		togglePause();
-	});
-	$('#nextTrack').click(function() {
-		playSong();
-	});
-	
-	audio=document.getElementById("activeSong");
-	//audio.play();
-	$('#activeSong').on('ended',function() {
-		playSong();
-	});
-}
-
-function playSong() {
-	songNumber=Math.round(Math.random()*cSongs.length);
-	cL(rDisliked);
-	cL(rPlayed);
-	console.log(songNumber)
-	console.log(cSongs[songNumber]);
-	if(songNumber==cSongs.length||rPlayed.indexOf(cSongs[songNumber].songID)!=-1||(songNumber<0||songNumber>=cSongs.length)||rDisliked.indexOf(cSongs[songNumber].songID)!=-1) {
-		playSong();
-	} else {
-		commercialTicker++;
-		window["currentSong"]=cSongs[songNumber];
-		addRecentPlay(currentSong.songID);
-		songMedia=getArtist(currentSong.artist).image;
-		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-			if ('mediaSession' in navigator) {
-				navigator.mediaSession.metadata = new MediaMetadata({
-					title: currentSong.title,
-					artist: getArtist(currentSong.artist).name,
-					album: currentSong.albumEvent,
-					artwork: [
-						{src:songMedia,sizes:'96x96',type:'image/png'},
-						{src:songMedia,sizes:'128x128',type:'image/png'},
-						{src:songMedia,sizes:'192x192',type:'image/png'},
-						{src:songMedia,sizes:'256x256',type:'image/png'},
-						{src:songMedia,sizes:'384x384',type:'image/png'},
-						{src:songMedia,sizes:'512x512',type:'image/png'},
-					]
+		$('style').each(function() {
+			if($(this).text().indexOf('var(--') != -1) {
+				theseStyles = $(this);
+				$.each(rObject, function(key,value) {
+					k = 'var(' + key + ')';
+					kReg = new RegExp(k,'g');
+					replaceAll(theseStyles,k,value);
 				});
-				navigator.mediaSession.setActionHandler('play',function() {togglePause()});
-				navigator.mediaSession.setActionHandler('pause',function() {togglePause()});
-				navigator.mediaSession.setActionHandler('nexttrack',function() {playSong()});
 			}
-		}
-		buildActiveSong(currentSong);
-		sendEventToAnalytics("playSong",profile.gID,currentSong,popSong,currentSong.songID);
+		})
+	} else {
+		console.log(window.navigator.userAgent);
+	}
+})
+
+function replaceAll(x,k,value) {
+	x.text(function () {
+		x.text(x.text().replace(k,value)); 
+	});
+	if(x.text().indexOf(k) != -1) {
+		replaceAll(x,k,value);
 	}
 }
 
-function startChannel(c) {
-	window["thisChannel"]=c;
-	cArtists=c.artist.split("|");
-	likes=[];
-	likes=c.likes.split("|");
-	dislikes=c.dislikes.split("|");
-	genres=[];
-	window["cSongs"]=[];
-	window["rPlayed"]=[];
-	window["rDisliked"]=dislikes;
-	window["rLiked"]=likes;
-	window["commercialTicker"]=0;
-	for(var i=0;i<songs.length;i++) {
-		thisSong=0;
-		if(cArtists.indexOf(songs[i].artist)!=-1||likes.indexOf(songs[i].songID)!=-1) {
-			if(genres.indexOf(songs[i].genre)==-1) {
-				genres.push(songs[i].genre);
+function secondsToTime(x) {
+	time=Math.round(Math.floor(x/60)) + ":";
+	if(Math.round(x -= Math.floor(x/60)*60)<10) {
+		time=time+"0" + Math.round(x -= Math.floor(x/60)*60);
+	} else {
+		time=time+Math.round(x -= Math.floor(x/60)*60);
+	}
+	return time;
+}
+
+function prepObjectForSubmission(x) {
+	return JSON.stringify(x).replace(/"/g,"'")
+}
+
+function getArtist(x) {
+	for(var i=0;i<artists.length;i++) {
+		if(artists[i].uuid==x) {
+			return artists[i];
+		}
+	}
+}
+
+function sendEventToAnalytics(x,y,z,f,d) {		//Sends event to Google Analytics - requires analytics
+	console.log(x,y,z);
+	if(d) {
+		console.log(f,d);
+		submitData(f,d);
+	}
+	gtag('event',y, {
+		'event_category': x,
+		'event_label': z
+	});
+}
+
+function submitData(f,d) {
+	$('body').append('<iframe style="display:none" src="' + f + d + '">');
+}
+
+function updateChannel(x) {
+	console.log(x);
+	for(var i=0;i<myChannels.length;i++) {
+		if(myChannels[i].chanID==x.chanID) {
+			console.log(myChannels[i]);
+		}
+	}
+	submitData(channels,encodeURIComponent(JSON.stringify(x)));
+}
+
+function isLiked(x) {
+	if(thisChannel.likes.length>0&&thisChannel.likes.indexOf(x.songID)!=-1) {
+		return " liked";
+	} else {
+		return "";
+	}
+}
+
+function buildArtistSearch() {
+	$('#landingModal').find('.artistSearch').focus(function() {
+		$(this).parent().next('.artistList').addClass('show');
+	})
+	$('.artistSearch').focus(function() {
+		
+	})
+	$('.artistSearch').blur(function() {
+		setTimeout(function() {
+			$('.artistSearch').parent().next().removeClass('show');
+		}, 200);
+	})
+	$('.artistSearch').on('input',function() {
+		if($(this).val().length>=1) {
+			$(this).parent().next('.artistList').addClass('show');
+		}
+		artistName=$(this).val();
+		artistArray=[];
+		$('.artistSearch').each(function() {
+			if($(this).val().length>=1&&!$(this).parents('#landingModal').length) {
+				artistArray.push($(this).val());
+			}
+		})
+		console.log(artistArray);
+		$('.artistList div.artistOption').each(function() {
+			if($(this).text().toLowerCase().indexOf(artistName.toLowerCase())==-1||artistArray.indexOf($(this).text())!=-1) {
+				$(this).addClass('hide');
+			} else {
+				if(artistArray.indexOf($(this).text())==-1) {
+					$(this).removeClass('hide');
+				}
+			}
+		});
+		if(($(this).parent().next().find('.artistOption').length-$(this).find('.artistOption.hide').length)==1) {
+			$('#createChannel').addClass('available');
+		} else {
+			$('#createChannel').removeClass('available');
+		}
+	});
+	for(var i=0;i<artists.length;i++) {
+		$('.artistList').append('<div class="artistOption" name="' + artists[i].uuid + '">' + artists[i].name + '</div>');
+	}
+	$('.artistSearch').change(function() {
+		if(!$(this).parents('#landingModal').length&&$('.artistOption').text().indexOf($(this).val())!=-1) {
+			$(this).addClass('chosen');
+			if($(this).parent().parent().next().hasClass('hide')) {
+				$(this).parent().parent().next().removeClass('hide');
 			}
 		}
+	})
+	$('.artistOption').click(function() {
+		$(this).parent().prev().children('.artistSearch').val($(this).text());
+		if($(this).parents('#landingModal').length) {
+			$('#createChannel').addClass('available');
+			startCreateChannel($(this).attr('name'));
+		} else {
+			$(this).parent().prev().children('.artistSearch').addClass('chosen');
+			if($(this).parent().parent().next().hasClass('hide')) {
+				$(this).parent().parent().next().removeClass('hide');
+			}
+		}
+	})
+	$('#createChannel').click(function() {
+		if($('#createChannel').hasClass('available')) {
+			$(this).parent().find('.artistOption').each(function() {
+				if(!$(this).hasClass('hide')) {
+					startCreateChannel($(this).attr('name'));
+				}
+			});
+		}
+	})
+	$('#joinTether').click(function() {
+		$('.abcRioButton').click();
+	})
+	$('#buildChannel').click(function() {
+		newChannel=JSON.parse('{"chanID":"' + getUnixTimeStamp("C",profile.gID,Math.floor(new Date()/1000).toString(16)) + '","owner":"' + profile.gID+ '","artist":"' + theseArtists() + '","name":"' + $('#channelName').val() + '","likes":"","dislikes":"","genres":""}');
+		profile.channels.push(newChannel);
+		listChannels()
+		submitData(channels,encodeURIComponent(JSON.stringify(newChannel)));
+	})
+}
+
+function startCreateChannel(x) {
+	if(typeof profile==='object') {
+		console.log("TRUE");
+	} else {
+		$('.abcRioButton').click();
+		console.log("FALSE");
 	}
-	for(var i=0;i<songs.length;i++) {
-		console.log(songs[i].artist);
-		console.log(cArtists);
-		if((cArtists.indexOf(songs[i].artist)!=-1||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1&&(songs[i].state=="available"||songs[i].state=="requested")) {
-			cSongs.push(songs[i]);
+	media=0;
+	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+		media=$(window).height();
+	}
+	$('html body').animate({
+        scrollTop: $('#creationBox').offset().top+media
+	},1000);
+	$('#creationBox').find('.artistSearch').first().val($('#landingModal .artistSearch').val());
+	$('#creationBox').find('.artistSearch').first().addClass('chosen');
+	$('#creationBox').find('.artistBox').first().next().removeClass('hide');
+	$('#channelName').on('input',function() {
+		firstFifteen=$(this).val().substring(0,15);
+		checker=true;
+		for(var i=0;i<firstFifteen.length;i++) {
+			if(!firstFifteen.substring(i,i+1).replace(/[a-zA-Z0-9 ]/g,"")=="") {
+				checker=false
+			}
+		}
+		//typeof firstFifteen[i] == 'number'||
+		if(checker&&$(this).val().length>0) {
+			$('#buildChannel').addClass('available');
+			$('#buildChannel').text("Build " + $(this).val());
+			
+		} else {
+			$('#buildChannel').removeClass('available');
+		}
+	})
+	
+	
+	//getUnixTimeStamp("C",profile.gID,Math.floor(new Date()/1000).toString(16));
+}
+
+function theseArtists() {
+	artistList=[];
+	$('#creationBox').find('.artistSearch').each(function() {
+		console.log($(this).val());
+		for(var i=0;i<artists.length;i++) {
+			
+			if(artists[i].name==$(this).val()) {
+				console.log(artists[i].uuid);
+				artistList.push(artists[i].uuid);
+			}
+		}
+		console.log(artistList.join("|"));
+		
+	})
+	return artistList.join("|");
+}
+
+function getUnixTimeStamp(c,i,t) {
+	return c+i+"-"+t;
+}
+
+function listChannels() {
+	for(var i=0;i<profile.channels.length;i++) {
+		if(!$('#' + profile.channels[i].chanID).length) {
+			console.log(profile.channels[i]);
+			$('#myChannels').prepend('<div id="' + profile.channels[i].chanID + '" class="channelBox" name="' + i + '"><div style="background-image:url(' + getArtist(profile.channels[i].artist.substring(0,36)).image + ')"></div><div style="background-image:url(' + getArtist(profile.channels[i].artist.substring(0,36)).image + ')"></div><span>' + profile.channels[i].name + '</span></div>');
 		}
 	}
-	if(rPMax>=cSongs.length) {
-		rPMax=cSongs.length-2;
-	}
-	sendEventToAnalytics("channelStart","rPMax",rPMax);
-	sendEventToAnalytics("channelStart","genres",genres,popGenres,genres.join("|"));
-	console.log(genres);
-	console.log(cSongs.length);
-	if(cSongs.length>0) {
-		playSong();
-	}
+	$('.channelBox').click(function() {
+		startChannel(myChannels[parseInt($(this).attr('name'))]);					
+	});
 }
