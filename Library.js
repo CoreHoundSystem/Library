@@ -187,42 +187,36 @@ function buildArtistSearch() {
 }
 
 function startCreateChannel(x) {
-	if(typeof profile==='object') {
-		console.log("TRUE");
-	} else {
-		$('.abcRioButton').click();
-		console.log("FALSE");
-	}
-	media=0;
-	if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-		media=$(window).height();
-	}
-	$('html body').animate({
-      	  scrollTop: $('#creationBox').offset().top
-	},1000);
-	$('#creationBox').find('.artistSearch').first().val($('#landingModal .artistSearch').val());
-	$('#creationBox').find('.artistSearch').first().addClass('chosen');
-	$('#creationBox').find('.artistBox').first().next().removeClass('hide');
-	$('#channelName').on('input',function() {
-		firstFifteen=$(this).val().substring(0,15);
-		checker=true;
-		for(var i=0;i<firstFifteen.length;i++) {
-			if(!firstFifteen.substring(i,i+1).replace(/[a-zA-Z0-9 ]/g,"")=="") {
-				checker=false
-			}
-		}
-		//typeof firstFifteen[i] == 'number'||
-		if(checker&&$(this).val().length>0) {
-			$('#buildChannel').addClass('available');
-			$('#buildChannel').text("Build " + $(this).val());
-			
+	setTimeout(function() {
+		if(typeof profile==='object') {
+			console.log("TRUE");
 		} else {
-			$('#buildChannel').removeClass('available');
+			$('.abcRioButton').click();
+			console.log("FALSE");
 		}
-	})
-	
-	
-	//getUnixTimeStamp("C",profile.gID,Math.floor(new Date()/1000).toString(16));
+		$('html body').animate({
+			scrollTop: $('#creationBox').offset().top
+		},1000);
+		$('#creationBox').find('.artistSearch').first().val($('#landingModal .artistSearch').val());
+		$('#creationBox').find('.artistSearch').first().addClass('chosen');
+		$('#creationBox').find('.artistBox').first().next().removeClass('hide');
+		$('#channelName').on('input',function() {
+			firstFifteen=$(this).val().substring(0,15);
+			checker=true;
+			for(var i=0;i<firstFifteen.length;i++) {
+				if(!firstFifteen.substring(i,i+1).replace(/[a-zA-Z0-9 ]/g,"")=="") {
+					checker=false
+				}
+			}
+			if(checker&&$(this).val().length>0) {
+				$('#buildChannel').addClass('available');
+				$('#buildChannel').text("Build " + $(this).val());
+				
+			} else {
+				$('#buildChannel').removeClass('available');
+			}
+		})
+	},250)
 }
 
 function theseArtists() {
