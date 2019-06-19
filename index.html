@@ -141,6 +141,9 @@
 					if(window.location.href.indexOf("Downloads")!==-1) {
 						loadUser(JSON.parse('{"gID":"110422615478236421761","firstName":"Joshua","lastName":"Hess","gMail":"info@corehoundsystem.com"}'));
 					}
+					$.get("https://www.googleapis.com/calendar/v3/calendars/crypticharmony1@gmail.com/events?key=833721381252-smfnva31dl66h8n6ffikc99f50ff4dqo.apps.googleusercontent.com",function(data){
+						console.log(data);
+					})
 				});
 				
 				function onSignIn(googleUser) {
