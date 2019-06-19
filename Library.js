@@ -216,7 +216,7 @@ function startCreateChannel(x) {
 				$('#buildChannel').removeClass('available');
 			}
 		})
-	},250)
+	},1000)
 }
 
 function theseArtists() {
