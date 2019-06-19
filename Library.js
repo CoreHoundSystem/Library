@@ -194,7 +194,7 @@ function startCreateChannel(x) {
 		media=$(window).height();
 	}
 	$('html body').animate({
-      	  scrollTop: $('#creationBox').offset().top+media
+      	  scrollTop: $('#creationBox').offset().top
 	},1000);
 	$('#creationBox').find('.artistSearch').first().val($('#landingModal .artistSearch').val());
 	$('#creationBox').find('.artistSearch').first().addClass('chosen');
