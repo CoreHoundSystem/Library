@@ -163,12 +163,16 @@ function buildArtistSearch() {
 		}
 	})
 	$('#createChannel').click(function() {
+		canAnimate=0;
 		if($('#createChannel').hasClass('available')) {
 			$(this).parent().find('.artistOption').each(function() {
 				if(!$(this).hasClass('hide')) {
-					startCreateChannel($(this).attr('name'));
+					canAnimate++;
 				}
 			});
+		}
+		if(canAnimate>0) {
+			startCreateChannel($(this).attr('name'));
 		}
 	})
 	$('#joinTether').click(function() {
