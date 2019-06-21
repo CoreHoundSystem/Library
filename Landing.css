@@ -62,7 +62,8 @@ span.highlight {
 	width: 100%;
 	border: none;
 	padding: 8px 5px;
-	font-size: 30%;
+	font-family: var(--nFont);
+    font-size: 40%;
 	outline: none;
 	margin: 3px auto;
 	height: 37px;
