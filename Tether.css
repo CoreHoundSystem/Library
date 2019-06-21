@@ -42,10 +42,16 @@ body {
 	margin: 0px;
 	//padding: var(--hSize) 0px 0px 0px;
 	overflow-x: hidden;
+	position: absolute;
+}
+
+body.minimize #tetherBody {
+	
 }
 
 #tetherFooter {
 	//min-height: 100vh;
+	font-size: 50px;
 	background-color: darkslategrey;
 }
 
@@ -57,6 +63,11 @@ body.minimize #tetherFooter {
 	text-align: center;
 	color: var(--tColor);
 	padding: 3px var(--pPad);
+	font-size: 30%;
+}
+
+#tetherFooter>div button {
+	font-size: 130%;
 }
 
 #tetherFooter span {
@@ -73,4 +84,14 @@ body.minimize #tetherFooter {
 
 #socialBar {
 	
+}
+@media only screen and (min-width: 900px) {
+	.music #tetherBody {
+		width: calc(100vw - 500px);
+		left: 500px;
+	}
+	body.minimize.music #tetherBody {
+		width: 100vw;
+		left: 0px;
+	}
 }
