@@ -36,6 +36,7 @@
 		<meta property="og:locale" content="en_US">
 		<meta property="og:site_name" content="Tether">
 		<meta property="og:url" content="https://tether.corehoundsystem.com">
+		<meta property="og:type" content="website">
 		<meta name="description" content="Listen to your favorite SL musicians anywhere, anytime.">
 		<meta name="keywords" content="second life,music,live,cover,original">
 		<meta name="language" content="English">
@@ -104,33 +105,34 @@
 					<button id="buildChannel"></button>
 				</div>
 				<hr>
+				<h2>Channels</h2>
 				<div id="myChannels">
 					
 				</div>
 			</div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			<div id="tetherArtistJoin" class="band">
+				<div class="content">
+					Are you a<br><span class="highlight">Second Life Musician?</span><br>Join Tether!
+					<div id="loginFirst">
+						<h2>Login with Google</h2>
+						<button>Login</button>
+					</div>
+					<div id="syncSecond">
+						<h2>Sync your Avatar</h2>
+						<a href="http://maps.secondlife.com/secondlife/Skye%20Cove/225/32/1604"><span>Get Registration Key</span></a>
+						<input type="text" placeholder="Enter Registration Key">
+						<div></div>
+						<button>Sync</button>
+					</div>
+					<div id="soundCloudThird">
+						<h2>SoundCloud Profile</h2>
+						<input type="text" placeholder="Enter SoundCloud Profile">
+						<button>Submit</button>
+					</div>
+					<span>All songs are submitted through SoundCloud. Once your songs are sync'd you can approve them here.</span>
+				</div>
+			</div>
+			<div id="tetherDataField"></div>
 			<div id="activeChannel"></div>
 			<div id="loginModal">
 				<div class="g-signin2" data-onsuccess="onSignIn"></div>
@@ -141,17 +143,10 @@
 					if(window.location.href.indexOf("Downloads")!==-1) {
 						loadUser(JSON.parse('{"gID":"110422615478236421761","firstName":"Joshua","lastName":"Hess","gMail":"info@corehoundsystem.com"}'));
 					}
-					
 				});
 				
 				function onSignIn(googleUser) {
 					var prof = googleUser.getBasicProfile();
-					//cL('ID: ' + prof.getId());
-					//cL('Name: ' + prof.getName());
-					//cL('Image URL: ' + prof.getImageUrl());
-					//cL('Email: ' + prof.getEmail());
-					//loadUser(prof);
-					//loadUser(prof.getId(),prof.getGivenName(),prof.getFamilyName(),prof.getEmail());
 					sendEventToAnalytics("login","google",prof.getId());
 					loadUser(JSON.parse('{"gID":"' + prof.getId() + '","firstName":"' + prof.getGivenName() + '","lastName":"' + prof.getFamilyName() + '","gMail":"' + prof.getEmail() + '"}'));
 					cL(JSON.parse('{"gID":"' + prof.getId() + '","firstName":"' + prof.getGivenName() + '","lastName":"' + prof.getFamilyName() + '","gMail":"' + prof.getEmail() + '"}'));
@@ -167,6 +162,10 @@
 				}
 			</script>
 		</div>
-		<div id="tetherFooter"></div>
+		<div id="tetherFooter">
+			<div id="socialBar"></div>
+			<div id="legalBar"><span class="modal">Privacy Policy</span><span class="modal">Terms of Use</span></div>
+			<div id="copyright">©2019 Core Hound System, LLC - All Rights Reserved</div>
+		</div>
 	</body>
 </html>
