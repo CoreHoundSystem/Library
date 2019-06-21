@@ -124,7 +124,7 @@
 	margin-top: 0px;
 }
 
-#loginFirst, #syncSecond, #soundCloudThird {
+#loginFirst, #syncSecond, #soundCloudThird, div.signOut {
 	max-width: 300px;
 	width: 60vw;
 	margin: auto;
@@ -167,13 +167,13 @@
 	line-height: 30px;
 }
 
-#syncSecond button, #soundCloudThird button {
+#syncSecond button, #soundCloudThird button, button.signOut {
 	background-image: linear-gradient(to bottom,var(--hColor),var(--dColor));
 	filter: grayscale(100%);
 	cursor: none;
 }
 
-#syncSecond button.available, #soundCloudThird button.available {
+#syncSecond button.available, #soundCloudThird button.available, button.signOut {
 	filter: none;
 	cursor: pointer;
 }
