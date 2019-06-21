@@ -3,7 +3,7 @@
 	font-size: 50px;
 }
 
-#tetherPromote {
+#tetherPromote, #tetherArtistJoin, #tetherDataField {
 	position: relative;
 	margin-top: -10px;
 	padding: 0px;
@@ -16,6 +16,7 @@
 	background: rgba(0,0,0,0.8);
 	color: var(--tColor);
 	height: 100vh;
+	width: calc(100vw - var(--pPad) * 2);
 	vertical-align: middle;
 	display: table-cell;
 	line-height: 90px;
@@ -24,10 +25,12 @@
 
 #tetherChannels {
 	background-color: var(--bColor);
+	min-height: unset;
 }
 
-#creationBox {
-	
+#creationBox, #myChannels {
+	max-width: 500px;
+	margin: auto;
 }
 
 #creationBox + hr {
@@ -35,6 +38,7 @@
 	width: calc(100% - var(--pPad));
 	border: 3px solid rgba(0,0,0,0.2);
 	border-radius: 3px;
+	max-width: 480px;
 }
 
 #creationBox .artistBox:nth-child(2), #creationBox .artistBox:nth-child(3) {
@@ -56,6 +60,14 @@
 	display: none;
 }
 
+#tetherChannels h2 {
+	max-width: 500px;
+	margin: auto;
+	text-align: center;
+	font-family: var(--nFont);
+	color: var(--tColor);
+	text-shadow: 0px 0px 10px var(--gColor), 0px 0px 1px black;
+}
 .channelBox {
 	position: relative;
 	overflow: hidden;
@@ -75,6 +87,8 @@
 	width: calc(100% - var(--fSize));
 	height: var(--fSize);
 	opacity: 0.2;
+	background-size: cover;
+	background-position: top center;
 }
 
 .channelBox span {
@@ -104,4 +118,87 @@
 	display: block;
 	filter: none;
 	cursor: pointer;
+}
+
+#tetherArtistJoin, #tetherDataField {
+	margin-top: 0px;
+}
+
+#loginFirst, #syncSecond, #soundCloudThird {
+	max-width: 300px;
+	width: 60vw;
+	margin: auto;
+}
+
+#syncSecond, #soundCloudThird {
+	display: none;
+}
+#tetherArtistJoin {
+	background-image: url(https://www.youredm.com/wp-content/uploads/2015/08/soundcloud-ad.png);
+}
+
+#tetherArtistJoin h2 {
+	font-size: 35px;
+	line-height: 35px;
+	margin: 3px 0px;
+}
+
+#tetherArtistJoin a {
+	color: var(--gColor);
+	text-decoration: none;
+	font-size: 25px;
+	line-height: 30px;
+	margin: 0px;
+}
+
+#tetherArtistJoin input {
+	width: 100%;
+	border: none;
+	padding: 8px 5px;
+	font-family: var(--nFont);
+	font-size: 40%;
+	outline: none;
+	margin: 3px auto;
+	height: 37px;
+}
+
+#syncSecond>div:nth-of-type(2) {
+	font-size: 25px;
+	line-height: 30px;
+}
+
+#syncSecond button, #soundCloudThird button {
+	background-image: linear-gradient(to bottom,var(--hColor),var(--dColor));
+	filter: grayscale(100%);
+	cursor: none;
+}
+
+#syncSecond button.available, #soundCloudThird button.available {
+	filter: none;
+	cursor: pointer;
+}
+
+#tetherArtistJoin ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px;
+	font-size: 30px;
+}
+
+#tetherArtistJoin li {
+	line-height: var(--hSize);
+}
+
+#tetherArtistJoin .content #soundCloudThird+span {
+	line-height: 25px;
+	font-size: 25px;
+	margin-top: var(--pPad);
+	display: block;
+	padding: var(--pPad);
+}
+
+@media only screen and (max-width: 500px) {
+	#tetherChannels {
+		min-height: 100vh;
+	}
 }
