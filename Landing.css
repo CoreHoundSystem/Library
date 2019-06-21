@@ -3,12 +3,12 @@
 }
 
 #tetherLanding {
+	position: relative;
 	width: calc(100vw + 20px);
 	height: calc(100vh + 20px);
 	margin: -10px auto auto -10px;
 	font-size: 50px;
 	display: inline-block;
-	background-image: url();
 	background-size: cover;
 	background-position: center center;
 	-webkit-filter: blur(5px);
@@ -24,7 +24,7 @@
 	font-size: 50px;
 	position: absolute;
 	top: 0px;
-	left: calc(50vw - 150px);
+	left: calc(50% - 150px);
 }
 
 span.highlight {
