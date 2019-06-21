@@ -1,8 +1,10 @@
 #activeChannel {
 	position: fixed;
 	width: 100vw;
+	max-width: 500px;
 	background-color: var(--pColor);
 	bottom: 0px;
+	left: 0px;
 	z-index: 1000;
 	box-shadow: inset 40vw 30vh 50vw var(--gColor), inset -30vw -30vh 50vw var(--bColor), 0px 0px 5px var(--gColor);
 }
@@ -101,7 +103,7 @@
 
 .activeChannelName {
 	height: var(--hSize);
-	width: calc(100vw - var(--hSize) * 2);
+	width: calc(100% - var(--hSize) * 2);
 	display: inline-block;
 	vertical-align: top;
 	line-height: var(--hSize);
@@ -118,12 +120,18 @@
 }
 
 .activeArtistImage {
-	width: calc(100vw - calc(var(--pPad) * 2));
-	height: calc(100vw - calc(var(--pPad) * 2));
+	width: calc(100% - calc(var(--pPad) * 2));
+	//height: calc(100vw - calc(var(--pPad) * 2));
 	max-height: calc(100vh - 69px - var(--hSize) * 2 - var(--fSize) - var(--pPad) * 2);
 	margin: auto;
 	background-size: cover;
 	background-position: center center;
+}
+
+.activeArtistImage:before{
+	content: "";
+	display: block;
+	padding-top: 100%;
 }
 
 .activeArtistCalendar {
