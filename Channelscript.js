@@ -36,7 +36,7 @@ function dislike(x) {
 			sendEventToAnalytics("channelFilter","dislike",currentSong.songID,songOpinion,currentSong.songID+"-");
 		}
 		delimiter=""
-		if(thisChannel.likes.length>0) {
+		if(thisChannel.dislikes.length>0) {
 			delimiter="|";
 		}
 		thisChannel.dislikes=thisChannel.dislikes + delimiter + currentSong.songID;
@@ -76,7 +76,7 @@ function buildActiveSong(x) {
 	$('#activeChannel').empty();
 	$('#activeChannel').append('<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>');
 	$('#activeChannel').append('<div class="backOrMin arrow"><div><div></div><div></div></div></div><div class="activeChannelName">' + thisChannel.name + '</div>');	//active channel name
-	$('#activeChannel').append('<div class="activeArtistDetails"><div class="activeArtistImage" style="background-image: url(' + getArtist(x.artist).image + ');"></div></div>');		//add artist image
+	$('#activeChannel').append('<div class="activeArtistDetails"><div class="activeArtistImage" style="background-image: url(' + getArtist(x.artist).image + ');"></div><div class="activeArtistCalendar">' + getCalendar(x) + '</div></div>');		//add artist image
 	$('#activeChannel').append('<div class="activeSongDetails"><span>' + x.title + '</span><span>' + getArtist(x.artist).name + '</span><span>' + x.albumEvent + '</span></div><div class="activeSongActions"></div>');
 	$('#activeChannel').append('<div id="trackControls"><div class="upperRow"></div><div class="lowerRow"></div></div>');
 	$('.upperRow').append('<div><span></span><div id="trackTime"></div><span></span></div>');
@@ -84,11 +84,11 @@ function buildActiveSong(x) {
 	
 	
 	$('.backOrMin').click(function() {
-		$(this).parent().toggleClass('minimize');
+		$('body').toggleClass('minimize');
 	});
 	$('.activeSongDetails').click(function() {
-		if($(this).parent().hasClass('minimize')) {
-			$(this).parent().removeClass('minimize');
+		if($('body').hasClass('minimize')) {
+			$('body').removeClass('minimize');
 		}
 	});
 	$('#dislike').click(function() {
