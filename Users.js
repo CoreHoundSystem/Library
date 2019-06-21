@@ -193,4 +193,7 @@ $(function() {
 			$('#soundCloudThird').css('display','none');
 		}
 	})
+	$('#tetherFooter button.signOut').click(function() {
+		$('#signOut').click();
+	})
 })
