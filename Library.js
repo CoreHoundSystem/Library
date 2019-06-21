@@ -93,7 +93,7 @@ function updateChannel(x) {
 }
 
 function isLiked(x) {
-	if(thisChannel.likes.indexOf(x.songID)!=-1) {
+	if(thisChannel.likes.length>0&&thisChannel.likes.indexOf(x.songID)!=-1) {
 		return " liked";
 	} else {
 		return "";
@@ -179,9 +179,9 @@ function buildArtistSearch() {
 		$('.abcRioButton').click();
 	})
 	$('#buildChannel').click(function() {
-		newChannel=JSON.parse('{"chanID":"' + getUnixTimeStamp("C",profile.gID,Math.floor(new Date()/1000).toString(16)) + '","owner":"' + profile.gID+ '","artist":"' + theseArtists() + '","name":"' + $('#channelName').val() + '"}');
+		newChannel=JSON.parse('{"chanID":"' + getUnixTimeStamp("C",profile.gID,Math.floor(new Date()/1000).toString(16)) + '","owner":"' + profile.gID+ '","artist":"' + theseArtists() + '","name":"' + $('#channelName').val() + '","likes":"","dislikes":"","genres":""}');
 		profile.channels.push(newChannel);
-		listChannels()
+		listChannels();
 		submitData(channels,encodeURIComponent(JSON.stringify(newChannel)));
 	})
 }
@@ -216,7 +216,7 @@ function startCreateChannel(x) {
 				$('#buildChannel').removeClass('available');
 			}
 		})
-	},1000)
+	},500)
 }
 
 function theseArtists() {
@@ -250,4 +250,78 @@ function listChannels() {
 	$('.channelBox').click(function() {
 		startChannel(myChannels[parseInt($(this).attr('name'))]);					
 	});
+}
+
+function calendarURL(x) {
+	//x = artist UUID, use this to get gID and then gMail
+	s='https://calendar.google.com/calendar/embed?src=';
+	e='&ctz=America/Los_Angeles&pli=1&showTitle=0&showNav=0&showDate=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&mode=AGENDA&bgcolor=%23008B8B';
+	return s+x+e;
+}
+
+function updateArtsitObjects() {
+	for(var i=0;i<syncd.length;i++) {
+		thisSync=syncd[i].split("|");
+		for(var j=0;j<artists.length;j++) {
+			if(artists[j].uuid==thisSync[1]) {
+				artists[j].gID=thisSync[0];
+				for(var k=0;k<registered.length;k++) {
+					thisRegister=registered[k].split("|");
+					console.log(artists[j].gID);
+					if(artists[j].gID.toString()==thisRegister[0].toString()) {
+						artists[j].gMail=thisRegister[1];
+					}
+				}
+			}
+		}
+	}
+	console.log(artists);
+}
+
+function getCalendar(x) {
+	if('gMail' in getArtist(x.artist)) {
+		return '<iframe src="' + calendarURL(getArtist(x.artist).gMail) + '"></iframe><div></div>';
+	} else {
+		return "";
+	}
+}
+
+function decrypt(x,y) {
+	$(y).parent().next().attr('name','');
+	$(y).parent().next().html('');
+	$(y).parent().next().next().text("Waiting..");
+	$(y).parent().next().next().removeClass('available');
+	if(x.length==44) {
+		dKey=x.substring(40);
+		u=x.substring(0,32);
+		r=x.substring(32,40);
+		fullDKey="";
+		for(var i=0;i<11;i++) {
+			fullDKey=fullDKey+dKey;
+		}
+		newData="";
+		for(var i=0;i<fullDKey.length;i++) {
+			testFigure=(parseInt(x.substring(i,i+1),16)-fullDKey[i]);
+			if(testFigure<0) {
+				testFigure=testFigure+16;
+			}
+			newData=newData+(testFigure).toString(16);
+		}
+		newUUID=newData.substring(0,32);
+		d="-";
+		dashList = [8,13,18,23];
+		for(var i=0;i<dashList.length;i++) {
+			newUUID = newUUID.slice(0,dashList[i]) + d + newUUID.slice(dashList[i]);
+		}
+		$(y).parent().next().next().attr('name',newUUID);
+		getDateFromHex(newData.substring(35,40),2003,y);
+	}
+}
+
+function getDateFromHex(x,y,z) {
+	console.log(['January','February','March','April','May','June','July','August','September','October','November','December'][parseInt(x.substring(2,3),16)-1] + " " + x.substring(3,6) + ", " + (parseInt(x.substring(0,2),16) + y));
+	rezDate=['January','February','March','April','May','June','July','August','September','October','November','December'][parseInt(x.substring(2,3),16)-1] + " " + x.substring(3,6) + ", " + (parseInt(x.substring(0,2),16) + y);
+	$(z).parent().next().html('Is your SL rez date<br><span class="highlight">' + rezDate + '</span>?');
+	$(z).parent().next().next().text("Yes, Sync My Avatar!");
+	$(z).parent().next().next().addClass('available');
 }
