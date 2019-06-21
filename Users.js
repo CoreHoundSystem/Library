@@ -23,13 +23,17 @@ function dataPulls(x) {
 		console.log(x);
 		pSongs=[];
 		listChannels();
+		updateArtsitObjects();
 		if(profile.uuid.length==36) {
 			for(var i=0;i<songs.length;i++) {
 				if(songs[i].artist==profile.uuid) {
 					pSongs.push(songs[i].songID);
 				}
 			}
-			profile.songs=pSongs;
+			if(pSongs.length>0) {
+				$('#soundCloudThird').css('display','none');
+				profile.songs=pSongs;
+			}
 		}
 		cL(profile);
 	}
@@ -96,17 +100,22 @@ function getProfile(a,x,y) {
 	});
 }
 
-function checkSync(g,x,y) {
+function checkSync(g,a,x,y) {
 	var syncChecker=0;
+	window[a]=[];
 	window["sync"]="NA";
 	$(function() {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
+				window[a].push(entry.gsx$data.$t);
 				if(entry.gsx$data.$t.indexOf(g)===0) {
 					window["sync"]=entry.gsx$data.$t.split("|");
 					profile.uuid=window["sync"][1];
+					$('#syncSecond').css('display','none');
+					$('#soundCloudThird').css('display','block');
 				}
+				//add an array to push all entries ["gID|uuid"]
 			});
 			if(syncChecker==0) {
 				//prompt user to sync
@@ -119,18 +128,22 @@ function checkSync(g,x,y) {
 	});
 }
 
-function checkRegistry(g,m,f,l,x,y) {
+function checkRegistry(g,m,f,l,a,x,y) {
 	var regChecker=0;
+	window[a]=[];
 	$(function() {
 		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
-				if(entry.gsx$data.$t.toString()==g.toString()) {
+				window[a].push(entry.gsx$data.$t);
+				if(entry.gsx$data.$t.indexOf(g)!=-1) {
 					regChecker++;
 				}
+				//add an array to push all entries [{gID,gMail}]
 			});
+			console.log(regChecker);
 			if(regChecker==0) {
-				sendEventToAnalytics("user","register",g,registerURL,g);
+				sendEventToAnalytics("user","register",g,registerURL,encodeURIComponent(g+"|"+m+"|"+f+"|"+l));
 			} else {
 				//what to do if checker is > 0
 			}
@@ -143,14 +156,41 @@ function loadUser(p) {
 	console.log(p);
 	window["profile"]=p;
 	cL([profile.gID,profile.gMail,profile.firstName,profile.lastName].join("|"));
-	checkRegistry(p.gID,p.gMail,p.firstName,p.lastName,userRegistry,"1");
-	checkSync(p.gID,userSyncs,"1");
-	getChannels(p.gID,"myChannels",channelKey,"1");	
-	
+	$('#loginFirst').css('display','none');
+	$('#syncSecond').css('display','block');
+	getChannels(p.gID,"myChannels",channelKey,"1");
+	checkRegistry(p.gID,p.gMail,p.firstName,p.lastName,"registered",userRegistry,"1");
+	checkSync(p.gID,"syncd",userSyncs,"1");	
 }
 
 $(function() {
 	dP=JSON.parse('{"checkRegistry":0,"checkSync":0,"getProfile":0,"getChannels":0,"getSongs":0}');
 	getProfile("artists",syncdProfile,"1");
 	getSongs("songs",songKey,"1");
+	$('#loginFirst button').click(function() {
+		$('.abcRioButton').click();
+	})
+	$('#syncSecond input').on('input',function() {
+		decrypt($('#syncSecond input').val(),$(this));
+	})
+	$('#syncSecond button').click(function() {
+		if($(this).hasClass('available')) {
+			sendEventToAnalytics("user","sync",$('#syncSecond input').val(),syncURL,encodeURIComponent(profile.gID+"|"+$(this).attr('name')+"|"+$('#syncSecond input').val()));
+			$('#syncSecond').css('display','none');
+			$('#soundCloudThird').css('display','block');
+		}
+	})
+	$('#soundCloudThird input').on('input',function() {
+		if($('#soundCloudThird input').val().indexOf("https://soundcloud.com/")==0) {
+			$('#soundCloudThird button').addClass('available');
+		} else {
+			$('#soundCloudThird button').removeClass('available');
+		}
+	})
+	$('#soundCloudThird button').click(function() {
+		if($(this).hasClass('available')) {
+			sendEventToAnalytics("user",profile.gID,$('#soundCloudThird input').val());
+			$('#soundCloudThird').css('display','none');
+		}
+	})
 })
