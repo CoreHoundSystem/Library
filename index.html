@@ -14,7 +14,6 @@
 		<link rel="stylesheet" href="https://tether.corehoundsystem.com/Bands.css">
 		
 		
-		
 		<script src="https://apis.google.com/js/platform.js" defer></script>
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-141646766-1"></script>
 		<script>
@@ -137,7 +136,7 @@
 			<div id="loginModal">
 				<div class="g-signin2" data-onsuccess="onSignIn"></div>
 			</div>
-			<a href="#" onclick="signOut();" style="display:none">Sign out</a>
+			<a id="signOut" href="#" onclick="signOut();" style="display:none">Sign out</a>
 			<script>
 				$(function() {			///temp
 					if(window.location.href.indexOf("Downloads")!==-1) {
@@ -159,13 +158,16 @@
 						profile="";
 						cL('User signed out.');
 					});
+					location.reload();
 				}
 			</script>
+			<div id="tetherFooter">
+				<div class="signOut"><button class="signOut">Sign Out</button></div>
+				<div id="socialBar"></div>
+				<div id="legalBar"><span class="modal">Privacy Policy</span><span class="modal">Terms of Use</span></div>
+				<div id="copyright">©2019 Core Hound System, LLC - All Rights Reserved</div>
+			</div>
 		</div>
-		<div id="tetherFooter">
-			<div id="socialBar"></div>
-			<div id="legalBar"><span class="modal">Privacy Policy</span><span class="modal">Terms of Use</span></div>
-			<div id="copyright">©2019 Core Hound System, LLC - All Rights Reserved</div>
-		</div>
+		
 	</body>
 </html>
