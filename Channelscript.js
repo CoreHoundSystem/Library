@@ -74,6 +74,7 @@ function trackTime(x) {
 
 function buildActiveSong(x) {
 	$('#activeChannel').empty();
+	$('body').addClass('music');
 	$('#activeChannel').append('<audio id="activeSong" src="' + songURL + x.link + '" autoplay="true" type="audio/mp3" volume="1.0" ontimeupdate="trackTime(this)"></audio>');
 	$('#activeChannel').append('<div class="backOrMin arrow"><div><div></div><div></div></div></div><div class="activeChannelName">' + thisChannel.name + '</div>');	//active channel name
 	$('#activeChannel').append('<div class="activeArtistDetails"><div class="activeArtistImage" style="background-image: url(' + getArtist(x.artist).image + ');"></div><div class="activeArtistCalendar">' + getCalendar(x) + '</div></div>');		//add artist image
