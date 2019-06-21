@@ -45,5 +45,32 @@ body {
 }
 
 #tetherFooter {
-	min-height: 100vh;
+	//min-height: 100vh;
+	background-color: darkslategrey;
+}
+
+body.minimize #tetherFooter {
+	margin-bottom: 100px;
+}
+
+#tetherFooter>div {
+	text-align: center;
+	color: var(--tColor);
+	padding: 3px var(--pPad);
+}
+
+#tetherFooter span {
+	padding: var(--pPad);
+}
+
+#copyright {
+	
+}
+
+#legalBar {
+	
+}
+
+#socialBar {
+	
 }
