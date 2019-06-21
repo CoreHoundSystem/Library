@@ -7,7 +7,7 @@
 	box-shadow: inset 40vw 30vh 50vw var(--gColor), inset -30vw -30vh 50vw var(--bColor), 0px 0px 5px var(--gColor);
 }
 
-#activeChannel.minimize {
+.minimize #activeChannel {
 	transition: .1s;
 }
 
@@ -124,6 +124,29 @@
 	margin: auto;
 	background-size: cover;
 	background-position: center center;
+}
+
+.activeArtistCalendar {
+	min-height: 20px;
+	position: relative;
+	margin-top: var(--pPad);
+}
+
+.activeArtistCalendar iframe {
+	width: calc(100% - var(--pPad) * 2);
+	height: 100%;
+	display: block;
+	margin: auto;
+	border: none;
+}
+
+.activeArtistCalendar iframe+div{
+	height: 26px;
+    position: absolute;
+    width: calc(100% - var(--pPad) * 2);
+    background: #e3e9ff;
+    bottom: 0px;
+	left: var(--pPad);
 }
 
 .activeSongDetails {
