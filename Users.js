@@ -1,17 +1,14 @@
-registerURL="https://docs.google.com/forms/d/e/1FAIpQLSes-beRIp1-A2SgZP9CS-8F1dr0E71Z63RlwjaS1nnWuafQ5w/formResponse?usp=pp_url&entry.762123824="	//register gID
-syncURL="https://docs.google.com/forms/d/e/1FAIpQLSe-bJWth2cKQ7-jo0vOHD_mSaIQIQfJN4aFcskKBfMaeH7zhw/formResponse?usp=pp_url&entry.762123824=";	//sync gID to UUID
-artist="https://docs.google.com/forms/d/e/1FAIpQLSdkyoQyqkHLjMPNbYa18RwcTLdP4ViqJXUt259MM4xUs_BCaw/formResponse?usp=pp_url&entry.762123824=";	//Adding artist uuid
-channels="https://docs.google.com/forms/d/e/1FAIpQLSdlQGMcv_XxMOywJUWwFVVDKOG2elnR247wVMsggyFjUgZhZQ/formResponse?usp=pp_url&entry.762123824=";	//Channel list
-songs="https://docs.google.com/forms/d/e/1FAIpQLSf2TJ7YVxt1cqVSBoQIJysDuBFpJ-WMTgnNUvj5lU7xj-PhZQ/formResponse?usp=pp_url&entry.762123824=";	//Song list
+registerURL="https://docs.google.com/forms/d/e/1FAIpQLSes-beRIp1-A2SgZP9CS-8F1dr0E71Z63RlwjaS1nnWuafQ5w/formResponse?usp=pp_url&entry.762123824=";
+syncURL="https://docs.google.com/forms/d/e/1FAIpQLSe-bJWth2cKQ7-jo0vOHD_mSaIQIQfJN4aFcskKBfMaeH7zhw/formResponse?usp=pp_url&entry.762123824=";
+artist="https://docs.google.com/forms/d/e/1FAIpQLSdkyoQyqkHLjMPNbYa18RwcTLdP4ViqJXUt259MM4xUs_BCaw/formResponse?usp=pp_url&entry.762123824=";
+channels="https://docs.google.com/forms/d/e/1FAIpQLSdlQGMcv_XxMOywJUWwFVVDKOG2elnR247wVMsggyFjUgZhZQ/formResponse?usp=pp_url&entry.762123824=";
+songs="https://docs.google.com/forms/d/e/1FAIpQLSf2TJ7YVxt1cqVSBoQIJysDuBFpJ-WMTgnNUvj5lU7xj-PhZQ/formResponse?usp=pp_url&entry.762123824=";
 
-userRegistry="1pg-HrcwZZc26c5d9DIyG1AKqCUG-rwEQAc_Zh7aVXZ8";	//TRUE get info from registry
-userSyncs="1GDyPff8QkQynVWfOWZIFNli4Lz8NtScWPc1U5uIwOOM";		//TRUE get syncd uuid for gID
+userRegistry="1pg-HrcwZZc26c5d9DIyG1AKqCUG-rwEQAc_Zh7aVXZ8";
+userSyncs="1GDyPff8QkQynVWfOWZIFNli4Lz8NtScWPc1U5uIwOOM";
 syncdProfile="1wXxggUlx2td4EatduNW47cgxVX91xN5k7EYcFtjzoak";
-//syncdProfile="1zylDFVqtUmkMFULDmxzhLyi6JZr0lRhE4Kir4dt0yrk"	//TRUE get artists profiles
-//channelKey="1i9SfwLkDj40yOqOmRMAhe4FXI5fjjjyufx8Nz_IPKbg";	//temp
-channelKey="1uBEt-sN0Ah00fu2Y9q8BfFMOzWyetaTLfZ0AAyp9Mro";	//TRUE get channels
-//songKey="1EHmHCY8-n9wVSkimbL2k7d7NMZDo8xSsrtIuaRRJwNM";
-songKey="1TyvPyzsS43sGyANpbeOjwP3HSQFpH9JtcxXYbe8Aj6w";		//TRUE get songs
+channelKey="1uBEt-sN0Ah00fu2Y9q8BfFMOzWyetaTLfZ0AAyp9Mro";
+songKey="1TyvPyzsS43sGyANpbeOjwP3HSQFpH9JtcxXYbe8Aj6w";
 
 function dataPulls(x) {
 	dP[x]=1;
@@ -20,7 +17,6 @@ function dataPulls(x) {
 		dPSum+=dP[Object.keys(dP)[i]];
 	}
 	if(dPSum==Object.keys(dP).length) {
-		console.log(x);
 		pSongs=[];
 		listChannels();
 		updateArtsitObjects();
@@ -35,7 +31,6 @@ function dataPulls(x) {
 				profile.songs=pSongs;
 			}
 		}
-		cL(profile);
 	}
 }
 
@@ -115,14 +110,7 @@ function checkSync(g,a,x,y) {
 					$('#syncSecond').css('display','none');
 					$('#soundCloudThird').css('display','block');
 				}
-				//add an array to push all entries ["gID|uuid"]
 			});
-			if(syncChecker==0) {
-				//prompt user to sync
-			}
-			if(syncChecker>1) {
-				//error?
-			}
 			dataPulls("checkSync");
 		});
 	});
@@ -139,9 +127,7 @@ function checkRegistry(g,m,f,l,a,x,y) {
 				if(entry.gsx$data.$t.indexOf(g)!=-1) {
 					regChecker++;
 				}
-				//add an array to push all entries [{gID,gMail}]
 			});
-			console.log(regChecker);
 			if(regChecker==0) {
 				sendEventToAnalytics("user","register",g,registerURL,encodeURIComponent(g+"|"+m+"|"+f+"|"+l));
 			} else {
@@ -153,11 +139,11 @@ function checkRegistry(g,m,f,l,a,x,y) {
 }
 
 function loadUser(p) {
-	console.log(p);
 	window["profile"]=p;
-	cL([profile.gID,profile.gMail,profile.firstName,profile.lastName].join("|"));
 	$('#loginFirst').css('display','none');
 	$('#syncSecond').css('display','block');
+	$('#joinTether').addClass('signedIn');
+	$('.signOut').addClass('signedIn');
 	getChannels(p.gID,"myChannels",channelKey,"1");
 	checkRegistry(p.gID,p.gMail,p.firstName,p.lastName,"registered",userRegistry,"1");
 	checkSync(p.gID,"syncd",userSyncs,"1");	
