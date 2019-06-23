@@ -53,6 +53,7 @@
 		<script>
 			rPMax=12;
 			testMode=1;
+			//songURL="https://raw.githubusercontent.com/CoreHoundSystem/Tether/master/songs/";
 			songURL="https://tether-sl.s3.us-east-2.amazonaws.com/";
 			
 			function cL(x) {
@@ -78,7 +79,7 @@
 					<div class="artistList"></div>
 				</div>
 				<button id="createChannel">Create A Channel</button>
-				<button id="joinTether">Join Tether</button>
+				<button id="joinTether"></button>
 			</div>
 			<div id="tetherPromote" class="info band">
 				<div class="content">Search dozens of <span class="highlight">Second Life Musicians</span> and hundreds of songs!</div>
@@ -138,15 +139,24 @@
 			</div>
 			<a id="signOut" href="#" onclick="signOut();" style="display:none">Sign out</a>
 			<script>
+				$(function() {			///temp
+					if(window.location.href.indexOf("Downloads")!==-1) {
+						loadUser(JSON.parse('{"gID":"110422615478236421761","firstName":"Joshua","lastName":"Hess","gMail":"info@corehoundsystem.com"}'));
+					}
+				});
+				
 				function onSignIn(googleUser) {
 					var prof = googleUser.getBasicProfile();
 					sendEventToAnalytics("login","google",prof.getId());
 					loadUser(JSON.parse('{"gID":"' + prof.getId() + '","firstName":"' + prof.getGivenName() + '","lastName":"' + prof.getFamilyName() + '","gMail":"' + prof.getEmail() + '"}'));
 					cL(JSON.parse('{"gID":"' + prof.getId() + '","firstName":"' + prof.getGivenName() + '","lastName":"' + prof.getFamilyName() + '","gMail":"' + prof.getEmail() + '"}'));
 				}
+				
 				function signOut() {
 					var auth2 = gapi.auth2.getAuthInstance();
 					auth2.signOut().then(function () {
+						$('#joinTether').removeClass('signedIn');
+						$('.signOut').removeClass('signedIn');
 						sendEventToAnalytics("logout","google",profile.gID);
 						profile="";
 						cL('User signed out.');
