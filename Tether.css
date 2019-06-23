@@ -85,10 +85,10 @@ body.minimize #tetherFooter {
 #socialBar {
 	
 }
-@media only screen and (min-width: 900px) {
+@media only screen and (min-width: 640px) {
 	.music #tetherBody {
-		width: calc(100vw - 500px);
-		left: 500px;
+		width: calc(100vw - 320px);
+		left: 320px;
 	}
 	body.minimize.music #tetherBody {
 		width: 100vw;
