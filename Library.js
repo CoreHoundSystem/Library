@@ -67,9 +67,7 @@ function getArtist(x) {
 }
 
 function sendEventToAnalytics(x,y,z,f,d) {		//Sends event to Google Analytics - requires analytics
-	console.log(x,y,z);
 	if(d) {
-		console.log(f,d);
 		submitData(f,d);
 	}
 	gtag('event',y, {
@@ -83,10 +81,8 @@ function submitData(f,d) {
 }
 
 function updateChannel(x) {
-	console.log(x);
 	for(var i=0;i<myChannels.length;i++) {
 		if(myChannels[i].chanID==x.chanID) {
-			console.log(myChannels[i]);
 		}
 	}
 	submitData(channels,encodeURIComponent(JSON.stringify(x)));
@@ -123,7 +119,6 @@ function buildArtistSearch() {
 				artistArray.push($(this).val());
 			}
 		})
-		console.log(artistArray);
 		$('.artistList div.artistOption').each(function() {
 			if($(this).text().toLowerCase().indexOf(artistName.toLowerCase())==-1||artistArray.indexOf($(this).text())!=-1) {
 				$(this).addClass('hide');
@@ -176,7 +171,13 @@ function buildArtistSearch() {
 		}
 	})
 	$('#joinTether').click(function() {
-		$('.abcRioButton').click();
+		if($(this).hasClass('signedIn')) {
+			$('html body').animate({
+				scrollTop: $('#creationBox').offset().top
+			},1000);
+		} else {
+			$('.abcRioButton').click();
+		}
 	})
 	$('#buildChannel').click(function() {
 		newChannel=JSON.parse('{"chanID":"' + getUnixTimeStamp("C",profile.gID,Math.floor(new Date()/1000).toString(16)) + '","owner":"' + profile.gID+ '","artist":"' + theseArtists() + '","name":"' + $('#channelName').val() + '","likes":"","dislikes":"","genres":""}');
@@ -189,10 +190,8 @@ function buildArtistSearch() {
 function startCreateChannel(x) {
 	setTimeout(function() {
 		if(typeof profile==='object') {
-			console.log("TRUE");
 		} else {
 			$('.abcRioButton').click();
-			console.log("FALSE");
 		}
 		$('html body').animate({
 			scrollTop: $('#creationBox').offset().top
@@ -222,16 +221,12 @@ function startCreateChannel(x) {
 function theseArtists() {
 	artistList=[];
 	$('#creationBox').find('.artistSearch').each(function() {
-		console.log($(this).val());
 		for(var i=0;i<artists.length;i++) {
 			
 			if(artists[i].name==$(this).val()) {
-				console.log(artists[i].uuid);
 				artistList.push(artists[i].uuid);
 			}
 		}
-		console.log(artistList.join("|"));
-		
 	})
 	return artistList.join("|");
 }
@@ -243,7 +238,6 @@ function getUnixTimeStamp(c,i,t) {
 function listChannels() {
 	for(var i=0;i<profile.channels.length;i++) {
 		if(!$('#' + profile.channels[i].chanID).length) {
-			console.log(profile.channels[i]);
 			$('#myChannels').prepend('<div id="' + profile.channels[i].chanID + '" class="channelBox" name="' + i + '"><div style="background-image:url(' + getArtist(profile.channels[i].artist.substring(0,36)).image + ')"></div><div style="background-image:url(' + getArtist(profile.channels[i].artist.substring(0,36)).image + ')"></div><span>' + profile.channels[i].name + '</span></div>');
 		}
 	}
@@ -267,7 +261,6 @@ function updateArtsitObjects() {
 				artists[j].gID=thisSync[0];
 				for(var k=0;k<registered.length;k++) {
 					thisRegister=registered[k].split("|");
-					console.log(artists[j].gID);
 					if(artists[j].gID.toString()==thisRegister[0].toString()) {
 						artists[j].gMail=thisRegister[1];
 					}
@@ -275,7 +268,6 @@ function updateArtsitObjects() {
 			}
 		}
 	}
-	console.log(artists);
 }
 
 function getCalendar(x) {
@@ -319,7 +311,6 @@ function decrypt(x,y) {
 }
 
 function getDateFromHex(x,y,z) {
-	console.log(['January','February','March','April','May','June','July','August','September','October','November','December'][parseInt(x.substring(2,3),16)-1] + " " + x.substring(3,6) + ", " + (parseInt(x.substring(0,2),16) + y));
 	rezDate=['January','February','March','April','May','June','July','August','September','October','November','December'][parseInt(x.substring(2,3),16)-1] + " " + x.substring(3,6) + ", " + (parseInt(x.substring(0,2),16) + y);
 	$(z).parent().next().html('Is your SL rez date<br><span class="highlight">' + rezDate + '</span>?');
 	$(z).parent().next().next().text("Yes, Sync My Avatar!");
