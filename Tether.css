@@ -94,4 +94,7 @@ body.minimize #tetherFooter {
 		width: 100vw;
 		left: 0px;
 	}
+	body.minimize.music #tetherFooter {
+		margin-bottom: 0px !important;
+	}
 }
