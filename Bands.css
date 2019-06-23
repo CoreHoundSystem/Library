@@ -178,6 +178,14 @@
 	cursor: pointer;
 }
 
+button.signOut {
+	display: none;
+}
+
+button.signOut.signedIn {
+	display: block;
+}
+
 #tetherArtistJoin ul {
 	list-style-type: none;
 	padding: 0px;
