@@ -21,7 +21,6 @@ function like(x) {
 	}
 	$(x).toggleClass('liked');
 	updateChannel(thisChannel);
-	cL(rLiked);
 }
 
 function dislike(x) {
@@ -43,7 +42,6 @@ function dislike(x) {
 		playSong();
 	}
 	updateChannel(thisChannel);
-	cL(rDisliked);
 }
 
 function togglePause() {
@@ -82,8 +80,6 @@ function buildActiveSong(x) {
 	$('#activeChannel').append('<div id="trackControls"><div class="upperRow"></div><div class="lowerRow"></div></div>');
 	$('.upperRow').append('<div><span></span><div id="trackTime"></div><span></span></div>');
 	$('.lowerRow').append('<div id="dislike" class="trackControls dislike"><div><div></div></div></div><div id="like" class="trackControls like' + isLiked(x) + '"><div><div></div></div><div><div></div></div><div></div></div><div id="pause" class="trackControls pause"><div><div></div></div><div><div></div></div></div><div id="nextTrack" class="trackControls nextTrack"><div><div></div></div><div><div></div></div><div><div></div></div></div>');
-	
-	
 	$('.backOrMin').click(function() {
 		$('body').toggleClass('minimize');
 	});
@@ -106,7 +102,6 @@ function buildActiveSong(x) {
 	});
 	
 	audio=document.getElementById("activeSong");
-	//audio.play();
 	$('#activeSong').on('ended',function() {
 		playSong();
 	});
@@ -114,10 +109,6 @@ function buildActiveSong(x) {
 
 function playSong() {
 	songNumber=Math.round(Math.random()*cSongs.length);
-	cL(rDisliked);
-	cL(rPlayed);
-	console.log(songNumber)
-	console.log(cSongs[songNumber]);
 	if(songNumber==cSongs.length||rPlayed.indexOf(cSongs[songNumber].songID)!=-1||(songNumber<0||songNumber>=cSongs.length)||rDisliked.indexOf(cSongs[songNumber].songID)!=-1) {
 		playSong();
 	} else {
@@ -188,8 +179,6 @@ function startChannel(c) {
 		}
 	}
 	for(var i=0;i<songs.length;i++) {
-		console.log(songs[i].artist);
-		console.log(cArtists);
 		if((cArtists.indexOf(songs[i].artist)!=-1||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1&&(songs[i].state=="available"||songs[i].state=="requested")) {
 			cSongs.push(songs[i]);
 		}
@@ -199,8 +188,6 @@ function startChannel(c) {
 	}
 	sendEventToAnalytics("channelStart","rPMax",rPMax);
 	sendEventToAnalytics("channelStart","genres",genres,popGenres,genres.join("|"));
-	console.log(genres);
-	console.log(cSongs.length);
 	if(cSongs.length>0) {
 		playSong();
 	}
