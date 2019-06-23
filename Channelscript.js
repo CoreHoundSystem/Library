@@ -146,7 +146,7 @@ function playSong() {
 			}
 		}
 		buildActiveSong(currentSong);
-		sendEventToAnalytics("playSong",profile.gID,currentSong,popSong,currentSong.songID);
+		sendEventToAnalytics("playSong",profile.gID,currentSong.songID,popSong,currentSong.songID);
 	}
 }
 
