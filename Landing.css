@@ -117,15 +117,25 @@ button {
 	background-image: linear-gradient(to bottom,var(--hColor),var(--dColor));
 	filter: grayscale(100%);
 	cursor: none;
+	display: none;
 }
 
 #createChannel.available {
 	filter: none;
 	cursor: pointer;
+	display: block;
 }
 
 #joinTether {
 	background-image: linear-gradient(to bottom,var(--gColor),var(--pColor));
+}
+
+#joinTether:after {
+	content:"Join Tether";
+}
+
+#joinTether.signedIn:after {
+	content:"My Channels";
 }
 
 @media only screen and (max-width: 500px) {
