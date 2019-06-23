@@ -91,7 +91,7 @@ function getProfile(a,x,y) {
 		function (data) {
 			$.each(data.feed.entry, function(i,entry) {
 				thisImage=entry.gsx$image.$t;
-				thisEntry=JSON.parse('{"uuid":"' + entry.gsx$data.$t + '","name":"' + entry.gsx$name.$t + '","image":"' + thisImage + '"}');
+				thisEntry=JSON.parse('{"uuid":"' + entry.gsx$data.$t + '","name":"' + entry.gsx$name.$t + '","image":"' + thisImage.replace("/1)","/2)") + '"}');
 				window[a].push(thisEntry);
 			});
 			dataPulls("getProfile");
