@@ -1,7 +1,7 @@
 #activeChannel {
 	position: fixed;
 	width: 100vw;
-	max-width: 500px;
+	max-width: 640px;
 	background-color: var(--pColor);
 	bottom: 0px;
 	left: 0px;
@@ -169,6 +169,8 @@
 	display: block;
 	font-size: 20px;
 	color: var(--tColor);
+	overflow: hidden;
+	height: 23px;
 }
 
 .activeSongDetails span:nth-child(1) {
@@ -433,4 +435,10 @@
 
 #nextTrack {
 	
+}
+
+@media only screen and (min-width: 640px) {
+	#activeChannel {
+		max-width: 320px;
+	}
 }
