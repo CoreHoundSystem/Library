@@ -77,7 +77,15 @@ function sendEventToAnalytics(x,y,z,f,d) {		//Sends event to Google Analytics - 
 }
 
 function submitData(f,d) {
-	$('body').append('<iframe style="display:none" src="' + f + d + '">');
+	getPostTimeID='i'+new Date().getTime();
+	$('body').append('<iframe id="' + getPostTimeID + '" class="posting" style="display:none" src="' + f + d + '">');
+	$('#' + getPostTimeID).queue('q'+getPostTimeID,deleteMe($('#' + getPostTimeID)));
+}
+
+function deleteMe(x) {
+	setTimeout(function() {
+		$(x).remove();
+	},180000)
 }
 
 function updateChannel(x) {
