@@ -157,11 +157,14 @@ function areThereDislikes(c) {
 	}
 }
 
+rPMax=12;
+
 function startChannel(c) {
+	rPMax=12;
 	$('#activeChannel').empty();
 	window["thisChannel"]=c;
 	cArtists=c.artist.split("|");
-	likes=[];
+	//likes=[];
 	likes=areThereLikes(c);
 	dislikes=areThereDislikes(c);
 	genres=[];
@@ -170,23 +173,32 @@ function startChannel(c) {
 	window["rDisliked"]=dislikes;
 	window["rLiked"]=likes;
 	window["commercialTicker"]=0;
+	lArtists=[];
 	for(var i=0;i<songs.length;i++) {
-		thisSong=0;
-		if(cArtists.indexOf(songs[i].artist)!=-1||likes.indexOf(songs[i].songID)!=-1) {
+		//thisSong=0;
+		if(cArtists.indexOf(songs[i].artist)!=-1) {
 			if(genres.indexOf(songs[i].genre)==-1) {
 				genres.push(songs[i].genre);
 			}
 		}
+		if(likes.length>0) {
+			if(likes.indexOf(songs[i].songID)!=-1) {
+				if(lArtists.indexOf(songs[i].artist)==-1) {
+					lArtists.push(songs[i].artist);
+				}
+			}
+		}
+		//||likes.indexOf(songs[i].songID)!=-1
 	}
 	for(var i=0;i<songs.length;i++) {
-		if((cArtists.indexOf(songs[i].artist)!=-1||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1&&(songs[i].state=="available"||songs[i].state=="requested")) {
+		if((cArtists.indexOf(songs[i].artist)!=-1||lArtists.indexOf(songs[i].artist)!=-1||genres.indexOf(songs[i].genre)!=-1)&&dislikes.indexOf(songs[i].songID)==-1&&(songs[i].state=="available"||songs[i].state=="requested")) {
 			cSongs.push(songs[i]);
 		}
 	}
 	if(rPMax>=cSongs.length) {
 		rPMax=cSongs.length-2;
 	}
-	sendEventToAnalytics("channelStart","rPMax",rPMax);
+	sendEventToAnalytics("channelStart","rPMax",rPMax + ' ' + cSongs.length);
 	sendEventToAnalytics("channelStart","genres",genres,popGenres,genres.join("|"));
 	if(cSongs.length>0) {
 		playSong();
