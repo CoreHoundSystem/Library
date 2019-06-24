@@ -10,6 +10,8 @@ syncdProfile="1wXxggUlx2td4EatduNW47cgxVX91xN5k7EYcFtjzoak";
 channelKey="1uBEt-sN0Ah00fu2Y9q8BfFMOzWyetaTLfZ0AAyp9Mro";
 songKey="1TyvPyzsS43sGyANpbeOjwP3HSQFpH9JtcxXYbe8Aj6w";
 
+songURL="https://tether-sl.s3.us-east-2.amazonaws.com/";
+
 function dataPulls(x) {
 	dP[x]=1;
 	dPSum=0;
