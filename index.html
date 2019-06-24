@@ -125,7 +125,6 @@
 					var prof = googleUser.getBasicProfile();
 					sendEventToAnalytics("login","google",prof.getId());
 					loadUser(JSON.parse('{"gID":"' + prof.getId() + '","firstName":"' + prof.getGivenName() + '","lastName":"' + prof.getFamilyName() + '","gMail":"' + prof.getEmail() + '"}'));
-					cL(JSON.parse('{"gID":"' + prof.getId() + '","firstName":"' + prof.getGivenName() + '","lastName":"' + prof.getFamilyName() + '","gMail":"' + prof.getEmail() + '"}'));
 				}
 				
 				function signOut() {
@@ -135,7 +134,6 @@
 						$('.signOut').removeClass('signedIn');
 						sendEventToAnalytics("logout","google",profile.gID);
 						profile="";
-						cL('User signed out.');
 					});
 					location.reload();
 				}
