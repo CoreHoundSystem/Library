@@ -143,7 +143,7 @@ function buildArtistSearch() {
 		}
 	});
 	for(var i=0;i<artists.length;i++) {
-		$('.artistList').append('<div class="artistOption" name="' + artists[i].uuid + '">' + artists[i].name + '</div>');
+		$('.artistList').append('<div class="artistOption option" name="' + artists[i].uuid + '">' + artists[i].name + '</div>');
 	}
 	$('.artistSearch').change(function() {
 		if(!$(this).parents('#landingModal').length&&$('.artistOption').text().indexOf($(this).val())!=-1) {
@@ -230,7 +230,6 @@ function theseArtists() {
 	artistList=[];
 	$('#creationBox').find('.artistSearch').each(function() {
 		for(var i=0;i<artists.length;i++) {
-			
 			if(artists[i].name==$(this).val()) {
 				artistList.push(artists[i].uuid);
 			}
@@ -274,6 +273,18 @@ function updateArtsitObjects() {
 					}
 				}
 			}
+		}
+	}
+	if(profile.uuid.length==36) {
+		for(var i=0;i<songs.length;i++) {
+			if(songs[i].artist==profile.uuid) {
+				pSongs.push(songs[i]);
+			}
+		}
+		if(pSongs.length>0) {
+			$('#soundCloudThird').css('display','none');
+			profile.songs=pSongs;
+			buildMySongs();
 		}
 	}
 }
@@ -323,4 +334,170 @@ function getDateFromHex(x,y,z) {
 	$(z).parent().next().html('Is your SL rez date<br><span class="highlight">' + rezDate + '</span>?');
 	$(z).parent().next().next().text("Yes, Sync My Avatar!");
 	$(z).parent().next().next().addClass('available');
+}
+
+function buildMySongs() {
+	$('#landingModal').append('<button id="goToMySongs">My Songs</button>');
+	$('#goToMySongs').click(function() {
+		$('html body').animate({
+			scrollTop: $('#creationBox').offset().top
+		},1000);
+	})
+	$('#tetherArtistJoin .content').css('display','none');
+	states=['requested','available','submitted','pending'];
+	console.log(profile);
+	for(var i=0;i<profile.songs.length;i++) {
+		thisSong=profile.songs[i];
+		console.log(thisSong);
+		if(!$('#mySongs #'+thisSong.state+'.exists').length) {
+			$('#mySongs #'+thisSong.state).addClass('exists');
+			$('#mySongs #'+thisSong.state).append('<h3>' + thisSong.state + '</h3>');
+		}
+		if(states.indexOf(thisSong.state)!=-1) {
+			$('#mySongs #'+thisSong.state).append('<div id="'+thisSong.songID+'" class="songBox"><div class="songHeader"><div class="songTitle"><input type="text" placeholder="Song Title" value="' + thisSong.title + '"></div><div class="songSource"><input type="text" placeholder="Album or Event" value="' + thisSong.albumEvent + '"></div></div><div class="songDetails"><div class="songGenre"><input type="text" placeholder="Song Genre" value="' + thisSong.genre + '"><div class="genreList list"></div></div><div class="songAd"><input type="text" placeholder="Song Ad" value="' + thisSong.ad + '"><div class="adList list"></div></div><div class="songType"><input type="text" placeholder="Song Type" value="' + thisSong.type + '"><div class="typeList list"></div></div><div class="songState"><input type="text" placeholder="Song State" value="' + thisSong.state + '"><div class="stateList list"></div></div><div class="songTest" name="' + thisSong.link + '"><button>Test Song</button></div></div><div class="songActions"><button>Save Changes</button></div></div>');
+		}
+	}
+	
+	$('.songHeader').click(function() {
+		$(this).parent().toggleClass('expand');
+	})
+	
+	songGenres=['Rap','R&B','Country','Rock','Blues','Electronic','Accoustic','Latin','Adult Contemporary','Portugese','Reggae','Gospel','Native American','Celtic','Pop','Ballad','Triphop','French','','Hip Hop','Soul','Western','Metal','Ragtime','Dance','Indi','Ska','Spoken Word','Funk','Folk','Alternative','Jazz','Dubstep','Bluegrass','Punk','Techno'];
+	for(var i=0;i<songGenres.length;i++) {
+		$('.genreList').append('<div class="genreOption option">' + songGenres[i] + '</div>');
+	}
+	$('.songGenre input').focus(function() {
+		$(this).parents('.songGenre').find('.genreList').addClass('show')
+	})
+	$('.songGenre input').blur(function() {
+		t=$(this);
+		setTimeout(function() {
+			t.parent().parent().find('.genreList').removeClass('show');
+		}, 200);
+	})
+	$('.songGenre input').on('focus input',function() {
+		thisText=$(this).val().toLowerCase();
+		$(this).parent().parent().find('.genreOption').each(function() {
+			if($(this).text().toLowerCase().indexOf(thisText)==-1) {
+				$(this).addClass('hide')
+			} else {
+				$(this).removeClass('hide');
+			}
+		})
+	})
+	$('.genreOption').click(function() {
+		$(this).parent().parent().find('input').val($(this).text());
+	})
+	songAds=['ad-free','ads-only'];
+	for(var i=0;i<songAds.length;i++) {
+		$('.adList').append('<div class="adOption option">' + songAds[i] + '</div>');
+	}
+	$('.songAd input').focus(function() {
+		$(this).parents('.songAd').find('.adList').addClass('show')
+	})
+	$('.songAd input').blur(function() {
+		t=$(this);
+		setTimeout(function() {
+			t.parent().parent().find('.adList').removeClass('show');
+		}, 200);
+	})
+	$('.songAd input').on('focus input',function() {
+		thisText=$(this).val().toLowerCase();
+		$(this).parent().parent().find('.adOption').each(function() {
+			if($(this).text().toLowerCase().indexOf(thisText)==-1) {
+				$(this).addClass('hide')
+			} else {
+				$(this).removeClass('hide');
+			}
+		})
+	})
+	$('.adOption').click(function() {
+		$(this).parent().parent().find('input').val($(this).text().toLowerCase());
+	})
+	
+	songTypes=['cover','original'];
+	for(var i=0;i<songTypes.length;i++) {
+		$('.typeList').append('<div class="typeOption option">' + songTypes[i] + '</div>');
+	}
+	$('.songType input').focus(function() {
+		$(this).parents('.songType').find('.typeList').addClass('show')
+	})
+	$('.songType input').blur(function() {
+		t=$(this);
+		setTimeout(function() {
+			t.parent().parent().find('.typeList').removeClass('show');
+		}, 200);
+	})
+	$('.songType input').on('focus input',function() {
+		thisText=$(this).val().toLowerCase();
+		$(this).parent().parent().find('.typeOption').each(function() {
+			if($(this).text().toLowerCase().indexOf(thisText)==-1) {
+				$(this).addClass('hide')
+			} else {
+				$(this).removeClass('hide');
+			}
+		})
+	})
+	$('.typeOption').click(function() {
+		$(this).parent().parent().find('input').val($(this).text().toLowerCase());
+	})
+	
+	songStates=['available','unavailable'];
+	for(var i=0;i<songStates.length;i++) {
+		$('.stateList').append('<div class="stateOption option">' + songStates[i] + '</div>');
+	}
+	$('.songState input').focus(function() {
+		$(this).parents('.songState').find('.stateList').addClass('show')
+	})
+	$('.songState input').blur(function() {
+		t=$(this);
+		setTimeout(function() {
+			t.parent().parent().find('.stateList').removeClass('show');
+		}, 200);
+	})
+	$('.songState input').on('focus input',function() {
+		thisText=$(this).val().toLowerCase();
+		$(this).parent().parent().find('.stateOption').each(function() {
+			if($(this).text().toLowerCase().indexOf(thisText)==-1) {
+				$(this).addClass('hide')
+			} else {
+				$(this).removeClass('hide');
+			}
+		})
+	})
+	$('.stateOption').click(function() {
+		$(this).parent().parent().find('input').val($(this).text().toLowerCase());
+	})
+	
+	$('.songTest').click(function() {
+		if($(this).text()=="Test Song") {
+			$(this).parent().append('<audio src="' + songURL + $(this).attr('name') + '" class="testSong" autoplay="true" type="audio/mp3" volume="1.0"></audio>');
+			$(this).find('button').text('End Test');
+		} else {
+			$(this).parent().find('audio').remove();
+			$(this).find('button').text('Test Song');
+		}
+	})
+	
+	$('.songActions button').click(function() {
+		thisSongBox=$(this).parent().parent();
+		thisSongID=thisSongBox.attr('id');
+		for(var i=0;i<profile.songs.length;i++) {
+			if(profile.songs[i].songID==thisSongID) {
+				thisSong=profile.songs[i];
+				thisSong.title=thisSongBox.find('.songTitle input').val();
+				thisSong.albumEvent=thisSongBox.find('.songSource input').val();
+				partList=['Genre','Ad','Type','State'];
+				for(var j=0;j<partList.length;j++) {
+					if(window["song" + partList[j] + "s"].indexOf(thisSongBox.find('.song' + partList[j] + ' input').val())!=-1) {
+						console.log(thisSongBox.find('.song' + partList[j] + ' input').val());
+						thisSong[partList[j].toLowerCase()]=thisSongBox.find('.song' + partList[j] + ' input').val();
+					}
+				}
+				sendEventToAnalytics("song","update",encodeURIComponent(JSON.stringify(profile.songs[i])),song,encodeURIComponent(JSON.stringify(profile.songs[i])));
+			}
+		}
+		
+		console.log(profile.songs);
+	})
 }
