@@ -78,7 +78,7 @@ function sendEventToAnalytics(x,y,z,f,d) {		//Sends event to Google Analytics - 
 
 function submitData(f,d) {
 	getPostTimeID='i'+new Date().getTime();
-	$('body').append('<iframe id="' + getPostTimeID + '" class="posting" style="display:none" src="' + f + d + '">');
+	$('#trashCan').append('<iframe id="' + getPostTimeID + '" class="posting" style="display:none" src="' + f + d + '">');
 	$('#' + getPostTimeID).queue('q'+getPostTimeID,deleteMe($('#' + getPostTimeID)));
 }
 
