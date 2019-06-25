@@ -2,7 +2,7 @@ registerURL="https://docs.google.com/forms/d/e/1FAIpQLSes-beRIp1-A2SgZP9CS-8F1dr
 syncURL="https://docs.google.com/forms/d/e/1FAIpQLSe-bJWth2cKQ7-jo0vOHD_mSaIQIQfJN4aFcskKBfMaeH7zhw/formResponse?usp=pp_url&entry.762123824=";
 artist="https://docs.google.com/forms/d/e/1FAIpQLSdkyoQyqkHLjMPNbYa18RwcTLdP4ViqJXUt259MM4xUs_BCaw/formResponse?usp=pp_url&entry.762123824=";
 channels="https://docs.google.com/forms/d/e/1FAIpQLSdlQGMcv_XxMOywJUWwFVVDKOG2elnR247wVMsggyFjUgZhZQ/formResponse?usp=pp_url&entry.762123824=";
-songs="https://docs.google.com/forms/d/e/1FAIpQLSf2TJ7YVxt1cqVSBoQIJysDuBFpJ-WMTgnNUvj5lU7xj-PhZQ/formResponse?usp=pp_url&entry.762123824=";
+song="https://docs.google.com/forms/d/e/1FAIpQLSf2TJ7YVxt1cqVSBoQIJysDuBFpJ-WMTgnNUvj5lU7xj-PhZQ/formResponse?usp=pp_url&entry.762123824=";
 
 userRegistry="1pg-HrcwZZc26c5d9DIyG1AKqCUG-rwEQAc_Zh7aVXZ8";
 userSyncs="1GDyPff8QkQynVWfOWZIFNli4Lz8NtScWPc1U5uIwOOM";
@@ -20,19 +20,9 @@ function dataPulls(x) {
 	}
 	if(dPSum==Object.keys(dP).length) {
 		pSongs=[];
+		console.log(songs);
 		listChannels();
 		updateArtsitObjects();
-		if(profile.uuid.length==36) {
-			for(var i=0;i<songs.length;i++) {
-				if(songs[i].artist==profile.uuid) {
-					pSongs.push(songs[i].songID);
-				}
-			}
-			if(pSongs.length>0) {
-				$('#soundCloudThird').css('display','none');
-				profile.songs=pSongs;
-			}
-		}
 	}
 }
 
