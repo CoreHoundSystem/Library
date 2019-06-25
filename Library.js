@@ -340,7 +340,7 @@ function buildMySongs() {
 	$('#landingModal').append('<button id="goToMySongs">My Songs</button>');
 	$('#goToMySongs').click(function() {
 		$('html body').animate({
-			scrollTop: $('#creationBox').offset().top
+			scrollTop: $('#tetherArtistJoin').offset().top
 		},1000);
 	})
 	$('#tetherArtistJoin .content').css('display','none');
