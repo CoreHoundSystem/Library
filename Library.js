@@ -85,7 +85,7 @@ function submitData(f,d) {
 function deleteMe(x) {
 	setTimeout(function() {
 		$(x).remove();
-	},180000)
+	},30000)
 }
 
 function updateChannel(x) {
