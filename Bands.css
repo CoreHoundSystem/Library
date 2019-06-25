@@ -28,7 +28,7 @@
 	min-height: unset;
 }
 
-#creationBox, #myChannels {
+#creationBox, #myChannels, #submitSong, #mySongs {
 	max-width: 500px;
 	margin: auto;
 }
@@ -56,7 +56,7 @@
 	font-size: 40%;
 }
 
-#creationBox .artistBox.hide {
+#creationBox .artistBox.hide, .genreOption.hide, .stateOption.hide {
 	display: none;
 }
 
@@ -124,10 +124,11 @@
 	margin-top: 0px;
 }
 
-#loginFirst, #syncSecond, #soundCloudThird, div.signOut {
+#loginFirst, #syncSecond, #soundCloudThird, #mySongs button, div.signOut {
 	max-width: 300px;
 	width: 60vw;
 	margin: auto;
+	display: block;
 }
 
 #syncSecond, #soundCloudThird {
@@ -137,7 +138,7 @@
 	background-image: url(https://www.youredm.com/wp-content/uploads/2015/08/soundcloud-ad.png);
 }
 
-#tetherArtistJoin h2 {
+#tetherArtistJoin h3 {
 	font-size: 35px;
 	line-height: 35px;
 	margin: 3px 0px;
@@ -203,6 +204,113 @@ button.signOut.signedIn {
 	margin-top: var(--pPad);
 	display: block;
 	padding: var(--pPad);
+}
+
+#goToMySongs {
+	background-image: linear-gradient(to bottom,var(--sColor),var(--lColor));
+}
+
+.songContent {
+	background: rgba(0,0,0,0.8);
+}
+
+.songContent h2 {
+	max-width: 500px;
+    margin: auto;
+	text-align: center;
+	color: var(--tColor);
+}
+
+#submtSong .exists h3, #mySongs .exists h3 {
+	text-transform: capitalize;
+	text-align: center;
+    color: var(--tColor);
+}
+
+#mySongs input {
+	color: var(--tColor);
+	font-size: 30px;
+	background-color: transparent;
+}
+
+#mySongs button {
+	background: var(--gColor);
+}
+
+#mySongs>div {
+	display: none;
+	padding: var(--pPad) 0px;
+}
+
+#mySongs>div.exists {
+	display: block;
+}
+
+.songBox {
+	margin: 6px auto;
+}
+
+.songHeader {
+	background-color: var(--pColor);
+}
+
+.songDetails, .songActions {
+	background-color: var(--bColor);
+}
+
+.songTitle, .songSource, .songGenre, .songAd, .songType, .songState {
+	width: 50%;
+	display: inline-block;
+	position: relative;
+}
+
+.songDetails {
+	height: 160px;
+}
+
+.songDetails, .songActions {
+	max-height: 0px;
+	overflow: hidden;
+	transition: .5s;
+}
+
+.expand .songDetails, .expand .songActions {
+	max-height: 200px;
+	overflow: hidden;
+}
+
+.songActions button {
+	margin: 3px auto !important;
+}
+
+.songGenre, .songState {
+	position: relative;
+}
+
+.genreList, .stateList, .list {
+	position: absolute;
+	top: 40px;
+	width: 100%;
+	overflow: hidden;
+	max-height: 0px;
+	background-color: var(--fColor);
+	z-index: 10;
+}
+
+.genreList.show, .stateList.show, .list.show {
+	max-height: 120px;
+}
+
+.genreOption, .stateOption, .option {
+	line-height: 40px;
+    padding: 0px 5px;
+    font-size: 40%;
+    height: 40px;
+    overflow: hidden;
+}
+
+.songTest button {
+	margin: 18px auto !important;
 }
 
 @media only screen and (max-width: 500px) {
