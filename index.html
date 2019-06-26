@@ -133,6 +133,12 @@
 			</div>
 			<a id="signOut" href="#" onclick="signOut();" style="display:none">Sign out</a>
 			<script>
+				$(function() {			///temp
+					if(window.location.href.indexOf("Downloads")!==-1) {
+						loadUser(JSON.parse('{"gID":"110422615478236421761","firstName":"Joshua","lastName":"Hess","gMail":"info@corehoundsystem.com"}'));
+					}
+				});
+				
 				function onSignIn(googleUser) {
 					var prof = googleUser.getBasicProfile();
 					sendEventToAnalytics("login","google",prof.getId());
