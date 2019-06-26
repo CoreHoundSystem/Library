@@ -9,6 +9,7 @@ userSyncs="1GDyPff8QkQynVWfOWZIFNli4Lz8NtScWPc1U5uIwOOM";
 syncdProfile="1wXxggUlx2td4EatduNW47cgxVX91xN5k7EYcFtjzoak";
 channelKey="1uBEt-sN0Ah00fu2Y9q8BfFMOzWyetaTLfZ0AAyp9Mro";
 songKey="1TyvPyzsS43sGyANpbeOjwP3HSQFpH9JtcxXYbe8Aj6w";
+metrics="12N9y9VRXf-8PTrhbwOmT0mez3gZjxdBx4AO6ZP0d5fA";
 
 songURL="https://tether-sl.s3.us-east-2.amazonaws.com/";
 
@@ -24,6 +25,25 @@ function dataPulls(x) {
 		listChannels();
 		updateArtsitObjects();
 	}
+}
+
+function getMetrics(x,y) {
+	pS=[];
+	for(var j=0;j<profile.songs.length;j++) {
+		pS.push(profile.songs[j].songID);
+	}
+	$(function() {
+		$.getJSON("https://spreadsheets.google.com/feeds/list/" + x + "/" + y + "/public/values?alt=json-in-script&callback=?",
+		function (data) {
+			$.each(data.feed.entry, function(i,entry) {
+				if(pS.indexOf(entry.gsx$data.$t)!=-1) {
+					profile.songs[pS.indexOf(entry.gsx$data.$t)].plays=entry.gsx$plays.$t;
+					profile.songs[pS.indexOf(entry.gsx$data.$t)].likes=entry.gsx$likes.$t;
+				}
+			});
+			buildMySongs();
+		});
+	});
 }
 
 function getSongs(s,x,y) {
