@@ -231,6 +231,7 @@ button.signOut.signedIn {
 	color: var(--tColor);
 	font-size: 30px;
 	background-color: transparent;
+	text-align: center;
 }
 
 #mySongs button {
@@ -258,14 +259,44 @@ button.signOut.signedIn {
 	background-color: var(--bColor);
 }
 
+.songDetails>div {
+	width: 45%;
+}
+
+.songDetails>div:nth-child(2n+1) {
+	margin-left: 5%;
+}
+
+.songDetails>div:nth-child(7) {
+	margin-left: 0%;
+	width: 100%;
+}
+
+.songDetails input{
+	font-size: 24px !important;
+}
+
 .songTitle, .songSource, .songGenre, .songAd, .songType, .songState {
 	width: 50%;
 	display: inline-block;
 	position: relative;
 }
 
+.metric {
+	display: inline-block;
+	color: var(--tColor);
+	font-size: 40px;
+	text-align: center;
+}
+
+.metric span {
+	font-size: 40%;
+	display: inline-block;
+	vertical-align: middle;
+}
+
 .songDetails {
-	height: 160px;
+	height: 200px;
 }
 
 .songDetails, .songActions {
