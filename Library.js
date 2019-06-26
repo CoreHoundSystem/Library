@@ -284,7 +284,8 @@ function updateArtsitObjects() {
 		if(pSongs.length>0) {
 			$('#soundCloudThird').css('display','none');
 			profile.songs=pSongs;
-			buildMySongs();
+			getMetrics(metrics,"1")
+			//buildMySongs();
 		}
 	}
 }
@@ -354,7 +355,7 @@ function buildMySongs() {
 			$('#mySongs #'+thisSong.state).append('<h3>' + thisSong.state + '</h3>');
 		}
 		if(states.indexOf(thisSong.state)!=-1) {
-			$('#mySongs #'+thisSong.state).append('<div id="'+thisSong.songID+'" class="songBox"><div class="songHeader"><div class="songTitle"><input type="text" placeholder="Song Title" value="' + thisSong.title + '"></div><div class="songSource"><input type="text" placeholder="Album or Event" value="' + thisSong.albumEvent + '"></div></div><div class="songDetails"><div class="songGenre"><input type="text" placeholder="Song Genre" value="' + thisSong.genre + '"><div class="genreList list"></div></div><div class="songAd"><input type="text" placeholder="Song Ad" value="' + thisSong.ad + '"><div class="adList list"></div></div><div class="songType"><input type="text" placeholder="Song Type" value="' + thisSong.type + '"><div class="typeList list"></div></div><div class="songState"><input type="text" placeholder="Song State" value="' + thisSong.state + '"><div class="stateList list"></div></div><div class="songTest" name="' + thisSong.link + '"><button>Test Song</button></div></div><div class="songActions"><button>Save Changes</button></div></div>');
+			$('#mySongs #'+thisSong.state).append('<div id="'+thisSong.songID+'" class="songBox"><div class="songHeader"><div class="songTitle"><input type="text" placeholder="Song Title" value="' + thisSong.title + '"></div><div class="songSource"><input type="text" placeholder="Album or Event" value="' + thisSong.albumEvent + '"></div></div><div class="songDetails"><div class="songGenre"><input type="text" placeholder="Song Genre" value="' + thisSong.genre + '"><div class="genreList list"></div></div><div class="songAd"><input type="text" placeholder="Song Ad" value="' + thisSong.ad + '"><div class="adList list"></div></div><div class="songType"><input type="text" placeholder="Song Type" value="' + thisSong.type + '"><div class="typeList list"></div></div><div class="songState"><input type="text" placeholder="Song State" value="' + thisSong.state + '"><div class="stateList list"></div></div><div class="metric">' + thisSong.plays + '<span>Play(s)</span></div><div class="metric">' + thisSong.likes + '<span>Like(s)</span></div><div class="songTest" name="' + thisSong.link + '"><button>Test Song</button></div></div><div class="songActions"><button>Save Changes</button></div></div>');
 		}
 	}
 	
