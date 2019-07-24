@@ -187,6 +187,22 @@ function buildArtistSearch() {
 			$('.abcRioButton').click();
 		}
 	})
+	$('#channelName').on('input',function() {
+			firstFifteen=$(this).val().substring(0,15);
+			checker=true;
+			for(var i=0;i<firstFifteen.length;i++) {
+				if(!firstFifteen.substring(i,i+1).replace(/[a-zA-Z0-9 ]/g,"")=="") {
+					checker=false
+				}
+			}
+			if(checker&&$(this).val().length>0) {
+				$('#buildChannel').addClass('available');
+				$('#buildChannel').text("Build " + $(this).val());
+				
+			} else {
+				$('#buildChannel').removeClass('available');
+			}
+		})
 	$('#buildChannel').click(function() {
 		newChannel=JSON.parse('{"chanID":"' + getUnixTimeStamp("C",profile.gID,Math.floor(new Date()/1000).toString(16)) + '","owner":"' + profile.gID+ '","artist":"' + theseArtists() + '","name":"' + $('#channelName').val() + '","likes":"","dislikes":"","genres":""}');
 		profile.channels.push(newChannel);
@@ -207,22 +223,7 @@ function startCreateChannel(x) {
 		$('#creationBox').find('.artistSearch').first().val($('#landingModal .artistSearch').val());
 		$('#creationBox').find('.artistSearch').first().addClass('chosen');
 		$('#creationBox').find('.artistBox').first().next().removeClass('hide');
-		$('#channelName').on('input',function() {
-			firstFifteen=$(this).val().substring(0,15);
-			checker=true;
-			for(var i=0;i<firstFifteen.length;i++) {
-				if(!firstFifteen.substring(i,i+1).replace(/[a-zA-Z0-9 ]/g,"")=="") {
-					checker=false
-				}
-			}
-			if(checker&&$(this).val().length>0) {
-				$('#buildChannel').addClass('available');
-				$('#buildChannel').text("Build " + $(this).val());
-				
-			} else {
-				$('#buildChannel').removeClass('available');
-			}
-		})
+		//
 	},500)
 }
 
