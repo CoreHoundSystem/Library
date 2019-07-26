@@ -1,5 +1,5 @@
 registerURL="https://docs.google.com/forms/d/e/1FAIpQLSes-beRIp1-A2SgZP9CS-8F1dr0E71Z63RlwjaS1nnWuafQ5w/formResponse?usp=pp_url&entry.762123824=";
-syncURL="https://docs.google.com/forms/d/e/1FAIpQLScwDe5GRbBHKQ6vrgnWy9LwmYJhBwm76rsT80lEie3QUZVk_g/formResponse?usp=pp_url&entry.762123824=";
+syncURL="https://docs.google.com/forms/d/e/1FAIpQLSe-bJWth2cKQ7-jo0vOHD_mSaIQIQfJN4aFcskKBfMaeH7zhw/formResponse?usp=pp_url&entry.762123824=";
 artist="https://docs.google.com/forms/d/e/1FAIpQLScwDe5GRbBHKQ6vrgnWy9LwmYJhBwm76rsT80lEie3QUZVk_g/formResponse?usp=pp_url&entry.762123824=";//https://docs.google.com/forms/d/e/1FAIpQLSdkyoQyqkHLjMPNbYa18RwcTLdP4ViqJXUt259MM4xUs_BCaw/formResponse?usp=pp_url&entry.762123824=";
 channels="https://docs.google.com/forms/d/e/1FAIpQLSdlQGMcv_XxMOywJUWwFVVDKOG2elnR247wVMsggyFjUgZhZQ/formResponse?usp=pp_url&entry.762123824=";
 song="https://docs.google.com/forms/d/e/1FAIpQLSf2TJ7YVxt1cqVSBoQIJysDuBFpJ-WMTgnNUvj5lU7xj-PhZQ/formResponse?usp=pp_url&entry.762123824=";
