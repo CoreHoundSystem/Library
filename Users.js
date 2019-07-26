@@ -4,6 +4,7 @@ artist="https://docs.google.com/forms/d/e/1FAIpQLScwDe5GRbBHKQ6vrgnWy9LwmYJhBwm7
 channels="https://docs.google.com/forms/d/e/1FAIpQLSdlQGMcv_XxMOywJUWwFVVDKOG2elnR247wVMsggyFjUgZhZQ/formResponse?usp=pp_url&entry.762123824=";
 song="https://docs.google.com/forms/d/e/1FAIpQLSf2TJ7YVxt1cqVSBoQIJysDuBFpJ-WMTgnNUvj5lU7xj-PhZQ/formResponse?usp=pp_url&entry.762123824=";
 
+
 userRegistry="1pg-HrcwZZc26c5d9DIyG1AKqCUG-rwEQAc_Zh7aVXZ8";
 userSyncs="1GDyPff8QkQynVWfOWZIFNli4Lz8NtScWPc1U5uIwOOM";
 syncdProfile="1wXxggUlx2td4EatduNW47cgxVX91xN5k7EYcFtjzoak";
@@ -174,6 +175,7 @@ $(function() {
 	$('#syncSecond button').click(function() {
 		if($(this).hasClass('available')) {
 			sendEventToAnalytics("user","sync",$('#syncSecond input').val(),syncURL,encodeURIComponent(profile.gID+"|"+$(this).attr('name')+"|"+$('#syncSecond input').val()));
+			sendEventToAnalytics("user","artist",$(this).attr('name'),artist,$(this).attr('name'));
 			$('#syncSecond').css('display','none');
 			$('#soundCloudThird').css('display','block');
 		}
